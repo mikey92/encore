@@ -2,6 +2,7 @@ import type { Session, TasteRequest, TraceStep } from '../shared/types'
 import { adjust } from './agent'
 import { curate } from './curate'
 import { planSession, TYPE } from './engine'
+import { planGroup, whoFor } from './group'
 import { filmPairs, musicPairs } from './interview'
 import { llmConnected } from './llm'
 import { Qloo, QlooError, quota } from './qloo'
@@ -91,10 +92,13 @@ type Event =
   | { type: 'error'; message: string }
 
 /** Plans a session, sending each step as it happens: Qloo calls, the plan, then the curated version. */
-async function runSession(env: Env, request: Request, taste: TasteRequest, send: (e: Event) => void) {
+async function runSession(env: Env, request: Request, taste: TasteRequest, send: (e: Event) => void, members?: TasteRequest[]) {
   const q = new Qloo(env.QLOO_API_KEY)
   const t = Date.now()
-  const { session } = await planSession(q, taste, (step) => send({ type: 'step', step }))
+  const onStep = (step: TraceStep) => send({ type: 'step', step })
+  const group = members && members.length > 1 ? await planGroup(q, members, onStep) : undefined
+  const session = group ? group.session : (await planSession(q, taste, onStep)).session
+  if (group) taste = group.combined
   send({ type: 'plan', session: withTemplates(session, taste) })
   let curated = false
   let cached = false
@@ -102,7 +106,8 @@ async function runSession(env: Env, request: Request, taste: TasteRequest, send:
     try {
       send({ type: 'step', step: { tool: 'curator', detail: 'The curator is checking each pick for safety, era and culture' } })
       const tc = Date.now()
-      const out = await curate(env, session, taste)
+      const out = await curate(env, session, taste, members)
+      if (group) out.session.servedBy = Object.fromEntries(out.session.slots.map((s) => [s.key, whoFor(s.item, group.owners)]))
       cached = out.cached
       curated = true
       out.session.trace = [...session.trace, { tool: 'curator', detail: `Reviewed ${session.slots.length} moments and wrote the prompts`, ms: Date.now() - tc }]
@@ -164,14 +169,17 @@ export default {
         return json(await adjust(env, new Qloo(env.QLOO_API_KEY), taste, ask, { moments }))
       }
       if (url.pathname === '/api/session' && request.method === 'POST') {
-        const taste = validTaste(await body<TasteRequest>(request))
+        const raw = await body<TasteRequest & { members?: TasteRequest[] }>(request)
+        const members = Array.isArray(raw.members) ? raw.members.slice(0, 8).map(validTaste) : undefined
+        if (members && members.length < 2) throw new BadRequest('A group needs at least two people')
+        const taste = members ? members[0] : validTaste(raw)
         if (url.searchParams.get('stream') === '1') {
           const { readable, writable } = new TransformStream()
           const writer = writable.getWriter()
           const enc = new TextEncoder()
           const send = (e: Event) => void writer.write(enc.encode(JSON.stringify(e) + '\n')).catch(() => undefined)
           ctx.waitUntil(
-            runSession(env, request, taste, send)
+            runSession(env, request, taste, send, members)
               .catch((e) => send({ type: 'error', message: e instanceof QlooError ? 'Qloo request failed' : 'Something went wrong' }))
               .finally(() => writer.close().catch(() => undefined)),
           )
@@ -180,11 +188,17 @@ export default {
         let last: Session | undefined
         let stats: Record<string, unknown> = {}
         const notes: string[] = []
-        await runSession(env, request, taste, (e) => {
-          if (e.type === 'plan' || e.type === 'curated') last = e.session
-          if (e.type === 'done') stats = e.stats
-          if (e.type === 'note') notes.push(e.message)
-        })
+        await runSession(
+          env,
+          request,
+          taste,
+          (e) => {
+            if (e.type === 'plan' || e.type === 'curated') last = e.session
+            if (e.type === 'done') stats = e.stats
+            if (e.type === 'note') notes.push(e.message)
+          },
+          members,
+        )
         return json({ session: last, stats, notes })
       }
       return json({ error: 'Not found' }, 404)

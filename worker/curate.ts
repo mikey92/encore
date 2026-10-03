@@ -22,6 +22,10 @@ For each pick write:
 Also write opening (one sentence to begin warmly) and closing (one sentence to end on a good note).
 Plain, respectful language. No medical claims.`
 
+const GROUP = `
+
+This is a group session. The people are called Person A, Person B and so on; never invent names. Choose moments that several of them will know, and make sure each person has at least one moment that is theirs. Prompts speak to the whole group ("Who here…", "Tell us about…") and invite each person to share. In why, say which people it connects to (e.g. "Person A and Person C both love…").`
+
 const SCHEMA = {
   type: 'object',
   additionalProperties: false,
@@ -91,9 +95,28 @@ function avoidLabels(req: TasteRequest): string[] {
     .map((p) => p.label)
 }
 
-export async function curate(env: LlmEnv, session: Session, req: TasteRequest): Promise<{ session: Session; cached: boolean }> {
+export async function curate(
+  env: LlmEnv,
+  session: Session,
+  req: TasteRequest,
+  members?: TasteRequest[],
+): Promise<{ session: Session; cached: boolean }> {
+  const group = members && members.length > 1
   const input = {
-    person: {
+    people: group
+      ? members.map((m, i) => ({
+          label: `Person ${String.fromCharCode(65 + i)}`,
+          born: m.birthYear,
+          hometown: m.hometown ?? null,
+          heritage: m.heritage ?? [],
+          favourites: [...(m.favorites ?? []), ...(m.liked ?? [])].map((s) => s.name),
+          avoid: avoidLabels(m),
+          notes: m.notes?.slice(0, 300) ?? null,
+        }))
+      : undefined,
+    person: group
+      ? undefined
+      : {
       born: req.birthYear,
       youth_years: session.window,
       hometown: req.hometown ?? null,
@@ -107,7 +130,7 @@ export async function curate(env: LlmEnv, session: Session, req: TasteRequest): 
   }
   const { data, cached } = await structured<Curated>(env, {
     name: 'session',
-    instructions: INSTRUCTIONS,
+    instructions: group ? INSTRUCTIONS + GROUP : INSTRUCTIONS,
     input: JSON.stringify(input),
     schema: SCHEMA,
   })

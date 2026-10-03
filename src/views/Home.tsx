@@ -63,7 +63,12 @@ export function Home() {
           </ol>
         </div>
       </section>
-      <h2>Who are we spending time with?</h2>
+      <div className="spread" style={{ marginBottom: 12 }}>
+        <h2 style={{ margin: 0 }}>Who are we spending time with?</h2>
+        <a className="btn ghost small" href="#/group">
+          Plan a group session
+        </a>
+      </div>
       <div className="people">
         {people.map((p) => (
           <PersonCard key={p.id} p={p} last={lastFor(p.id)} />

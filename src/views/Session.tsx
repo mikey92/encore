@@ -12,6 +12,16 @@ const REACTIONS: { key: Reaction; icon: string; label: string }[] = [
   { key: 'unsettled', icon: '😟', label: 'Unsettled' },
 ]
 
+/** The curator calls group members "Person A", "Person B"…; names only exist here, on the device. */
+function named(text: string | undefined, people: Person[]): string {
+  if (!text || people.length < 2) return text ?? ''
+  return text.replace(/Person ([A-H])\b/g, (m, l: string) => people[l.charCodeAt(0) - 65]?.name ?? m)
+}
+
+function listNames(names: string[]): string {
+  return names.length <= 1 ? names.join('') : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
+}
+
 function linkLabel(slot: Slot): string {
   switch (slot.item.domain) {
     case 'music':
@@ -33,16 +43,21 @@ function Moment({
   reaction,
   onReact,
   onSwap,
-  person,
+  people,
+  servedBy,
 }: {
   slot: Slot
   index: number
   reaction?: Reaction
   onReact: (r: Reaction) => void
   onSwap?: () => void
-  person: Person
+  people: Person[]
+  servedBy?: number[]
 }) {
   const it = slot.item
+  const person = people[0]
+  const group = people.length > 1
+  const forWhom = (servedBy ?? []).map((i) => people[i]?.name).filter(Boolean) as string[]
   const native = it.promptsNative?.length ? it.promptsNative : undefined
   return (
     <article className="card moment">
@@ -58,9 +73,18 @@ function Moment({
         <div className="meta">
           {[it.when, it.feature && (it.domain === 'music' ? `“${it.feature}”` : it.feature)].filter(Boolean).join(' · ')}
         </div>
+        {group && forWhom.length ? (
+          <div className="chips" style={{ marginBottom: 10 }}>
+            {forWhom.map((n) => (
+              <span key={n} className="chip green">
+                For {n}
+              </span>
+            ))}
+          </div>
+        ) : null}
         {it.because.length ? (
           <div className="because">
-            Because {person.name} loves{' '}
+            Because {group ? 'the group loves' : `${person.name} loves`}{' '}
             {it.because.map((b, k) => (
               <span key={b.id}>
                 {k ? ', ' : ''}
@@ -71,16 +95,16 @@ function Moment({
             <span className="faint"> · Qloo affinity{it.affinity ? ` ${Math.round(it.affinity * 100)}%` : ''}</span>
           </div>
         ) : null}
-        {it.why ? <div className="why">{it.why}</div> : null}
+        {it.why ? <div className="why">{named(it.why, people)}</div> : null}
         <ul className="prompts">
           {it.prompts.map((q, k) => (
             <li key={k}>
-              {native ? native[k] : q}
-              {native ? <span className="native">{q}</span> : null}
+              {named(native ? native[k] : q, people)}
+              {native ? <span className="native">{named(q, people)}</span> : null}
             </li>
           ))}
         </ul>
-        {it.sensory ? <div className="sense">✋ {it.sensory}</div> : null}
+        {it.sensory ? <div className="sense">✋ {named(it.sensory, people)}</div> : null}
         <div className="row noprint" style={{ marginBottom: 12 }}>
           {it.link ? (
             <a className="btn small" href={it.link} target="_blank" rel="noreferrer">
@@ -127,6 +151,7 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
   const s = saved.session
   const minutes = s.slots.reduce((n, x) => n + x.minutes, 0)
   const person = people[0]
+  const group = people.length > 1
   const update = (patch: Partial<SavedSession>) => saveSession({ ...saved, ...patch })
   const react = (key: string, r: Reaction) => {
     const reactions = { ...saved.reactions }
@@ -145,15 +170,29 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
   return (
     <>
       <div className="session-head">
-        <Avatar big name={person.name} />
+        {group ? (
+          <div className="row" style={{ gap: 4 }}>
+            {people.map((p) => (
+              <Avatar key={p.id} name={p.name} />
+            ))}
+          </div>
+        ) : (
+          <Avatar big name={person.name} />
+        )}
         <div>
-          <span className="tag">{when(saved.createdAt)}</span>
-          <h1 style={{ margin: 0 }}>Today with {person.name}</h1>
+          <span className="tag">{group ? `Group session · ${when(saved.createdAt)}` : when(saved.createdAt)}</span>
+          <h1 style={{ margin: 0 }}>Today with {listNames(people.map((p) => p.name))}</h1>
           <div className="muted">
             About {minutes} minutes · from the years {s.window[0]}–{s.window[1]}
           </div>
         </div>
       </div>
+      {group && s.commonGround?.length ? (
+        <div className="why">
+          <b>What this group shares, according to Qloo: </b>
+          {s.commonGround.map((c) => c.name.toLowerCase()).join(', ')}
+        </div>
+      ) : null}
       {curating ? (
         <div className="notice row">
           <div className="spinner" /> Encore’s curator is checking each moment for safety, era and culture, and writing prompts for{' '}
@@ -164,7 +203,7 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
       {s.opening ? (
         <div className="say">
           <small>Begin with</small>
-          {s.opening}
+          {named(s.opening, people)}
         </div>
       ) : null}
       <div className="moments">
@@ -173,7 +212,8 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
             key={slot.key + slot.item.id}
             slot={slot}
             index={k}
-            person={person}
+            people={people}
+            servedBy={s.servedBy?.[slot.key]}
             reaction={saved.reactions[slot.key]}
             onReact={(r) => react(slot.key, r)}
             onSwap={slot.alternates.length ? () => swap(k) : undefined}
@@ -183,7 +223,7 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
       {s.closing ? (
         <div className="say">
           <small>End with</small>
-          {s.closing}
+          {named(s.closing, people)}
         </div>
       ) : null}
       <div className="card noprint" style={{ marginTop: 24 }}>
@@ -195,11 +235,11 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
               {off.length ? `It will leave out ${off.map((x) => x.item.name).join(', ')}.` : ''}
             </p>
             <div className="row">
-              <a className="btn" href={`#/plan/${person.id}`}>
+              <a className="btn" href={`#/plan/${people.map((p) => p.id).join('+')}`}>
                 Plan the next session
               </a>
-              <a className="btn ghost" href={`#/p/${person.id}`}>
-                Back to {person.name}
+              <a className="btn ghost" href={group ? '#/' : `#/p/${person.id}`}>
+                {group ? 'Back to people' : `Back to ${person.name}`}
               </a>
             </div>
           </>
@@ -217,7 +257,7 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
           </div>
         )}
       </div>
-      {!saved.finishedAt && !curating ? <AskEncore person={person} moments={s.slots.map((x) => x.item.name)} /> : null}
+      {!saved.finishedAt && !curating && !group ? <AskEncore person={person} moments={s.slots.map((x) => x.item.name)} /> : null}
       <details className="trace">
         <summary>How Encore built this session</summary>
         <p className="muted small" style={{ marginTop: 10 }}>
@@ -264,7 +304,7 @@ export function Plan({ ids }: { ids: string[] }) {
       saveSession({ id: sid.current, personIds: people.map((p) => p.id), createdAt, session, reactions: prev?.reactions ?? {} })
     }
     streamSession(
-      tasteFor(people[0]),
+      people.length > 1 ? { members: people.map(tasteFor) } : tasteFor(people[0]),
       (e) => {
         if (e.type === 'step') setSteps((s) => [...s, e.step])
         if (e.type === 'plan') keep(e.session)
@@ -292,7 +332,7 @@ export function Plan({ ids }: { ids: string[] }) {
     return (
       <div>
         <span className="tag">Planning</span>
-        <h1>Finding {people[0].name}’s years…</h1>
+        <h1>{people.length > 1 ? `Finding what ${listNames(people.map((p) => p.name))} share…` : `Finding ${people[0].name}’s years…`}</h1>
         <p className="muted">
           Encore is asking Qloo’s taste graph for the music, films, TV, stars and places of {people[0].birthYear + 10}–
           {Math.min(people[0].birthYear + 30, new Date().getFullYear())}.

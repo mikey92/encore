@@ -80,7 +80,7 @@ export interface Ctx {
   onStep?: (step: TraceStep) => void
 }
 
-export function buildCtx(q: Qloo, req: TasteRequest, onStep?: (step: TraceStep) => void): Ctx {
+export function buildCtx(q: Qloo, req: TasteRequest, onStep?: (step: TraceStep) => void, window?: [number, number]): Ctx {
   const names = new Map<string, string>()
   const signals: WeightedSignal[] = []
   for (const s of req.favorites ?? []) {
@@ -105,7 +105,7 @@ export function buildCtx(q: Qloo, req: TasteRequest, onStep?: (step: TraceStep) 
   return {
     q,
     req,
-    window: bumpWindow(req.birthYear),
+    window: window ?? bumpWindow(req.birthYear),
     trace: [],
     names,
     signals: signals.slice(0, 25),
@@ -441,7 +441,14 @@ async function anchor(ctx: Ctx): Promise<Item | undefined> {
   return it
 }
 
-const SLOTS: { key: string; title: string; minutes: number; domain: Domain }[] = [
+export interface SlotDef {
+  key: string
+  title: string
+  minutes: number
+  domain: Domain
+}
+
+const SLOTS: SlotDef[] = [
   { key: 'opener', title: 'A song they love', minutes: 3, domain: 'music' },
   { key: 'film', title: 'At the movies', minutes: 5, domain: 'film' },
   { key: 'star', title: 'A star of their day', minutes: 3, domain: 'star' },
@@ -450,13 +457,31 @@ const SLOTS: { key: string; title: string; minutes: number; domain: Domain }[] =
   { key: 'closer', title: 'One more song', minutes: 3, domain: 'music' },
 ]
 
+export interface PlanOptions {
+  slots?: SlotDef[]
+  window?: [number, number]
+  /** Open with the person's own favourite song (single sessions) */
+  anchor?: boolean
+}
+
 export async function planSession(
   q: Qloo,
   req: TasteRequest,
   onStep?: (step: TraceStep) => void,
+  opts: PlanOptions = {},
 ): Promise<{ session: Session; ctx: Ctx }> {
-  const ctx = buildCtx(q, req, onStep)
-  const [mus, fil, tv, sta, pla, anc] = await Promise.all([music(ctx), films(ctx), shows(ctx), stars(ctx), places(ctx), anchor(ctx)])
+  const ctx = buildCtx(q, req, onStep, opts.window)
+  const defs = opts.slots ?? SLOTS
+  const wants = (d: Domain) => defs.some((s) => s.domain === d)
+  const none = async () => [] as Item[]
+  const [mus, fil, tv, sta, pla, anc] = await Promise.all([
+    wants('music') ? music(ctx) : none(),
+    wants('film') ? films(ctx) : none(),
+    wants('tv') ? shows(ctx) : none(),
+    wants('star') ? stars(ctx) : none(),
+    wants('place') ? places(ctx) : none(),
+    opts.anchor === false ? Promise.resolve(undefined) : anchor(ctx),
+  ])
   const pools: Record<Domain, Item[]> = {
     music: rank(mus, ctx),
     film: fil, // already ordered, film from home first
@@ -467,7 +492,7 @@ export async function planSession(
   const taken = new Set<string>()
   const key = (it: Item) => it.name.toLowerCase()
   const slots: Slot[] = []
-  for (const s of SLOTS) {
+  for (const s of defs) {
     let candidates = pools[s.domain].filter((it) => !taken.has(key(it)) && !taken.has(it.id))
     if (s.key === 'opener' && anc && !taken.has(key(anc))) candidates = [anc, ...candidates.filter((c) => c.id !== anc.id)]
     if (!candidates.length) continue

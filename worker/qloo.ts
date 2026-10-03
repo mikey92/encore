@@ -151,16 +151,18 @@ export class Qloo {
     return (data.results?.tags ?? []).map((t: any) => ({ id: t.tag_id ?? t.id, name: t.name, type: t.subtype ?? t.type }))
   }
 
-  async compare(a: string[], b: string[], take = 12): Promise<{ id: string; name: string; type?: string }[]> {
+  /** Tags two groups of entities have in common, with how strongly they share them. */
+  async compare(a: string[], b: string[], take = 20): Promise<{ id: string; name: string; type?: string; score: number }[]> {
     const data = await this.get('/v2/analysis/compare', {
       'a.signal.interests.entities': a,
       'b.signal.interests.entities': b,
       take,
     })
-    return (data.results?.tags ?? data.results?.entities ?? []).map((t: any) => ({
-      id: t.tag_id ?? t.id ?? t.entity_id,
+    return (data.results?.tags ?? []).map((t: any) => ({
+      id: t.tag_id ?? t.id,
       name: t.name,
       type: t.subtype ?? t.type,
+      score: Number(t.query?.score ?? 0),
     }))
   }
 }

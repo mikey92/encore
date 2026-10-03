@@ -46,7 +46,11 @@ export async function adjust(taste: TasteRequest, request: string, moments: stri
 }
 
 /** Streams a session: Qloo steps as they happen, a first plan, then the curated version. */
-export async function streamSession(taste: TasteRequest, on: (e: SessionEvent) => void, signal?: AbortSignal): Promise<void> {
+export async function streamSession(
+  taste: TasteRequest | { members: TasteRequest[] },
+  on: (e: SessionEvent) => void,
+  signal?: AbortSignal,
+): Promise<void> {
   const res = await fetch('/api/session?stream=1', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

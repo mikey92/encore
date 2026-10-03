@@ -1,5 +1,6 @@
 import { About } from './views/About'
 import { Game } from './views/Game'
+import { Group } from './views/Group'
 import { Home } from './views/Home'
 import { PersonForm } from './views/PersonForm'
 import { PersonPage } from './views/PersonPage'
@@ -16,6 +17,7 @@ export function App() {
   else if (page === 'plan' && id) view = <Plan ids={id.split('+')} />
   else if (page === 's' && id) view = <SessionView id={id} />
   else if (page === 'about') view = <About />
+  else if (page === 'group') view = <Group />
   else view = <Home />
   return (
     <div className="shell">
@@ -27,6 +29,9 @@ export function App() {
         <nav>
           <a href="#/" className={!page ? 'on' : ''}>
             People
+          </a>
+          <a href="#/group" className={page === 'group' ? 'on' : ''}>
+            Group session
           </a>
           <a href="#/about" className={page === 'about' ? 'on' : ''}>
             How it works

@@ -166,7 +166,7 @@ export async function curate(
     slots.push({ ...slot, item, alternates: alternates.slice(0, 3) })
   }
   return {
-    session: { ...session, slots, opening: data.opening, closing: data.closing, skipped, narration: 'ai', model: `${MODEL} (ChatGPT plan)` },
+    session: { ...session, slots, opening: data.opening, closing: data.closing, skipped, narration: 'ai', model: MODEL },
     cached,
   }
 }

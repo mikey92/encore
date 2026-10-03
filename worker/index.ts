@@ -5,6 +5,7 @@ import { planSession, TYPE } from './engine'
 import { planGroup, whoFor } from './group'
 import { filmPairs, musicPairs } from './interview'
 import { llmConnected } from './llm'
+import { handleMcp } from './mcp'
 import { Qloo, QlooError, quota } from './qloo'
 import { templatePrompts } from './templates'
 
@@ -125,6 +126,13 @@ async function runSession(env: Env, request: Request, taste: TasteRequest, send:
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url)
+    if (url.pathname === '/mcp') {
+      if (env.API_LIMIT) {
+        const { success } = await env.API_LIMIT.limit({ key: request.headers.get('cf-connecting-ip') ?? 'local' })
+        if (!success) return json({ jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Too many requests' } }, 429)
+      }
+      return handleMcp(request, new Qloo(env.QLOO_API_KEY), env, () => mayUseModel(env, request))
+    }
     if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request)
     try {
       if (url.pathname === '/api/health') {

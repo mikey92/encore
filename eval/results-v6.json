@@ -1,42 +1,26 @@
 {
- "variant": "v3",
+ "variant": "v6",
  "model": "gpt-5.5",
  "summary": {
   "encore": {
-   "items": 137,
-   "left_out": 7,
+   "items": 144,
+   "left_out": 0,
    "found_in_qloo": 1.0,
-   "era_fit": 0.989,
-   "era_checked": 93,
-   "home_culture": 0.574,
-   "home_checked": 47,
-   "home_culture_film_tv": 0.679,
-   "home_film_tv_checked": 28,
-   "distinct_items": 127,
-   "share_in_3plus_personas": 0.022,
+   "era_fit": 0.99,
+   "era_checked": 96,
+   "home_culture": 0.654,
+   "home_checked": 52,
+   "home_culture_film_tv": 0.733,
+   "home_film_tv_checked": 30,
+   "distinct_items": 142,
+   "share_in_3plus_personas": 0.0,
    "most_repeated": [
     [
-     "ray charles",
-     3
-    ],
-    [
-     "i love lucy",
+     "man from u n c l e",
      2
     ],
     [
-     "chespirito",
-     2
-    ],
-    [
-     "zorro",
-     2
-    ],
-    [
-     "elvis presley",
-     2
-    ],
-    [
-     "julie andrews",
+     "jeux sans frontieres",
      2
     ]
    ]
@@ -129,12 +113,12 @@
      "abroad": false
     },
     "star": {
-     "name": "Sarah Vaughan",
-     "asked": "Sarah Vaughan",
+     "name": "Benny Goodman",
+     "asked": "Benny Goodman",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1924,
+     "year": 1909,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -168,13 +152,13 @@
      "abroad": false
     },
     "closer": {
-     "name": "Ray Charles",
-     "asked": "Ray Charles",
+     "name": "Julie London",
+     "asked": "Julie London",
      "found": true,
      "era": true,
      "home": null,
      "year": 1947,
-     "country": null,
+     "country": "Santa Rosa, Sonoma County, Calif",
      "slot": "closer",
      "kind": "artist",
      "persona": "p01",
@@ -301,12 +285,12 @@
      "abroad": true
     },
     "film": {
-     "name": "The Gold of Naples",
-     "asked": "The Gold of Naples",
+     "name": "The Sign of Venus",
+     "asked": "The Sign of Venus",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1954,
+     "year": 1955,
      "country": [
       "Italy"
      ],
@@ -316,12 +300,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Ray Charles",
-     "asked": "Ray Charles",
+     "name": "Perry Como",
+     "asked": "Perry Como",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1930,
+     "year": 1912,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -329,12 +313,12 @@
      "abroad": true
     },
     "tv": {
-     "name": "The Honeymooners",
-     "asked": "The Honeymooners",
+     "name": "The Perry Como Show",
+     "asked": "The Perry Como Show",
      "found": true,
      "era": true,
      "home": false,
-     "year": 1955,
+     "year": 1948,
      "country": [
       "United States"
      ],
@@ -344,8 +328,8 @@
      "abroad": true
     },
     "place": {
-     "name": "Statue of Liberty",
-     "asked": "Statue of Liberty",
+     "name": "Coney Island",
+     "asked": "Coney Island",
      "found": true,
      "era": null,
      "home": null,
@@ -355,13 +339,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "The Rat Pack",
-     "asked": "The Rat Pack",
+     "name": "Tony Bennett",
+     "asked": "Tony Bennett",
      "found": true,
      "era": true,
-     "home": null,
-     "year": 1950,
-     "country": null,
+     "home": false,
+     "year": 1949,
+     "country": "Astoria, Queens, New York, New Y",
      "slot": "closer",
      "kind": "artist",
      "persona": "p02",
@@ -496,12 +480,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Chespirito",
-     "asked": "Chespirito",
+     "name": "Cantinflas",
+     "asked": "Cantinflas",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1929,
+     "year": 1911,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -509,14 +493,14 @@
      "abroad": true
     },
     "tv": {
-     "name": "Zorro",
-     "asked": "Zorro",
+     "name": "Los Beverly de Peralvillo",
+     "asked": "Los Beverly de Peralvillo",
      "found": true,
      "era": true,
-     "home": false,
-     "year": 1957,
+     "home": true,
+     "year": 1968,
      "country": [
-      "United States"
+      "Mexico"
      ],
      "slot": "tv",
      "kind": "tv_show",
@@ -535,13 +519,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "La Sonora Santanera",
-     "asked": "La Sonora Santanera",
+     "name": "Armando Manzanero",
+     "asked": "Armando Manzanero",
      "found": true,
      "era": true,
-     "home": null,
-     "year": 1955,
-     "country": null,
+     "home": true,
+     "year": 1950,
+     "country": "M\u00e9rida, Yucat\u00e1n, Mexico",
      "slot": "closer",
      "kind": "artist",
      "persona": "p03",
@@ -660,12 +644,12 @@
      "abroad": false
     },
     "film": {
-     "name": "Mary Poppins",
-     "asked": "Mary Poppins",
+     "name": "The Music Man",
+     "asked": "The Music Man",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1964,
+     "year": 1962,
      "country": [
       "United States"
      ],
@@ -688,8 +672,8 @@
      "abroad": false
     },
     "tv": {
-     "name": "Bewitched",
-     "asked": "Bewitched",
+     "name": "Shindig!",
+     "asked": "Shindig!",
      "found": true,
      "era": true,
      "home": null,
@@ -714,13 +698,13 @@
      "abroad": false
     },
     "closer": {
-     "name": "Aretha Franklin",
-     "asked": "Aretha Franklin",
+     "name": "Brenda Lee",
+     "asked": "Brenda Lee",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1956,
-     "country": "Memphis, Shelby County, Tennesse",
+     "year": 1955,
+     "country": null,
      "slot": "closer",
      "kind": "artist",
      "persona": "p04",
@@ -856,12 +840,12 @@
      "abroad": false
     },
     "star": {
-     "name": "Bill Withers",
-     "asked": "Bill Withers",
+     "name": "Diana Ross",
+     "asked": "Diana Ross",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1938,
+     "year": 1944,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -869,12 +853,12 @@
      "abroad": false
     },
     "tv": {
-     "name": "The Carol Burnett Show",
-     "asked": "The Carol Burnett Show",
+     "name": "Soul Train",
+     "asked": "Soul Train",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1967,
+     "year": 1971,
      "country": [
       "United States"
      ],
@@ -895,13 +879,13 @@
      "abroad": false
     },
     "closer": {
-     "name": "Smokey Robinson and The Miracles",
-     "asked": "Smokey Robinson and The Miracles",
+     "name": "Aretha Franklin",
+     "asked": "Aretha Franklin",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1955,
-     "country": null,
+     "year": 1956,
+     "country": "Memphis, Shelby County, Tennesse",
      "slot": "closer",
      "kind": "artist",
      "persona": "p05",
@@ -1025,13 +1009,14 @@
      "abroad": true
     },
     "film": {
-     "name": "La criada malcriada",
-     "asked": "La criada malcriada",
+     "name": "Romance en Puerto Rico",
+     "asked": "Romance en Puerto Rico",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1965,
+     "year": 1962,
      "country": [
+      "Mexico",
       "Puerto Rico"
      ],
      "slot": "film",
@@ -1040,12 +1025,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Johnny Ventura",
-     "asked": "Johnny Ventura",
+     "name": "Jos\u00e9 Miguel Agrelot",
+     "asked": "Jos\u00e9 Miguel Agrelot",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1940,
+     "year": 1927,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -1053,12 +1038,12 @@
      "abroad": true
     },
     "tv": {
-     "name": "Daktari",
-     "asked": "Daktari",
+     "name": "The Man from U.N.C.L.E.",
+     "asked": "The Man from U.N.C.L.E.",
      "found": true,
      "era": true,
      "home": false,
-     "year": 1966,
+     "year": 1964,
      "country": [
       "United States"
      ],
@@ -1068,8 +1053,8 @@
      "abroad": true
     },
     "place": {
-     "name": "La Plaza del Mercado de Santurce",
-     "asked": "La Plaza del Mercado de Santurce",
+     "name": "Plaza de Armas",
+     "asked": "Plaza de Armas",
      "found": true,
      "era": null,
      "home": null,
@@ -1196,14 +1181,14 @@
      "abroad": true
     },
     "film": {
-     "name": "The Rising of the Moon",
-     "asked": "The Rising of the Moon",
+     "name": "Darby O'Gill and the Little People",
+     "asked": "Darby O'Gill and the Little People",
      "found": true,
      "era": true,
-     "home": true,
-     "year": 1957,
+     "home": false,
+     "year": 1959,
      "country": [
-      "Ireland"
+      "United States"
      ],
      "slot": "film",
      "kind": "movie",
@@ -1211,12 +1196,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Elvis Presley",
-     "asked": "Elvis Presley",
+     "name": "Maureen Potter",
+     "asked": "Maureen Potter",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1935,
+     "year": 1925,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -1224,12 +1209,12 @@
      "abroad": true
     },
     "tv": {
-     "name": "The Late Late Show",
-     "asked": "The Late Late Show",
+     "name": "The Riordans",
+     "asked": "The Riordans",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1962,
+     "year": 1965,
      "country": [
       "Ireland"
      ],
@@ -1239,8 +1224,8 @@
      "abroad": true
     },
     "place": {
-     "name": "Dublin Castle",
-     "asked": "Dublin Castle",
+     "name": "Phoenix Park",
+     "asked": "Phoenix Park",
      "found": true,
      "era": null,
      "home": null,
@@ -1380,12 +1365,12 @@
      "abroad": true
     },
     "film": {
-     "name": "How to Marry a Millionaire",
-     "asked": "How to Marry a Millionaire",
+     "name": "White Christmas",
+     "asked": "White Christmas",
      "found": true,
      "era": true,
      "home": false,
-     "year": 1953,
+     "year": 1954,
      "country": [
       "United States"
      ],
@@ -1395,12 +1380,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Tony Bennett",
-     "asked": "Tony Bennett",
+     "name": "Marion Lush",
+     "asked": "Marion Lush",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1926,
+     "year": 1931,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -1408,12 +1393,12 @@
      "abroad": true
     },
     "tv": {
-     "name": "I Love Lucy",
-     "asked": "I Love Lucy",
+     "name": "Garfield Goose and Friends",
+     "asked": "Garfield Goose and Friends",
      "found": true,
      "era": true,
      "home": false,
-     "year": 1951,
+     "year": 1952,
      "country": [
       "United States"
      ],
@@ -1423,8 +1408,8 @@
      "abroad": true
     },
     "place": {
-     "name": "Union Park",
-     "asked": "Union Park",
+     "name": "Copernicus Center",
+     "asked": "Copernicus Center",
      "found": true,
      "era": null,
      "home": null,
@@ -1434,13 +1419,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "Julie Andrews",
-     "asked": "Julie Andrews",
+     "name": "Ray Price",
+     "asked": "Ray Price",
      "found": true,
      "era": true,
      "home": false,
-     "year": 1947,
-     "country": "Walton-on-Thames, Surrey, Englan",
+     "year": 1948,
+     "country": "Texas, United States",
      "slot": "closer",
      "kind": "artist",
      "persona": "p08",
@@ -1564,22 +1549,27 @@
      "abroad": true
     },
     "film": {
-     "name": null,
-     "asked": null,
-     "found": null,
-     "dropped": true,
+     "name": "The Twelve Chairs",
+     "asked": "The Twelve Chairs",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1962,
+     "country": [
+      "Cuba"
+     ],
      "slot": "film",
      "kind": "movie",
      "persona": "p09",
      "abroad": true
     },
     "star": {
-     "name": "Chespirito",
-     "asked": "Chespirito",
+     "name": "Bola de Nieve",
+     "asked": "Bola de Nieve",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1929,
+     "year": 1911,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -1613,13 +1603,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "Johnny Pacheco",
-     "asked": "Johnny Pacheco",
+     "name": "Paquito D'Rivera",
+     "asked": "Paquito D'Rivera",
      "found": true,
      "era": true,
-     "home": false,
-     "year": 1950,
-     "country": "Santiago, Dominican Republic",
+     "home": true,
+     "year": 1960,
+     "country": "La Habana, Cuba",
      "slot": "closer",
      "kind": "artist",
      "persona": "p09",
@@ -1731,12 +1721,12 @@
      "abroad": true
     },
     "film": {
-     "name": "Guide",
-     "asked": "Guide",
+     "name": "Shree 420",
+     "asked": "Shree 420",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1965,
+     "year": 1955,
      "country": [
       "India"
      ],
@@ -1746,12 +1736,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Asha Bhosle",
-     "asked": "Asha Bhosle",
+     "name": "Raj Kapoor",
+     "asked": "Raj Kapoor",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1933,
+     "year": 1924,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -1759,18 +1749,23 @@
      "abroad": true
     },
     "tv": {
-     "name": null,
-     "asked": null,
-     "found": null,
-     "dropped": true,
+     "name": "The Man from U.N.C.L.E.",
+     "asked": "The Man from U.N.C.L.E.",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1964,
+     "country": [
+      "United States"
+     ],
      "slot": "tv",
      "kind": "tv_show",
      "persona": "p10",
      "abroad": true
     },
     "place": {
-     "name": "Gateway Of India Mumbai",
-     "asked": "Gateway Of India Mumbai",
+     "name": "Maratha Mandir Theatre",
+     "asked": "Maratha Mandir Theatre",
      "found": true,
      "era": null,
      "home": null,
@@ -1780,12 +1775,12 @@
      "abroad": true
     },
     "closer": {
-     "name": "Mukesh",
-     "asked": "Mukesh",
+     "name": "Mohd Rafi",
+     "asked": "Mohd Rafi",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1940,
+     "year": 1944,
      "country": null,
      "slot": "closer",
      "kind": "artist",
@@ -1931,13 +1926,14 @@
      "abroad": true
     },
     "tv": {
-     "name": "Julia",
-     "asked": "Julia",
+     "name": "Spider-Man",
+     "asked": "Spider-Man",
      "found": true,
      "era": true,
      "home": false,
-     "year": 1968,
+     "year": 1967,
      "country": [
+      "Canada",
       "United States"
      ],
      "slot": "tv",
@@ -1946,23 +1942,24 @@
      "abroad": true
     },
     "place": {
-     "name": null,
-     "asked": null,
-     "found": null,
-     "dropped": true,
+     "name": "Coronation Market Jamaica",
+     "asked": "Coronation Market Jamaica",
+     "found": true,
+     "era": null,
+     "home": null,
      "slot": "place",
      "kind": "place",
      "persona": "p11",
      "abroad": true
     },
     "closer": {
-     "name": "John Holt",
-     "asked": "John Holt",
+     "name": "Ken Boothe",
+     "asked": "Ken Boothe",
      "found": true,
      "era": true,
      "home": true,
      "year": 1960,
-     "country": "Kingston, Jamaica",
+     "country": "Denham Town, Kingston, Jamaica",
      "slot": "closer",
      "kind": "artist",
      "persona": "p11",
@@ -2076,14 +2073,14 @@
      "abroad": true
     },
     "film": {
-     "name": "Sissi - Die junge Kaiserin",
-     "asked": "Sissi - Die junge Kaiserin",
+     "name": "Freddy, die Gitarre und das Meer",
+     "asked": "Freddy, die Gitarre und das Meer",
      "found": true,
      "era": true,
-     "home": false,
-     "year": 1956,
+     "home": true,
+     "year": 1959,
      "country": [
-      "Austria"
+      "West Germany"
      ],
      "slot": "film",
      "kind": "movie",
@@ -2091,12 +2088,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Leonard Nimoy",
-     "asked": "Leonard Nimoy",
+     "name": "Heinz Erhardt",
+     "asked": "Heinz Erhardt",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1931,
+     "year": 1909,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -2104,14 +2101,13 @@
      "abroad": true
     },
     "tv": {
-     "name": "Sportschau",
-     "asked": "Sportschau",
+     "name": "Musik aus Studio B",
+     "asked": "Musik aus Studio B",
      "found": true,
      "era": true,
      "home": true,
      "year": 1961,
      "country": [
-      "Germany",
       "West Germany"
      ],
      "slot": "tv",
@@ -2131,13 +2127,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "Udo J\u00fcrgens",
-     "asked": "Udo J\u00fcrgens",
+     "name": "Peter Kraus",
+     "asked": "Peter Kraus",
      "found": true,
      "era": true,
-     "home": null,
-     "year": 1950,
-     "country": null,
+     "home": true,
+     "year": 1955,
+     "country": "Munich, Bayern, Germany",
      "slot": "closer",
      "kind": "artist",
      "persona": "p12",
@@ -2258,12 +2254,12 @@
      "abroad": false
     },
     "film": {
-     "name": "Easy Rider",
-     "asked": "Easy Rider",
+     "name": "Coal Miner's Daughter",
+     "asked": "Coal Miner's Daughter",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1969,
+     "year": 1980,
      "country": [
       "United States"
      ],
@@ -2273,12 +2269,12 @@
      "abroad": false
     },
     "star": {
-     "name": "Dolly Parton",
-     "asked": "Dolly Parton",
+     "name": "Chet Atkins",
+     "asked": "Chet Atkins",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1946,
+     "year": 1924,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -2286,12 +2282,12 @@
      "abroad": false
     },
     "tv": {
-     "name": "The Brady Bunch",
-     "asked": "The Brady Bunch",
+     "name": "The Porter Wagoner Show",
+     "asked": "The Porter Wagoner Show",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1969,
+     "year": 1961,
      "country": [
       "United States"
      ],
@@ -2312,13 +2308,13 @@
      "abroad": false
     },
     "closer": {
-     "name": "John Denver",
-     "asked": "John Denver",
+     "name": "Merle Haggard",
+     "asked": "Merle Haggard",
      "found": true,
      "era": true,
      "home": null,
      "year": 1963,
-     "country": "Roswell, Chaves County, New Mexi",
+     "country": "Oildale, Kern County, California",
      "slot": "closer",
      "kind": "artist",
      "persona": "p13",
@@ -2454,12 +2450,12 @@
      "abroad": false
     },
     "star": {
-     "name": "David Bowie",
-     "asked": "David Bowie",
+     "name": "Carol Burnett",
+     "asked": "Carol Burnett",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1947,
+     "year": 1933,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -2467,12 +2463,12 @@
      "abroad": false
     },
     "tv": {
-     "name": "Happy Days",
-     "asked": "Happy Days",
+     "name": "CHiPs",
+     "asked": "CHiPs",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1974,
+     "year": 1977,
      "country": [
       "United States"
      ],
@@ -2482,8 +2478,8 @@
      "abroad": false
     },
     "place": {
-     "name": "Hollywood Sign",
-     "asked": "Hollywood Sign",
+     "name": "Hollywood Bowl",
+     "asked": "Hollywood Bowl",
      "found": true,
      "era": null,
      "home": null,
@@ -2493,8 +2489,8 @@
      "abroad": false
     },
     "closer": {
-     "name": "The Mamas & the Papas",
-     "asked": "The Mamas & the Papas",
+     "name": "The Monkees",
+     "asked": "The Monkees",
      "found": true,
      "era": true,
      "home": null,
@@ -2620,12 +2616,12 @@
      "abroad": false
     },
     "film": {
-     "name": "Guys and Dolls",
-     "asked": "Guys and Dolls",
+     "name": "New Orleans",
+     "asked": "New Orleans",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1955,
+     "year": 1947,
      "country": [
       "United States"
      ],
@@ -2635,12 +2631,12 @@
      "abroad": false
     },
     "star": {
-     "name": "Chuck Berry",
-     "asked": "Chuck Berry",
+     "name": "Pete Fountain",
+     "asked": "Pete Fountain",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1926,
+     "year": 1930,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -2648,12 +2644,12 @@
      "abroad": false
     },
     "tv": {
-     "name": "The Danny Thomas Show",
-     "asked": "The Danny Thomas Show",
+     "name": "American Bandstand",
+     "asked": "American Bandstand",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1953,
+     "year": 1952,
      "country": [
       "United States"
      ],
@@ -2674,12 +2670,12 @@
      "abroad": false
     },
     "closer": {
-     "name": "Ray Charles",
-     "asked": "Ray Charles",
+     "name": "Lloyd Price",
+     "asked": "Lloyd Price",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1947,
+     "year": 1952,
      "country": null,
      "slot": "closer",
      "kind": "artist",
@@ -2821,12 +2817,12 @@
      "abroad": false
     },
     "star": {
-     "name": "Paul McCartney",
-     "asked": "Paul McCartney",
+     "name": "John Lennon",
+     "asked": "John Lennon",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1942,
+     "year": 1940,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -2834,23 +2830,21 @@
      "abroad": false
     },
     "tv": {
-     "name": "The Mary Tyler Moore Show",
-     "asked": "The Mary Tyler Moore Show",
+     "name": "The French Chef",
+     "asked": "The French Chef",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1970,
-     "country": [
-      "United States"
-     ],
+     "year": 1962,
+     "country": null,
      "slot": "tv",
      "kind": "tv_show",
      "persona": "p16",
      "abroad": false
     },
     "place": {
-     "name": "Museum of Fine Arts, Boston",
-     "asked": "Museum of Fine Arts, Boston",
+     "name": "John Harvard Statue",
+     "asked": "John Harvard Statue",
      "found": true,
      "era": null,
      "home": null,
@@ -2860,8 +2854,8 @@
      "abroad": false
     },
     "closer": {
-     "name": "The Beach Boys",
-     "asked": "The Beach Boys",
+     "name": "The Zombies",
+     "asked": "The Zombies",
      "found": true,
      "era": true,
      "home": null,
@@ -3009,24 +3003,44 @@
      "abroad": true
     },
     "star": {
-     "name": null,
-     "asked": null,
-     "found": null,
-     "dropped": true,
+     "name": "Aliki Vougiouklaki",
+     "asked": "Aliki Vougiouklaki",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1934,
+     "country": null,
      "slot": "star",
      "kind": "person",
      "persona": "p17",
      "abroad": true
     },
     "tv": {
-     "name": "To theatro tis Defteras",
-     "asked": "To theatro tis Defteras",
+     "name": "Jeux sans fronti\u00e8res",
+     "asked": "Jeux sans fronti\u00e8res",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1970,
+     "year": 1965,
      "country": [
-      "Greece"
+      "Italy",
+      "France",
+      "Belgium",
+      "West Germany",
+      "Switzerland",
+      "United Kingdom",
+      "Netherlands",
+      "Liechtenstein",
+      "Yugoslavia",
+      "Portugal",
+      "Spain",
+      "San Marino",
+      "Czechoslovakia",
+      "Tunisia",
+      "Hungary",
+      "Greece",
+      "Malta",
+      "Slovenia"
      ],
      "slot": "tv",
      "kind": "tv_show",
@@ -3034,10 +3048,11 @@
      "abroad": true
     },
     "place": {
-     "name": null,
-     "asked": null,
-     "found": null,
-     "dropped": true,
+     "name": "Syntagma Square",
+     "asked": "Syntagma Square",
+     "found": true,
+     "era": null,
+     "home": null,
      "slot": "place",
      "kind": "place",
      "persona": "p17",
@@ -3189,12 +3204,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Elza Soares",
-     "asked": "Elza Soares",
+     "name": "Raul Solnado",
+     "asked": "Raul Solnado",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1930,
+     "year": 1929,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -3202,14 +3217,31 @@
      "abroad": true
     },
     "tv": {
-     "name": "Telejornal",
-     "asked": "Telejornal",
+     "name": "Jeux sans fronti\u00e8res",
+     "asked": "Jeux sans fronti\u00e8res",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1959,
+     "year": 1965,
      "country": [
-      "Portugal"
+      "Italy",
+      "France",
+      "Belgium",
+      "West Germany",
+      "Switzerland",
+      "United Kingdom",
+      "Netherlands",
+      "Liechtenstein",
+      "Yugoslavia",
+      "Portugal",
+      "Spain",
+      "San Marino",
+      "Czechoslovakia",
+      "Tunisia",
+      "Hungary",
+      "Greece",
+      "Malta",
+      "Slovenia"
      ],
      "slot": "tv",
      "kind": "tv_show",
@@ -3228,13 +3260,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "Argentina Santos",
-     "asked": "Argentina Santos",
+     "name": "Maria Teresa de Noronha",
+     "asked": "Maria Teresa de Noronha",
      "found": true,
      "era": true,
-     "home": null,
-     "year": 1940,
-     "country": null,
+     "home": true,
+     "year": 1930,
+     "country": "Lisbon, Lisboa, Portugal",
      "slot": "closer",
      "kind": "artist",
      "persona": "p18",
@@ -3345,12 +3377,12 @@
      "abroad": false
     },
     "film": {
-     "name": "Grease",
-     "asked": "Grease",
+     "name": "Smokey and the Bandit",
+     "asked": "Smokey and the Bandit",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1978,
+     "year": 1977,
      "country": [
       "United States"
      ],
@@ -3399,12 +3431,12 @@
      "abroad": false
     },
     "closer": {
-     "name": "Earth, Wind & Fire",
-     "asked": "Earth, Wind & Fire",
+     "name": "Commodores",
+     "asked": "Commodores",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1969,
+     "year": 1968,
      "country": null,
      "slot": "closer",
      "kind": "artist",
@@ -3528,12 +3560,12 @@
      "abroad": true
     },
     "film": {
-     "name": "Goin' Down the Road",
-     "asked": "Goin' Down the Road",
+     "name": "Nobody Waved Good-bye",
+     "asked": "Nobody Waved Good-bye",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1970,
+     "year": 1964,
      "country": [
       "Canada"
      ],
@@ -3543,8 +3575,8 @@
      "abroad": true
     },
     "star": {
-     "name": "Neil Diamond",
-     "asked": "Neil Diamond",
+     "name": "Bob Dylan",
+     "asked": "Bob Dylan",
      "found": true,
      "era": null,
      "home": null,
@@ -3556,12 +3588,12 @@
      "abroad": true
     },
     "tv": {
-     "name": "The Beachcombers",
-     "asked": "The Beachcombers",
+     "name": "The Friendly Giant",
+     "asked": "The Friendly Giant",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1972,
+     "year": 1958,
      "country": [
       "Canada"
      ],
@@ -3571,8 +3603,8 @@
      "abroad": true
     },
     "place": {
-     "name": "Canadian National Exhibition",
-     "asked": "Canadian National Exhibition",
+     "name": "Honest Ed's",
+     "asked": "Honest Ed's",
      "found": true,
      "era": null,
      "home": null,
@@ -3582,13 +3614,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "Harry Chapin",
-     "asked": "Harry Chapin",
+     "name": "Ian & Sylvia",
+     "asked": "Ian & Sylvia",
      "found": true,
      "era": true,
-     "home": false,
-     "year": 1960,
-     "country": "Brooklyn, New York, New York, Un",
+     "home": null,
+     "year": 1961,
+     "country": null,
      "slot": "closer",
      "kind": "artist",
      "persona": "p20",
@@ -3731,12 +3763,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Ennio Morricone",
-     "asked": "Ennio Morricone",
+     "name": "Alberto Sordi",
+     "asked": "Alberto Sordi",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1928,
+     "year": 1920,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -3744,12 +3776,12 @@
      "abroad": true
     },
     "tv": {
-     "name": "Le avventure di Pinocchio",
-     "asked": "Le avventure di Pinocchio",
+     "name": "Studio Uno",
+     "asked": "Studio Uno",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1959,
+     "year": 1961,
      "country": [
       "Italy"
      ],
@@ -3759,8 +3791,8 @@
      "abroad": true
     },
     "place": {
-     "name": "Galleria Borghese",
-     "asked": "Galleria Borghese",
+     "name": "Piazza Navona",
+     "asked": "Piazza Navona",
      "found": true,
      "era": null,
      "home": null,
@@ -3770,13 +3802,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "Ornella Vanoni",
-     "asked": "Ornella Vanoni",
+     "name": "Jimmy Fontana",
+     "asked": "Jimmy Fontana",
      "found": true,
      "era": true,
-     "home": true,
-     "year": 1956,
-     "country": "Milan, Milano, Lombardia, Italy",
+     "home": false,
+     "year": 1950,
+     "country": "Camerino, Macerata, Marche, Ital",
      "slot": "closer",
      "kind": "artist",
      "persona": "p21",
@@ -3901,15 +3933,14 @@
      "abroad": true
     },
     "film": {
-     "name": "Masculine Feminine",
-     "asked": "Masculine Feminine",
+     "name": "The Young Girls of Rochefort",
+     "asked": "The Young Girls of Rochefort",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1966,
+     "year": 1967,
      "country": [
-      "France",
-      "Sweden"
+      "France"
      ],
      "slot": "film",
      "kind": "movie",
@@ -3917,12 +3948,12 @@
      "abroad": true
     },
     "star": {
-     "name": "Michel Polnareff",
-     "asked": "Michel Polnareff",
+     "name": "Mireille Mathieu",
+     "asked": "Mireille Mathieu",
      "found": true,
      "era": null,
      "home": null,
-     "year": 1944,
+     "year": 1946,
      "country": null,
      "slot": "star",
      "kind": "person",
@@ -3930,14 +3961,14 @@
      "abroad": true
     },
     "tv": {
-     "name": "Bewitched",
-     "asked": "Bewitched",
+     "name": "Les shadoks",
+     "asked": "Les shadoks",
      "found": true,
      "era": true,
-     "home": false,
-     "year": 1964,
+     "home": true,
+     "year": 1968,
      "country": [
-      "United States"
+      "France"
      ],
      "slot": "tv",
      "kind": "tv_show",
@@ -3945,8 +3976,8 @@
      "abroad": true
     },
     "place": {
-     "name": "La M\u00e9nagerie, le zoo du Jardin des Plantes",
-     "asked": "La M\u00e9nagerie, le zoo du Jardin des Plantes",
+     "name": "Le Trianon",
+     "asked": "Le Trianon",
      "found": true,
      "era": null,
      "home": null,
@@ -3956,13 +3987,13 @@
      "abroad": true
     },
     "closer": {
-     "name": "Christophe",
-     "asked": "Christophe",
+     "name": "Georges Brassens",
+     "asked": "Georges Brassens",
      "found": true,
      "era": true,
-     "home": false,
-     "year": 1963,
-     "country": "Juvisy-sur-Orge, Essonne, \u00cele-de",
+     "home": true,
+     "year": 1940,
+     "country": "S\u00e8te, H\u00e9rault, Occitanie, France",
      "slot": "closer",
      "kind": "artist",
      "persona": "p22",
@@ -4086,8 +4117,8 @@
      "abroad": false
     },
     "star": {
-     "name": "Tony Bennett",
-     "asked": "Tony Bennett",
+     "name": "Miles Davis",
+     "asked": "Miles Davis",
      "found": true,
      "era": null,
      "home": null,
@@ -4125,13 +4156,13 @@
      "abroad": false
     },
     "closer": {
-     "name": "Sonny Rollins",
-     "asked": "Sonny Rollins",
+     "name": "Charlie Parker Quartet",
+     "asked": "Charlie Parker Quartet",
      "found": true,
      "era": true,
      "home": null,
-     "year": 1949,
-     "country": "Harlem, Manhattan, New York, New",
+     "year": 1944,
+     "country": null,
      "slot": "closer",
      "kind": "artist",
      "persona": "p23",
@@ -4255,12 +4286,12 @@
      "abroad": true
     },
     "film": {
-     "name": "Equinox Flower",
-     "asked": "Equinox Flower",
+     "name": "Late Autumn",
+     "asked": "Late Autumn",
      "found": true,
      "era": true,
      "home": true,
-     "year": 1958,
+     "year": 1960,
      "country": [
       "Japan"
      ],
@@ -4270,10 +4301,13 @@
      "abroad": true
     },
     "star": {
-     "name": null,
-     "asked": null,
-     "found": null,
-     "dropped": true,
+     "name": "Ken Takakura",
+     "asked": "Ken Takakura",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1931,
+     "country": null,
      "slot": "star",
      "kind": "person",
      "persona": "p24",
@@ -4296,8 +4330,8 @@
      "abroad": true
     },
     "place": {
-     "name": "The National Museum of Modern Art, Tokyo",
-     "asked": "The National Museum of Modern Art, Tokyo",
+     "name": "Tokyo Tower",
+     "asked": "Tokyo Tower",
      "found": true,
      "era": null,
      "home": null,
@@ -4307,10 +4341,13 @@
      "abroad": true
     },
     "closer": {
-     "name": null,
-     "asked": null,
-     "found": null,
-     "dropped": true,
+     "name": "\u4f0a\u6771\u3086\u304b\u308a",
+     "asked": "\u4f0a\u6771\u3086\u304b\u308a",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1960,
+     "country": null,
      "slot": "closer",
      "kind": "artist",
      "persona": "p24",

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Write eval/REPORT.md from the eval results.
 
-results-v5.json (or $ENCORE_VARIANT): Encore as deployed (Qloo insights + research grounded in Qloo + curator)
+results-v6.json (or $ENCORE_VARIANT): Encore as deployed (Qloo insights + research grounded in Qloo + curator)
 results-v3.json: Encore with Qloo insights only (ablation), if present
 Both files carry the same model-only baseline.
 """
@@ -16,7 +16,7 @@ def load(name):
     return json.load(open(path)) if os.path.exists(path) else None
 
 
-main = load(f"results-{os.environ.get('ENCORE_VARIANT', 'v5')}.json") or load('results.json')
+main = load(f"results-{os.environ.get('ENCORE_VARIANT', 'v6')}.json") or load('results.json')
 ablation = load('results-v3.json') if main and main.get('variant') != 'v3' else None
 SLOTS = ['opener', 'film', 'star', 'tv', 'place', 'closer']
 E, B = main['summary']['encore'], main['summary']['baseline']

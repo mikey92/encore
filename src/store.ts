@@ -91,7 +91,7 @@ const EXAMPLES: Person[] = [
 
 /** A ready-made session for each example person, so the first visit has something to open right away. */
 function sampleSessions(): SavedSession[] {
-  const baked = samples as Record<string, Session>
+  const baked = samples as unknown as Record<string, Session>
   return EXAMPLES.filter((p) => baked[p.id]).map((p, i) => ({
     id: `${p.id}-sample`,
     personIds: [p.id],

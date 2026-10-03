@@ -62,12 +62,21 @@ export function About() {
         </ul>
       </div>
 
+      <h2>Research, checked by Qloo</h2>
+      <p>
+        Qloo’s taste signals know less about older films, TV and stars from outside the U.S. So while Qloo works, a research
+        assistant lists what people of the person’s background loved back then. Qloo decides: each suggestion has to be a
+        Qloo entity from the person’s youth, and Qloo scores it against their favourites. Anything Qloo can’t ground is
+        dropped, so nothing invented reaches the session.
+      </p>
+
       <h2>A careful curator</h2>
       <p>
-        A language model then reviews Qloo’s candidates for each moment. It can only choose among them, and it leaves out
-        anything likely to upset someone living with dementia: stories about violence or loss, political figures,
-        places tied to tragedy, attractions that didn’t exist when they were young. It writes open prompts that invite
-        stories instead of testing memory, in the person’s own language when that isn’t English.
+        A language model then reviews Qloo’s candidates for each moment, all moments side by side, and each one updates on
+        screen as soon as it is done. It can only choose among the candidates, and it leaves out anything likely to upset
+        someone living with dementia: stories about violence or loss, political figures, places tied to tragedy,
+        attractions that didn’t exist when they were young. It writes open prompts that invite stories instead of testing
+        memory, in the person’s own language when that isn’t English.
       </p>
 
       <h2>It learns</h2>

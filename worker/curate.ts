@@ -13,7 +13,7 @@ Pick one candidate and up to two alternates. Judge in this order:
 1. Safety. Skip anything likely to upset someone living with dementia: stories centred on murder, abuse, war, terminal illness or the death of a child; horror; explicit content; divisive political figures; places tied to tragedy. A gentle family favourite is fine even if it is a detective show.
 2. Their time. It should have been popular while they were about 10 to 30 (the years are given). For places pick ones that existed then (landmarks, historic sites, long-standing institutions), not recent attractions. For stars pick entertainers they would have known then (actors, singers, comedians, sports heroes), not writers, academics, politicians or journalists.
 3. Their culture and language. If they grew up elsewhere, things from home usually mean the most (candidates from the country of their family roots are marked).
-4. Recognisability. Something familiar beats something obscure.
+4. Recognisability. Something familiar beats something obscure, but between familiar ones prefer what connects to their favourites, their place or their roots over the classic every list of the era names.
 List the candidates you rejected for safety or era, each with a short reason.
 If no candidate really suits this person (wrong culture, wrong years, too obscure), set pick to "none" and the moment is left out: a shorter session beats a poor fit.
 

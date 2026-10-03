@@ -85,8 +85,22 @@ the session, with reactions that feed the next one
 
 ## Does Qloo make a difference?
 
-See [eval/REPORT.md](eval/REPORT.md): the same model planning the same people without Qloo, every pick checked
-against Qloo for existence, era and culture.
+Encore and the same model on its own planned sessions for 24 people born 1932–1955 in the U.S. and abroad; every
+pick was then looked up in Qloo ([eval/REPORT.md](eval/REPORT.md)).
+
+| | Encore | Encore, Qloo only | Model without Qloo |
+| --- | --- | --- | --- |
+| Picks that resolve to a Qloo entity | 100% | 100% | 86% |
+| Songs, films and TV from their teens and twenties | 99% | 99% | 94% |
+| Roots abroad: films and TV made in that country | 73% | 68% | 70% |
+| Roots abroad: films, TV and artists from that country | 65% | 57% | 54% |
+| Distinct picks across all 24 people | 142 | 127 | 134 |
+| Picks shared by three or more people | 0% | 2% | 2% |
+
+One in seven of the model's own picks could not be found in Qloo at all, so it could not be shown, dated or
+explained. The research step is what lifts home culture: stars like Cantinflas, Raj Kapoor and Aliki Vougiouklaki
+that Qloo's taste signals alone did not surface. A first version of it pushed classics (*Singin' in the Rain* for five
+people); asking it for what was particular to each person's place and roots fixed that.
 
 ## Privacy
 

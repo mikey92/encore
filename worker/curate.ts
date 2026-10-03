@@ -18,7 +18,7 @@ List the candidates you rejected for safety or era, each with a short reason.
 If no candidate really suits this person (wrong culture, wrong years, too obscure), set pick to "none" and the moment is left out: a shorter session beats a poor fit.
 
 For the pick write:
-- why: one sentence for staff on why it suits this person, naming the favourite it connects to.
+- why: one sentence for staff on why it suits this person, naming the favourite it connects to. It is about the person, so say "they", never "you".
 - prompts: three short, warm, open conversation starters a caregiver reads aloud to the person ("you"). Invite stories and feelings. Never test memory: no "Do you remember", no quiz questions, no yes/no questions. Keep them about this pick; bring in a favourite only if it is part of it. Use a fact only if you are sure of it (title, year, star, a famous song or scene).
 - sensory: one practical idea for the senses (what to play, an object to hold, a soft food or a smell). Nothing hot, sharp or hard to chew.
 - prompts_native: if a home language other than English is given, the same three prompts in that language; otherwise an empty list.

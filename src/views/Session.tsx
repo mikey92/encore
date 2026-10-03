@@ -152,7 +152,7 @@ function Steps({ steps }: { steps: TraceStep[] }) {
           <span>
             {s.detail}
             {s.count !== undefined ? ` → ${s.count}` : ''}
-            {s.ms ? <span className="faint"> · {(s.ms / 1000).toFixed(1)}s</span> : null}
+            {s.ms && s.ms >= 50 ? <span className="faint"> · {(s.ms / 1000).toFixed(1)}s</span> : null}
           </span>
         </div>
       ))}
@@ -236,9 +236,12 @@ function Body({
       ) : null}
       {curating ? (
         <div className="notice row">
-          <div className="spinner" /> Encore’s curator is checking each moment for safety, era and culture, and writing prompts for{' '}
-          {group ? 'the group' : person.name}. You can start reading now.
-          {reviewed?.length ? ` ${reviewed.length} of ${s.slots.length} done.` : ''}
+          <div className="spinner" />
+          <span style={{ flex: 1, minWidth: 0 }}>
+            Encore’s curator is checking each moment for safety, era and culture, and writing prompts for{' '}
+            {group ? 'the group' : person.name}. You can start reading now.
+            {reviewed?.length ? ` ${reviewed.length} of ${s.slots.length} done.` : ''}
+          </span>
         </div>
       ) : null}
       {note ? <div className="notice warn">{note}</div> : null}

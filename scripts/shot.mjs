@@ -7,7 +7,7 @@ const page = await browser.newPage({ viewport: { width: Number(width), height: 9
 const errors = []
 page.on('pageerror', (e) => errors.push(e.message))
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()))
-await page.goto('http://localhost:5180/#' + path, { waitUntil: 'load' })
+await page.goto((process.env.BASE ?? 'http://localhost:5180') + '/#' + path, { waitUntil: 'load' })
 if (actions) await new Function('page', `return (async () => { ${actions} })()`)(page)
 await page.waitForTimeout(Number(wait))
 // Scroll through so lazy images load before the full-page capture.

@@ -9,7 +9,7 @@ const errors = []
 page.on('pageerror', (e) => errors.push(e.message))
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()))
 const t0 = Date.now()
-await page.goto(`http://localhost:5180/#/plan/${id}`, { waitUntil: 'load' })
+await page.goto(`${process.env.BASE ?? 'http://localhost:5180'}/#/plan/${id}`, { waitUntil: 'load' })
 for (const [i, ms] of at.entries()) {
   await page.waitForTimeout(Math.max(0, ms - (Date.now() - t0)))
   await page.screenshot({ path: `.shots/${name}-${i + 1}.png` })

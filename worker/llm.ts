@@ -1,6 +1,6 @@
-// The model on the owner's ChatGPT plan. chatgpt.com refuses calls from Cloudflare Workers, so the Worker sends
-// each Responses call to the relay on the owner's machine (relay/llm-relay.mjs, behind a Cloudflare tunnel),
-// which holds the plan's tokens and forwards the call to the Codex Responses endpoint.
+// The model runs on the owner's ChatGPT plan, through the Codex Responses endpoint. The plan's sign-in stays on the
+// owner's machine: the Worker sends each call to the relay there (relay/llm-relay.mjs, behind a Cloudflare tunnel),
+// which makes the call and sends back the answer.
 
 export interface LlmEnv {
   LLM_RELAY_URL?: string

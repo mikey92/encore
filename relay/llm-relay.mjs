@@ -1,6 +1,6 @@
-// Forwards Encore's model calls to the owner's ChatGPT plan. chatgpt.com refuses calls from Cloudflare Workers,
-// so the Worker sends them here, through a Cloudflare tunnel, and this relay calls the Codex Responses endpoint
-// from the owner's machine. The OAuth tokens never leave this machine and are never logged.
+// Makes Encore's model calls on the owner's ChatGPT plan, through the Codex Responses endpoint. The plan's sign-in
+// stays on this machine: the Worker sends each call here through a Cloudflare tunnel. The OAuth tokens never leave
+// this machine and are never logged.
 //
 //   PORT              local port the tunnel points at (default 8812; the relay listens on 127.0.0.1 only)
 //   CODEX_AUTH        auth.json from `CODEX_HOME=<dir> codex login`, refreshed here before it expires

@@ -1,12 +1,14 @@
-import type { Session, TasteRequest, TraceStep } from '../shared/types'
+import { WorkerEntrypoint } from 'cloudflare:workers'
+import type { Session, Slot, TasteRequest, TraceStep } from '../shared/types'
 import { adjust } from './agent'
 import { curate } from './curate'
-import { planSession, TYPE } from './engine'
+import { assemble, buildCtx, mergePools, planSession, TYPE } from './engine'
+import { ground, research } from './scout'
 import { planGroup, whoFor } from './group'
 import { filmPairs, musicPairs } from './interview'
 import { llmConnected } from './llm'
 import { handleMcp } from './mcp'
-import { Qloo, QlooError, quota } from './qloo'
+import { Qloo, QlooError, quota, type QlooProxyLike } from './qloo'
 import { templatePrompts } from './templates'
 
 export interface Env {
@@ -15,10 +17,20 @@ export interface Env {
   LLM_RELAY_KEY?: string
   LLM_LIMIT?: RateLimit
   API_LIMIT?: RateLimit
+  QLOO_PROXY?: QlooProxyLike
   ASSETS: Fetcher
 }
 
 const SEARCH_TYPES = [TYPE.music, TYPE.film, TYPE.tv, TYPE.star]
+
+/** Fetches and trims one Qloo answer in its own invocation (reached only through the QLOO_PROXY binding). */
+export class QlooProxy extends WorkerEntrypoint<Env> {
+  async fetchTrimmed(method: 'GET' | 'POST', path: string, payload: unknown) {
+    return new Qloo(this.env.QLOO_API_KEY).fetchTrimmed(method, path, payload)
+  }
+}
+
+const qloo = (env: Env) => new Qloo(env.QLOO_API_KEY, env.QLOO_PROXY)
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -88,30 +100,51 @@ type Event =
   | { type: 'step'; step: TraceStep }
   | { type: 'plan'; session: Session }
   | { type: 'curated'; session: Session }
+  | { type: 'moment'; slot: Slot }
   | { type: 'note'; message: string }
   | { type: 'done'; stats: Record<string, unknown> }
   | { type: 'error'; message: string }
 
 /** Plans a session, sending each step as it happens: Qloo calls, the plan, then the curated version. */
 async function runSession(env: Env, request: Request, taste: TasteRequest, send: (e: Event) => void, members?: TasteRequest[]) {
-  const q = new Qloo(env.QLOO_API_KEY)
+  const q = qloo(env)
   const t = Date.now()
   const onStep = (step: TraceStep) => send({ type: 'step', step })
   const group = members && members.length > 1 ? await planGroup(q, members, onStep) : undefined
-  const session = group ? group.session : (await planSession(q, taste, onStep)).session
+  // The model's research runs alongside Qloo's own queries; it needs the model, so it is skipped when the model
+  // is unavailable.
+  const useModel = await mayUseModel(env, request)
+  const researchCtx = buildCtx(q, taste, onStep)
+  const ideas = !group && useModel ? research(env, researchCtx).catch((e) => (console.error('research failed', e), undefined)) : Promise.resolve(undefined)
+  const single = group ? undefined : await planSession(q, taste, onStep)
+  let session = group ? group.session : single!.session
   if (group) taste = group.combined
   send({ type: 'plan', session: withTemplates(session, taste) })
+  if (single) {
+    // Checked against Qloo only now, so these lookups never hold up the plan's own queries.
+    const suggested = await ideas
+    const extra = suggested ? await ground(researchCtx, suggested, single.pools).catch((e) => (console.error('grounding failed', e), {})) : {}
+    if (Object.keys(extra).length) {
+      const pools = mergePools(single.pools, extra)
+      const slots = assemble(single.ctx, pools, single.defs, single.anchor)
+      session = withTemplates({ ...session, slots, trace: [...session.trace, ...researchCtx.trace] }, taste)
+    }
+  }
   let curated = false
   let cached = false
-  if (session.slots.length && (await mayUseModel(env, request))) {
+  if (session.slots.length && useModel) {
     try {
       send({ type: 'step', step: { tool: 'curator', detail: 'The curator is checking each pick for safety, era and culture' } })
       const tc = Date.now()
-      const out = await curate(env, session, taste, members)
+      const out = await curate(env, session, taste, members, (slot) => send({ type: 'moment', slot }))
       if (group) out.session.servedBy = Object.fromEntries(out.session.slots.map((s) => [s.key, whoFor(s.item, group.owners)]))
       cached = out.cached
       curated = true
-      out.session.trace = [...session.trace, { tool: 'curator', detail: `Reviewed ${session.slots.length} moments and wrote the prompts`, ms: Date.now() - tc }]
+      const detail =
+        out.reviewed === session.slots.length
+          ? `Reviewed all ${out.reviewed} moments side by side and wrote the prompts`
+          : `Reviewed ${out.reviewed} of ${session.slots.length} moments; the rest keep standard prompts`
+      out.session.trace = [...session.trace, { tool: 'curator', detail, ms: Date.now() - tc }]
       send({ type: 'curated', session: out.session })
     } catch (e) {
       console.error('curate failed', (e as Error).message)
@@ -131,7 +164,7 @@ export default {
         const { success } = await env.API_LIMIT.limit({ key: request.headers.get('cf-connecting-ip') ?? 'local' })
         if (!success) return json({ jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Too many requests' } }, 429)
       }
-      return handleMcp(request, new Qloo(env.QLOO_API_KEY), env, () => mayUseModel(env, request))
+      return handleMcp(request, qloo(env), env, () => mayUseModel(env, request))
     }
     if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request)
     try {
@@ -146,7 +179,7 @@ export default {
         const { q: text, types } = await body<{ q: string; types?: string[] }>(request)
         if (!text || typeof text !== 'string' || text.length > 100) throw new BadRequest('q is required')
         const wanted = Array.isArray(types) && types.length ? types.filter((t) => SEARCH_TYPES.includes(t)) : SEARCH_TYPES
-        const found = await new Qloo(env.QLOO_API_KEY).search(text, wanted, 8)
+        const found = await qloo(env).search(text, wanted, 8)
         return json({
           results: found.map((e) => ({
             id: e.entity_id,
@@ -163,7 +196,7 @@ export default {
         const year = Number(birthYear)
         if (!Number.isInteger(year) || year < 1900 || year > 2010) throw new BadRequest('birthYear must be between 1900 and 2010')
         const strings = (xs: unknown, n: number) => (Array.isArray(xs) ? xs.filter((h) => typeof h === 'string').map((h) => h.slice(0, 60)).slice(0, n) : [])
-        const q = new Qloo(env.QLOO_API_KEY)
+        const q = qloo(env)
         const pairs = round === 'film' ? await filmPairs(q, year, strings(heritage, 2), strings(seeds, 6)) : await musicPairs(q, year, strings(heritage, 2))
         return json({ pairs })
       }
@@ -174,7 +207,7 @@ export default {
         if (!ask) throw new BadRequest('Say what to change')
         if (!(await mayUseModel(env, request))) return json({ error: 'The assistant is busy. Try again in a minute.' }, 429)
         const moments = Array.isArray(b.moments) ? b.moments.filter((m) => typeof m === 'string').map((m) => m.slice(0, 100)).slice(0, 8) : []
-        return json(await adjust(env, new Qloo(env.QLOO_API_KEY), taste, ask, { moments }))
+        return json(await adjust(env, qloo(env), taste, ask, { moments }))
       }
       if (url.pathname === '/api/session' && request.method === 'POST') {
         const raw = await body<TasteRequest & { members?: TasteRequest[] }>(request)

@@ -62,6 +62,8 @@ export interface Item {
   promptsNative?: string[]
   sensory?: string
   tags: { id: string; name: string }[]
+  /** Found by Qloo insights, or suggested by research and then grounded in Qloo */
+  source?: 'research'
 }
 
 export interface TraceStep {

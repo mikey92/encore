@@ -1,0 +1,4359 @@
+{
+ "variant": "v3",
+ "model": "gpt-5.5",
+ "summary": {
+  "encore": {
+   "items": 137,
+   "left_out": 7,
+   "found_in_qloo": 1.0,
+   "era_fit": 0.989,
+   "era_checked": 93,
+   "home_culture": 0.574,
+   "home_checked": 47,
+   "home_culture_film_tv": 0.679,
+   "home_film_tv_checked": 28,
+   "distinct_items": 127,
+   "share_in_3plus_personas": 0.022,
+   "most_repeated": [
+    [
+     "ray charles",
+     3
+    ],
+    [
+     "i love lucy",
+     2
+    ],
+    [
+     "chespirito",
+     2
+    ],
+    [
+     "zorro",
+     2
+    ],
+    [
+     "elvis presley",
+     2
+    ],
+    [
+     "julie andrews",
+     2
+    ]
+   ]
+  },
+  "baseline": {
+   "items": 144,
+   "left_out": 0,
+   "found_in_qloo": 0.778,
+   "era_fit": 0.941,
+   "era_checked": 85,
+   "home_culture": 0.538,
+   "home_checked": 39,
+   "home_culture_film_tv": 0.7,
+   "home_film_tv_checked": 20,
+   "distinct_items": 134,
+   "share_in_3plus_personas": 0.021,
+   "most_repeated": [
+    [
+     "singin in the rain",
+     3
+    ],
+    [
+     "doris day",
+     2
+    ],
+    [
+     "i love lucy",
+     2
+    ],
+    [
+     "frank sinatra",
+     2
+    ],
+    [
+     "mary poppins",
+     2
+    ],
+    [
+     "julie andrews",
+     2
+    ]
+   ]
+  }
+ },
+ "personas": [
+  {
+   "persona": {
+    "id": "p01",
+    "birthYear": 1932,
+    "hometown": "Chicago",
+    "heritage": [],
+    "favorites": [
+     [
+      "Nat King Cole",
+      "artist"
+     ],
+     [
+      "Casablanca",
+      "movie"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Nat King Cole",
+     "asked": "Nat King Cole",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1937,
+     "country": "Montgomery, Montgomery County, A",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p01",
+     "abroad": false
+    },
+    "film": {
+     "name": "Singin' in the Rain",
+     "asked": "Singin' in the Rain",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1952,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p01",
+     "abroad": false
+    },
+    "star": {
+     "name": "Sarah Vaughan",
+     "asked": "Sarah Vaughan",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1924,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p01",
+     "abroad": false
+    },
+    "tv": {
+     "name": "I Love Lucy",
+     "asked": "I Love Lucy",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1951,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p01",
+     "abroad": false
+    },
+    "place": {
+     "name": "The Chicago Theatre",
+     "asked": "The Chicago Theatre",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p01",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Ray Charles",
+     "asked": "Ray Charles",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1947,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p01",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Nat King Cole",
+     "asked": "Nat King Cole",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1937,
+     "country": "Montgomery, Montgomery County, A",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p01",
+     "abroad": false
+    },
+    "film": {
+     "name": "Singin' in the Rain",
+     "asked": "Singin' in the Rain",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1952,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p01",
+     "abroad": false
+    },
+    "star": {
+     "name": "Doris Day",
+     "asked": "Doris Day",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1922,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p01",
+     "abroad": false
+    },
+    "tv": {
+     "name": "I Love Lucy",
+     "asked": "I Love Lucy",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1951,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p01",
+     "abroad": false
+    },
+    "place": {
+     "name": "Navy Pier",
+     "asked": "Navy Pier",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p01",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Frank Sinatra",
+     "asked": "Frank Sinatra",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1935,
+     "country": "Hoboken, Hudson County, New Jers",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p01",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p02",
+    "birthYear": 1936,
+    "hometown": "Brooklyn",
+    "heritage": [
+     "Italy"
+    ],
+    "favorites": [
+     [
+      "Frank Sinatra",
+      "artist"
+     ],
+     [
+      "Dean Martin",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Frank Sinatra",
+     "asked": "Frank Sinatra",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1935,
+     "country": "Hoboken, Hudson County, New Jers",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p02",
+     "abroad": true
+    },
+    "film": {
+     "name": "The Gold of Naples",
+     "asked": "The Gold of Naples",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1954,
+     "country": [
+      "Italy"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p02",
+     "abroad": true
+    },
+    "star": {
+     "name": "Ray Charles",
+     "asked": "Ray Charles",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1930,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p02",
+     "abroad": true
+    },
+    "tv": {
+     "name": "The Honeymooners",
+     "asked": "The Honeymooners",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1955,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p02",
+     "abroad": true
+    },
+    "place": {
+     "name": "Statue of Liberty",
+     "asked": "Statue of Liberty",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p02",
+     "abroad": true
+    },
+    "closer": {
+     "name": "The Rat Pack",
+     "asked": "The Rat Pack",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1950,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p02",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Frank Sinatra",
+     "asked": "Frank Sinatra",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1935,
+     "country": "Hoboken, Hudson County, New Jers",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p02",
+     "abroad": true
+    },
+    "film": {
+     "name": "Roman Holiday",
+     "asked": "Roman Holiday",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1953,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p02",
+     "abroad": true
+    },
+    "star": {
+     "name": "Sophia Loren",
+     "asked": "Sophia Loren",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1934,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p02",
+     "abroad": true
+    },
+    "tv": {
+     "name": "The Honeymooners",
+     "asked": "The Honeymooners",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1955,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p02",
+     "abroad": true
+    },
+    "place": {
+     "name": "Coney Island Boardwalk",
+     "asked": "Coney Island Boardwalk",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p02",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Dean Martin",
+     "asked": "Dean Martin",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1936,
+     "country": "Steubenville, Jefferson County,",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p02",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p03",
+    "birthYear": 1938,
+    "hometown": "San Antonio",
+    "heritage": [
+     "Mexico"
+    ],
+    "language": "Spanish",
+    "favorites": [
+     [
+      "Pedro Infante",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Pedro Infante",
+     "asked": "Pedro Infante",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1930,
+     "country": "Sinaloa, Mexico",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p03",
+     "abroad": true
+    },
+    "film": {
+     "name": "School for Tramps",
+     "asked": "School for Tramps",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1955,
+     "country": [
+      "Mexico"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p03",
+     "abroad": true
+    },
+    "star": {
+     "name": "Chespirito",
+     "asked": "Chespirito",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1929,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p03",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Zorro",
+     "asked": "Zorro",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1957,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p03",
+     "abroad": true
+    },
+    "place": {
+     "name": "San Fernando Cathedral",
+     "asked": "San Fernando Cathedral",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p03",
+     "abroad": true
+    },
+    "closer": {
+     "name": "La Sonora Santanera",
+     "asked": "La Sonora Santanera",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1955,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p03",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Pedro Infante",
+     "asked": "Pedro Infante",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1930,
+     "country": "Sinaloa, Mexico",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p03",
+     "abroad": true
+    },
+    "film": {
+     "name": "A.T.M.: \u00a1\u00a1A toda m\u00e1quina!!",
+     "asked": "A.T.M. \u00a1A toda m\u00e1quina!",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1951,
+     "country": [
+      "Mexico"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p03",
+     "abroad": true
+    },
+    "star": {
+     "name": "Mar\u00eda F\u00e9lix",
+     "asked": "Mar\u00eda F\u00e9lix",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p03",
+     "abroad": true
+    },
+    "tv": {
+     "name": "El Club del Hogar",
+     "asked": "El Club del Hogar",
+     "found": false,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p03",
+     "abroad": true
+    },
+    "place": {
+     "name": "San Antonio River Walk",
+     "asked": "San Antonio River Walk",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p03",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Ritchie Valens",
+     "asked": "Ritchie Valens",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1958,
+     "country": "Los Angeles, Los Angeles County,",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p03",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p04",
+    "birthYear": 1941,
+    "hometown": "Memphis",
+    "heritage": [],
+    "favorites": [
+     [
+      "Elvis Presley",
+      "artist"
+     ],
+     [
+      "The Sound of Music",
+      "movie"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Elvis Presley",
+     "asked": "Elvis Presley",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1953,
+     "country": "Tupelo, Lee County, Mississippi,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p04",
+     "abroad": false
+    },
+    "film": {
+     "name": "Mary Poppins",
+     "asked": "Mary Poppins",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1964,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p04",
+     "abroad": false
+    },
+    "star": {
+     "name": "Julie Andrews",
+     "asked": "Julie Andrews",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1935,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p04",
+     "abroad": false
+    },
+    "tv": {
+     "name": "Bewitched",
+     "asked": "Bewitched",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1964,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p04",
+     "abroad": false
+    },
+    "place": {
+     "name": "Sun Studio",
+     "asked": "Sun Studio",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p04",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Aretha Franklin",
+     "asked": "Aretha Franklin",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1956,
+     "country": "Memphis, Shelby County, Tennesse",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p04",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Elvis Presley",
+     "asked": "Elvis Presley",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1953,
+     "country": "Tupelo, Lee County, Mississippi,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p04",
+     "abroad": false
+    },
+    "film": {
+     "name": "Mary Poppins",
+     "asked": "Mary Poppins",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1964,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p04",
+     "abroad": false
+    },
+    "star": {
+     "name": "Julie Andrews",
+     "asked": "Julie Andrews",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1935,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p04",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Andy Griffith Show",
+     "asked": "The Andy Griffith Show",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1960,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p04",
+     "abroad": false
+    },
+    "place": {
+     "name": "Beale Street",
+     "asked": "Beale Street",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p04",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Julie Andrews",
+     "asked": "Julie Andrews",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1947,
+     "country": "Walton-on-Thames, Surrey, Englan",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p04",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p05",
+    "birthYear": 1943,
+    "hometown": "Detroit",
+    "heritage": [],
+    "favorites": [
+     [
+      "The Supremes",
+      "artist"
+     ],
+     [
+      "Marvin Gaye",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "The Supremes",
+     "asked": "The Supremes",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1959,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p05",
+     "abroad": false
+    },
+    "film": {
+     "name": "Funny Girl",
+     "asked": "Funny Girl",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1968,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p05",
+     "abroad": false
+    },
+    "star": {
+     "name": "Bill Withers",
+     "asked": "Bill Withers",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1938,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p05",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Carol Burnett Show",
+     "asked": "The Carol Burnett Show",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1967,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p05",
+     "abroad": false
+    },
+    "place": {
+     "name": "Motown Museum",
+     "asked": "Motown Museum",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p05",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Smokey Robinson and The Miracles",
+     "asked": "Smokey Robinson and The Miracles",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1955,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p05",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "The Supremes",
+     "asked": "The Supremes",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1959,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p05",
+     "abroad": false
+    },
+    "film": {
+     "name": "Bye Bye Birdie",
+     "asked": "Bye Bye Birdie",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1963,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p05",
+     "abroad": false
+    },
+    "star": {
+     "name": "Diana Ross",
+     "asked": "Diana Ross",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1944,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p05",
+     "abroad": false
+    },
+    "tv": {
+     "name": "American Bandstand",
+     "asked": "American Bandstand",
+     "found": true,
+     "era": false,
+     "home": null,
+     "year": 1952,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p05",
+     "abroad": false
+    },
+    "place": {
+     "name": "Belle Isle Park",
+     "asked": "Belle Isle Park",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p05",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Marvin Gaye",
+     "asked": "Marvin Gaye",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1957,
+     "country": "Washington, D.C., United States",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p05",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p06",
+    "birthYear": 1945,
+    "hometown": "San Juan",
+    "heritage": [
+     "Puerto Rico"
+    ],
+    "language": "Spanish",
+    "favorites": [
+     [
+      "Tito Puente",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Tito Puente",
+     "asked": "Tito Puente",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1940,
+     "country": "Harlem, Manhattan, New York, New",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p06",
+     "abroad": true
+    },
+    "film": {
+     "name": "La criada malcriada",
+     "asked": "La criada malcriada",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1965,
+     "country": [
+      "Puerto Rico"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p06",
+     "abroad": true
+    },
+    "star": {
+     "name": "Johnny Ventura",
+     "asked": "Johnny Ventura",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1940,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p06",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Daktari",
+     "asked": "Daktari",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1966,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p06",
+     "abroad": true
+    },
+    "place": {
+     "name": "La Plaza del Mercado de Santurce",
+     "asked": "La Plaza del Mercado de Santurce",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p06",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Roberto Roena",
+     "asked": "Roberto Roena",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1960,
+     "country": "Mayag\u00fcez, Puerto Rico",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p06",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Tito Puente",
+     "asked": "Tito Puente",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1940,
+     "country": "Harlem, Manhattan, New York, New",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p06",
+     "abroad": true
+    },
+    "film": {
+     "name": "El Padrecito",
+     "asked": "El Padrecito",
+     "found": false,
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p06",
+     "abroad": true
+    },
+    "star": {
+     "name": "Iris Chac\u00f3n",
+     "asked": "Iris Chac\u00f3n",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p06",
+     "abroad": true
+    },
+    "tv": {
+     "name": "El Show de Iris Chac\u00f3n",
+     "asked": "El Show de Iris Chac\u00f3n",
+     "found": false,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p06",
+     "abroad": true
+    },
+    "place": {
+     "name": "Plaza de Armas, Viejo San Juan",
+     "asked": "Plaza de Armas, Viejo San Juan",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p06",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Celia Cruz",
+     "asked": "Celia Cruz",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1948,
+     "country": "La Habana, Cuba",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p06",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p07",
+    "birthYear": 1937,
+    "hometown": "Dublin",
+    "heritage": [
+     "Ireland"
+    ],
+    "favorites": [
+     [
+      "The Clancy Brothers",
+      "artist"
+     ],
+     [
+      "The Quiet Man",
+      "movie"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "The Clancy Brothers",
+     "asked": "The Clancy Brothers",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1956,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p07",
+     "abroad": true
+    },
+    "film": {
+     "name": "The Rising of the Moon",
+     "asked": "The Rising of the Moon",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1957,
+     "country": [
+      "Ireland"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p07",
+     "abroad": true
+    },
+    "star": {
+     "name": "Elvis Presley",
+     "asked": "Elvis Presley",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1935,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p07",
+     "abroad": true
+    },
+    "tv": {
+     "name": "The Late Late Show",
+     "asked": "The Late Late Show",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1962,
+     "country": [
+      "Ireland"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p07",
+     "abroad": true
+    },
+    "place": {
+     "name": "Dublin Castle",
+     "asked": "Dublin Castle",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p07",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Liam Clancy",
+     "asked": "Liam Clancy",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1950,
+     "country": "Carrick-on-Suir, County Tipperar",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p07",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "The Clancy Brothers and Tommy Makem",
+     "asked": "The Clancy Brothers and Tommy Makem",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1956,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p07",
+     "abroad": true
+    },
+    "film": {
+     "name": "The Quiet Man",
+     "asked": "The Quiet Man",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1952,
+     "country": [
+      "United States",
+      "Ireland"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p07",
+     "abroad": true
+    },
+    "star": {
+     "name": "Maureen O'Hara",
+     "asked": "Maureen O'Hara",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p07",
+     "abroad": true
+    },
+    "tv": {
+     "name": "The Late Late Show",
+     "asked": "The Late Late Show",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1962,
+     "country": [
+      "Ireland"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p07",
+     "abroad": true
+    },
+    "place": {
+     "name": "Ha'penny Bridge",
+     "asked": "Ha'penny Bridge",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p07",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Ruby Murray",
+     "asked": "Ruby Murray",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1950,
+     "country": "Belfast, Belfast, County Antrim,",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p07",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p08",
+    "birthYear": 1935,
+    "hometown": "Chicago",
+    "heritage": [
+     "Poland"
+    ],
+    "favorites": [
+     [
+      "Frankie Yankovic",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Frankie Yankovic",
+     "asked": "Frankie Yankovic",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1930,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p08",
+     "abroad": true
+    },
+    "film": {
+     "name": "How to Marry a Millionaire",
+     "asked": "How to Marry a Millionaire",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1953,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p08",
+     "abroad": true
+    },
+    "star": {
+     "name": "Tony Bennett",
+     "asked": "Tony Bennett",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1926,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p08",
+     "abroad": true
+    },
+    "tv": {
+     "name": "I Love Lucy",
+     "asked": "I Love Lucy",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1951,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p08",
+     "abroad": true
+    },
+    "place": {
+     "name": "Union Park",
+     "asked": "Union Park",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p08",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Julie Andrews",
+     "asked": "Julie Andrews",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1947,
+     "country": "Walton-on-Thames, Surrey, Englan",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p08",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Frankie Yankovic",
+     "asked": "Frankie Yankovic",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1930,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p08",
+     "abroad": true
+    },
+    "film": {
+     "name": "Singin' in the Rain",
+     "asked": "Singin' in the Rain",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1952,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p08",
+     "abroad": true
+    },
+    "star": {
+     "name": "Doris Day",
+     "asked": "Doris Day",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1922,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p08",
+     "abroad": true
+    },
+    "tv": {
+     "name": "I Love Lucy",
+     "asked": "I Love Lucy",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1951,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p08",
+     "abroad": true
+    },
+    "place": {
+     "name": "Buckingham Fountain",
+     "asked": "Buckingham Fountain",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p08",
+     "abroad": true
+    },
+    "closer": {
+     "name": "The Andrews Sisters",
+     "asked": "The Andrews Sisters",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1937,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p08",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p09",
+    "birthYear": 1939,
+    "hometown": "Havana",
+    "heritage": [
+     "Cuba"
+    ],
+    "language": "Spanish",
+    "favorites": [
+     [
+      "Celia Cruz",
+      "artist"
+     ],
+     [
+      "Benny Mor\u00e9",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Celia Cruz",
+     "asked": "Celia Cruz",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1948,
+     "country": "La Habana, Cuba",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p09",
+     "abroad": true
+    },
+    "film": {
+     "name": null,
+     "asked": null,
+     "found": null,
+     "dropped": true,
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p09",
+     "abroad": true
+    },
+    "star": {
+     "name": "Chespirito",
+     "asked": "Chespirito",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1929,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p09",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Zorro",
+     "asked": "Zorro",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1957,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p09",
+     "abroad": true
+    },
+    "place": {
+     "name": "La Bodeguita Del Medio",
+     "asked": "La Bodeguita Del Medio",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p09",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Johnny Pacheco",
+     "asked": "Johnny Pacheco",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1950,
+     "country": "Santiago, Dominican Republic",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p09",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "La Sonora Matancera",
+     "asked": "Celia Cruz y La Sonora Matancera",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1924,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p09",
+     "abroad": true
+    },
+    "film": {
+     "name": "Escuela de vagabundos",
+     "asked": "Escuela de vagabundos",
+     "found": false,
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p09",
+     "abroad": true
+    },
+    "star": {
+     "name": "Rosita Forn\u00e9s",
+     "asked": "Rosita Forn\u00e9s",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p09",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Casino de la Alegr\u00eda",
+     "asked": "Casino de la Alegr\u00eda",
+     "found": false,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p09",
+     "abroad": true
+    },
+    "place": {
+     "name": "Malecon De La Habana",
+     "asked": "El Malec\u00f3n de La Habana",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p09",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Benny Mor\u00e9",
+     "asked": "Benny Mor\u00e9",
+     "found": false,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p09",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p10",
+    "birthYear": 1942,
+    "hometown": "Mumbai",
+    "heritage": [
+     "India"
+    ],
+    "language": "Hindi",
+    "favorites": [
+     [
+      "Lata Mangeshkar",
+      "artist"
+     ],
+     [
+      "Mother India",
+      "movie"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Lata Mangeshkar",
+     "asked": "Lata Mangeshkar",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1942,
+     "country": "Indore, Madhya Pradesh, India",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p10",
+     "abroad": true
+    },
+    "film": {
+     "name": "Guide",
+     "asked": "Guide",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1965,
+     "country": [
+      "India"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p10",
+     "abroad": true
+    },
+    "star": {
+     "name": "Asha Bhosle",
+     "asked": "Asha Bhosle",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1933,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p10",
+     "abroad": true
+    },
+    "tv": {
+     "name": null,
+     "asked": null,
+     "found": null,
+     "dropped": true,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p10",
+     "abroad": true
+    },
+    "place": {
+     "name": "Gateway Of India Mumbai",
+     "asked": "Gateway Of India Mumbai",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p10",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Mukesh",
+     "asked": "Mukesh",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1940,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p10",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Lata Mangeshkar",
+     "asked": "Lata Mangeshkar",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1942,
+     "country": "Indore, Madhya Pradesh, India",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p10",
+     "abroad": true
+    },
+    "film": {
+     "name": "Chalti Ka Naam Gaadi",
+     "asked": "Chalti Ka Naam Gaadi",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1958,
+     "country": [
+      "India"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p10",
+     "abroad": true
+    },
+    "star": {
+     "name": "Madhubala",
+     "asked": "Madhubala",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p10",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Phool Khile Hain Gulshan Gulshan",
+     "asked": "Phool Khile Hain Gulshan Gulshan",
+     "found": false,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p10",
+     "abroad": true
+    },
+    "place": {
+     "name": "Marine Drive",
+     "asked": "Marine Drive",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p10",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Kishore Kumar",
+     "asked": "Kishore Kumar",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1946,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p10",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p11",
+    "birthYear": 1944,
+    "hometown": "Kingston",
+    "heritage": [
+     "Jamaica"
+    ],
+    "favorites": [
+     [
+      "Desmond Dekker",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Desmond Dekker",
+     "asked": "Desmond Dekker",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1963,
+     "country": "Saint Andrew, Jamaica",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p11",
+     "abroad": true
+    },
+    "film": {
+     "name": "The Harder They Come",
+     "asked": "The Harder They Come",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1972,
+     "country": [
+      "Jamaica"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p11",
+     "abroad": true
+    },
+    "star": {
+     "name": "Peter Tosh",
+     "asked": "Peter Tosh",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1944,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p11",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Julia",
+     "asked": "Julia",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1968,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p11",
+     "abroad": true
+    },
+    "place": {
+     "name": null,
+     "asked": null,
+     "found": null,
+     "dropped": true,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p11",
+     "abroad": true
+    },
+    "closer": {
+     "name": "John Holt",
+     "asked": "John Holt",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1960,
+     "country": "Kingston, Jamaica",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p11",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Desmond Dekker & The Aces",
+     "asked": "Desmond Dekker & The Aces",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1963,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p11",
+     "abroad": true
+    },
+    "film": {
+     "name": "Smile Orange",
+     "asked": "Smile Orange",
+     "found": true,
+     "era": false,
+     "home": true,
+     "year": 1976,
+     "country": [
+      "Jamaica"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p11",
+     "abroad": true
+    },
+    "star": {
+     "name": "Louise Bennett-Coverley",
+     "asked": "Louise Bennett-Coverley",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p11",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Ring Ding",
+     "asked": "Ring Ding",
+     "found": false,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p11",
+     "abroad": true
+    },
+    "place": {
+     "name": "Devon House, Kingston",
+     "asked": "Devon House, Kingston",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p11",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Toots and The Maytals",
+     "asked": "Toots and the Maytals",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1962,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p11",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p12",
+    "birthYear": 1938,
+    "hometown": "Munich",
+    "heritage": [
+     "Germany"
+    ],
+    "language": "German",
+    "favorites": [
+     [
+      "Freddy Quinn",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Freddy Quinn",
+     "asked": "Freddy Quinn",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1953,
+     "country": "Wien, Austria",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p12",
+     "abroad": true
+    },
+    "film": {
+     "name": "Sissi - Die junge Kaiserin",
+     "asked": "Sissi - Die junge Kaiserin",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1956,
+     "country": [
+      "Austria"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p12",
+     "abroad": true
+    },
+    "star": {
+     "name": "Leonard Nimoy",
+     "asked": "Leonard Nimoy",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1931,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p12",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Sportschau",
+     "asked": "Sportschau",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1961,
+     "country": [
+      "Germany",
+      "West Germany"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p12",
+     "abroad": true
+    },
+    "place": {
+     "name": "G\u00e4rtnerplatz",
+     "asked": "G\u00e4rtnerplatz",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p12",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Udo J\u00fcrgens",
+     "asked": "Udo J\u00fcrgens",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1950,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p12",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Freddy Quinn",
+     "asked": "Freddy Quinn",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1953,
+     "country": "Wien, Austria",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p12",
+     "abroad": true
+    },
+    "film": {
+     "name": "Sissi",
+     "asked": "Sissi",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1955,
+     "country": [
+      "Austria"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p12",
+     "abroad": true
+    },
+    "star": {
+     "name": "Romy Schneider",
+     "asked": "Romy Schneider",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p12",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Der goldene Schu\u00df",
+     "asked": "Der goldene Schu\u00df",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1964,
+     "country": [
+      "West Germany"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p12",
+     "abroad": true
+    },
+    "place": {
+     "name": "Marienplatz, Munich",
+     "asked": "Marienplatz, Munich",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p12",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Caterina Valente",
+     "asked": "Caterina Valente",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1940,
+     "country": "Paris, \u00cele-de-France, France",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p12",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p13",
+    "birthYear": 1950,
+    "hometown": "Nashville",
+    "heritage": [],
+    "favorites": [
+     [
+      "Johnny Cash",
+      "artist"
+     ],
+     [
+      "Patsy Cline",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Johnny Cash",
+     "asked": "Johnny Cash",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1954,
+     "country": "Kingsland, Cleveland County, Ark",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p13",
+     "abroad": false
+    },
+    "film": {
+     "name": "Easy Rider",
+     "asked": "Easy Rider",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1969,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p13",
+     "abroad": false
+    },
+    "star": {
+     "name": "Dolly Parton",
+     "asked": "Dolly Parton",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1946,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p13",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Brady Bunch",
+     "asked": "The Brady Bunch",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1969,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p13",
+     "abroad": false
+    },
+    "place": {
+     "name": "Ryman Auditorium",
+     "asked": "Ryman Auditorium",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p13",
+     "abroad": false
+    },
+    "closer": {
+     "name": "John Denver",
+     "asked": "John Denver",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1963,
+     "country": "Roswell, Chaves County, New Mexi",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p13",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Johnny Cash",
+     "asked": "Johnny Cash",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1954,
+     "country": "Kingsland, Cleveland County, Ark",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p13",
+     "abroad": false
+    },
+    "film": {
+     "name": "Coal Miner's Daughter",
+     "asked": "Coal Miner's Daughter",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1980,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p13",
+     "abroad": false
+    },
+    "star": {
+     "name": "Dolly Parton",
+     "asked": "Dolly Parton",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1946,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p13",
+     "abroad": false
+    },
+    "tv": {
+     "name": "Hee Haw",
+     "asked": "Hee Haw",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1969,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p13",
+     "abroad": false
+    },
+    "place": {
+     "name": "Ryman Auditorium",
+     "asked": "Ryman Auditorium",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p13",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Patsy Cline",
+     "asked": "Patsy Cline",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1948,
+     "country": "Winchester, Virginia, United Sta",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p13",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p14",
+    "birthYear": 1952,
+    "hometown": "Los Angeles",
+    "heritage": [],
+    "favorites": [
+     [
+      "The Beach Boys",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "The Beach Boys",
+     "asked": "The Beach Boys",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1961,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p14",
+     "abroad": false
+    },
+    "film": {
+     "name": "American Graffiti",
+     "asked": "American Graffiti",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1973,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p14",
+     "abroad": false
+    },
+    "star": {
+     "name": "David Bowie",
+     "asked": "David Bowie",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1947,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p14",
+     "abroad": false
+    },
+    "tv": {
+     "name": "Happy Days",
+     "asked": "Happy Days",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1974,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p14",
+     "abroad": false
+    },
+    "place": {
+     "name": "Hollywood Sign",
+     "asked": "Hollywood Sign",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p14",
+     "abroad": false
+    },
+    "closer": {
+     "name": "The Mamas & the Papas",
+     "asked": "The Mamas & the Papas",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1965,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p14",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "The Beach Boys",
+     "asked": "The Beach Boys",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1961,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p14",
+     "abroad": false
+    },
+    "film": {
+     "name": "American Graffiti",
+     "asked": "American Graffiti",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1973,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p14",
+     "abroad": false
+    },
+    "star": {
+     "name": "Annette Funicello",
+     "asked": "Annette Funicello",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p14",
+     "abroad": false
+    },
+    "tv": {
+     "name": "Happy Days",
+     "asked": "Happy Days",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1974,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p14",
+     "abroad": false
+    },
+    "place": {
+     "name": "Santa Monica Pier",
+     "asked": "Santa Monica Pier",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p14",
+     "abroad": false
+    },
+    "closer": {
+     "name": "The Mamas & the Papas",
+     "asked": "The Mamas & the Papas",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1965,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p14",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p15",
+    "birthYear": 1934,
+    "hometown": "New Orleans",
+    "heritage": [],
+    "favorites": [
+     [
+      "Louis Armstrong",
+      "artist"
+     ],
+     [
+      "Fats Domino",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Louis Armstrong",
+     "asked": "Louis Armstrong",
+     "found": true,
+     "era": false,
+     "home": null,
+     "year": 1914,
+     "country": "New Orleans, Louisiana, United S",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p15",
+     "abroad": false
+    },
+    "film": {
+     "name": "Guys and Dolls",
+     "asked": "Guys and Dolls",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1955,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p15",
+     "abroad": false
+    },
+    "star": {
+     "name": "Chuck Berry",
+     "asked": "Chuck Berry",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1926,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p15",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Danny Thomas Show",
+     "asked": "The Danny Thomas Show",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1953,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p15",
+     "abroad": false
+    },
+    "place": {
+     "name": "Jackson Square",
+     "asked": "Jackson Square",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p15",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Ray Charles",
+     "asked": "Ray Charles",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1947,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p15",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Louis Armstrong",
+     "asked": "Louis Armstrong",
+     "found": true,
+     "era": false,
+     "home": null,
+     "year": 1914,
+     "country": "New Orleans, Louisiana, United S",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p15",
+     "abroad": false
+    },
+    "film": {
+     "name": "High Society",
+     "asked": "High Society",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1956,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p15",
+     "abroad": false
+    },
+    "star": {
+     "name": "Fats Domino",
+     "asked": "Fats Domino",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1928,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p15",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Ed Sullivan Show",
+     "asked": "The Ed Sullivan Show",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1948,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p15",
+     "abroad": false
+    },
+    "place": {
+     "name": "Jackson Square",
+     "asked": "Jackson Square",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p15",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Fats Domino",
+     "asked": "Fats Domino",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1947,
+     "country": "New Orleans, Louisiana, United S",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p15",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p16",
+    "birthYear": 1947,
+    "hometown": "Boston",
+    "heritage": [],
+    "favorites": [
+     [
+      "The Beatles",
+      "artist"
+     ],
+     [
+      "The Graduate",
+      "movie"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "The Beatles",
+     "asked": "The Beatles",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1960,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p16",
+     "abroad": false
+    },
+    "film": {
+     "name": "A Hard Day's Night",
+     "asked": "A Hard Day's Night",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1964,
+     "country": [
+      "United Kingdom",
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p16",
+     "abroad": false
+    },
+    "star": {
+     "name": "Paul McCartney",
+     "asked": "Paul McCartney",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1942,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p16",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Mary Tyler Moore Show",
+     "asked": "The Mary Tyler Moore Show",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1970,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p16",
+     "abroad": false
+    },
+    "place": {
+     "name": "Museum of Fine Arts, Boston",
+     "asked": "Museum of Fine Arts, Boston",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p16",
+     "abroad": false
+    },
+    "closer": {
+     "name": "The Beach Boys",
+     "asked": "The Beach Boys",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1961,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p16",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "The Beatles",
+     "asked": "The Beatles",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1960,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p16",
+     "abroad": false
+    },
+    "film": {
+     "name": "The Graduate",
+     "asked": "The Graduate",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1967,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p16",
+     "abroad": false
+    },
+    "star": {
+     "name": "Dustin Hoffman",
+     "asked": "Dustin Hoffman",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1937,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p16",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Mary Tyler Moore Show",
+     "asked": "The Mary Tyler Moore Show",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1970,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p16",
+     "abroad": false
+    },
+    "place": {
+     "name": "Fenway Park",
+     "asked": "Fenway Park",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p16",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Simon & Garfunkel",
+     "asked": "Simon & Garfunkel",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1964,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p16",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p17",
+    "birthYear": 1940,
+    "hometown": "Athens",
+    "heritage": [
+     "Greece"
+    ],
+    "language": "Greek",
+    "favorites": [
+     [
+      "Nana Mouskouri",
+      "artist"
+     ],
+     [
+      "Zorba the Greek",
+      "movie"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Nana Mouskouri",
+     "asked": "Nana Mouskouri",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1950,
+     "country": "Chania, Kriti, Greece",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p17",
+     "abroad": true
+    },
+    "film": {
+     "name": "Maiden's Cheek",
+     "asked": "Maiden's Cheek",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1959,
+     "country": [
+      "Greece"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p17",
+     "abroad": true
+    },
+    "star": {
+     "name": null,
+     "asked": null,
+     "found": null,
+     "dropped": true,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p17",
+     "abroad": true
+    },
+    "tv": {
+     "name": "To theatro tis Defteras",
+     "asked": "To theatro tis Defteras",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1970,
+     "country": [
+      "Greece"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p17",
+     "abroad": true
+    },
+    "place": {
+     "name": null,
+     "asked": null,
+     "found": null,
+     "dropped": true,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p17",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Dalida",
+     "asked": "Dalida",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1954,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p17",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Nana Mouskouri",
+     "asked": "Nana Mouskouri",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1950,
+     "country": "Chania, Kriti, Greece",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p17",
+     "abroad": true
+    },
+    "film": {
+     "name": "Never on Sunday",
+     "asked": "Never on Sunday",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1960,
+     "country": [
+      "Greece"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p17",
+     "abroad": true
+    },
+    "star": {
+     "name": "Aliki Vougiouklaki",
+     "asked": "Aliki Vougiouklaki",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p17",
+     "abroad": true
+    },
+    "tv": {
+     "name": "To theatro tis Defteras",
+     "asked": "To Theatro tis Defteras",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1970,
+     "country": [
+      "Greece"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p17",
+     "abroad": true
+    },
+    "place": {
+     "name": "Acropolis of Athens",
+     "asked": "The Acropolis of Athens",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p17",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Melina Mercouri",
+     "asked": "Melina Mercouri",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1940,
+     "country": "Athens, Attiki, Greece",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p17",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p18",
+    "birthYear": 1936,
+    "hometown": "Lisbon",
+    "heritage": [
+     "Portugal"
+    ],
+    "language": "Portuguese",
+    "favorites": [
+     [
+      "Am\u00e1lia Rodrigues",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Am\u00e1lia Rodrigues",
+     "asked": "Am\u00e1lia Rodrigues",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1939,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p18",
+     "abroad": true
+    },
+    "film": {
+     "name": "O Le\u00e3o da Estrela",
+     "asked": "O Le\u00e3o da Estrela",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1947,
+     "country": [
+      "Portugal"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p18",
+     "abroad": true
+    },
+    "star": {
+     "name": "Elza Soares",
+     "asked": "Elza Soares",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1930,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p18",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Telejornal",
+     "asked": "Telejornal",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1959,
+     "country": [
+      "Portugal"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p18",
+     "abroad": true
+    },
+    "place": {
+     "name": "Pra\u00e7a do Com\u00e9rcio",
+     "asked": "Pra\u00e7a do Com\u00e9rcio",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p18",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Argentina Santos",
+     "asked": "Argentina Santos",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1940,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p18",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Am\u00e1lia Rodrigues",
+     "asked": "Am\u00e1lia Rodrigues",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1939,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p18",
+     "abroad": true
+    },
+    "film": {
+     "name": "O Le\u00e3o da Estrela",
+     "asked": "O Le\u00e3o da Estrela",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1947,
+     "country": [
+      "Portugal"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p18",
+     "abroad": true
+    },
+    "star": {
+     "name": "Am\u00e1lia Rodrigues",
+     "asked": "Am\u00e1lia Rodrigues",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p18",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Festival RTP da Can\u00e7\u00e3o",
+     "asked": "Festival RTP da Can\u00e7\u00e3o",
+     "found": false,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p18",
+     "abroad": true
+    },
+    "place": {
+     "name": "Torre de Bel\u00e9m",
+     "asked": "Torre de Bel\u00e9m",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p18",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Tony de Matos",
+     "asked": "Tony de Matos",
+     "found": true,
+     "era": false,
+     "home": true,
+     "year": 2000,
+     "country": "Porto, Porto, Portugal",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p18",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p19",
+    "birthYear": 1955,
+    "hometown": "Atlanta",
+    "heritage": [],
+    "favorites": [
+     [
+      "The Jackson 5",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "The Jackson 5",
+     "asked": "The Jackson 5",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1964,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p19",
+     "abroad": false
+    },
+    "film": {
+     "name": "Grease",
+     "asked": "Grease",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1978,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p19",
+     "abroad": false
+    },
+    "star": {
+     "name": "Stevie Wonder",
+     "asked": "Stevie Wonder",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1950,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p19",
+     "abroad": false
+    },
+    "tv": {
+     "name": "Good Times",
+     "asked": "Good Times",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1974,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p19",
+     "abroad": false
+    },
+    "place": {
+     "name": "Fox Theatre",
+     "asked": "Fox Theatre",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p19",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Earth, Wind & Fire",
+     "asked": "Earth, Wind & Fire",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1969,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p19",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "The Jackson 5",
+     "asked": "The Jackson 5",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1964,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p19",
+     "abroad": false
+    },
+    "film": {
+     "name": "The Wiz",
+     "asked": "The Wiz",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1978,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p19",
+     "abroad": false
+    },
+    "star": {
+     "name": "Michael Jackson",
+     "asked": "Michael Jackson",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1958,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p19",
+     "abroad": false
+    },
+    "tv": {
+     "name": "Soul Train",
+     "asked": "Soul Train",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1971,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p19",
+     "abroad": false
+    },
+    "place": {
+     "name": "Fox Theatre",
+     "asked": "Fox Theatre",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p19",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Earth, Wind & Fire",
+     "asked": "Earth, Wind & Fire",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1969,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p19",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p20",
+    "birthYear": 1946,
+    "hometown": "Toronto",
+    "heritage": [
+     "Canada"
+    ],
+    "favorites": [
+     [
+      "Gordon Lightfoot",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Gordon Lightfoot",
+     "asked": "Gordon Lightfoot",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1962,
+     "country": "Orillia, Simcoe County, Ontario,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p20",
+     "abroad": true
+    },
+    "film": {
+     "name": "Goin' Down the Road",
+     "asked": "Goin' Down the Road",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1970,
+     "country": [
+      "Canada"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p20",
+     "abroad": true
+    },
+    "star": {
+     "name": "Neil Diamond",
+     "asked": "Neil Diamond",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1941,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p20",
+     "abroad": true
+    },
+    "tv": {
+     "name": "The Beachcombers",
+     "asked": "The Beachcombers",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1972,
+     "country": [
+      "Canada"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p20",
+     "abroad": true
+    },
+    "place": {
+     "name": "Canadian National Exhibition",
+     "asked": "Canadian National Exhibition",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p20",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Harry Chapin",
+     "asked": "Harry Chapin",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1960,
+     "country": "Brooklyn, New York, New York, Un",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p20",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Gordon Lightfoot",
+     "asked": "Gordon Lightfoot",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1962,
+     "country": "Orillia, Simcoe County, Ontario,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p20",
+     "abroad": true
+    },
+    "film": {
+     "name": "Mary Poppins",
+     "asked": "Mary Poppins",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1964,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p20",
+     "abroad": true
+    },
+    "star": {
+     "name": "Anne Murray",
+     "asked": "Anne Murray",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1945,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p20",
+     "abroad": true
+    },
+    "tv": {
+     "name": "The Friendly Giant",
+     "asked": "The Friendly Giant",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1958,
+     "country": [
+      "Canada"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p20",
+     "abroad": true
+    },
+    "place": {
+     "name": "CN Tower",
+     "asked": "CN Tower",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p20",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Anne Murray",
+     "asked": "Anne Murray",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1967,
+     "country": "Springhill, Cumberland County, N",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p20",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p21",
+    "birthYear": 1940,
+    "hometown": "Rome",
+    "heritage": [
+     "Italy"
+    ],
+    "language": "Italian",
+    "favorites": [
+     [
+      "Domenico Modugno",
+      "artist"
+     ],
+     [
+      "La Dolce Vita",
+      "movie"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Domenico Modugno",
+     "asked": "Domenico Modugno",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1950,
+     "country": "Polignano a Mare, Bari, Puglia,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p21",
+     "abroad": true
+    },
+    "film": {
+     "name": "Big Deal on Madonna Street",
+     "asked": "Big Deal on Madonna Street",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1958,
+     "country": [
+      "Italy"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p21",
+     "abroad": true
+    },
+    "star": {
+     "name": "Ennio Morricone",
+     "asked": "Ennio Morricone",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1928,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p21",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Le avventure di Pinocchio",
+     "asked": "Le avventure di Pinocchio",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1959,
+     "country": [
+      "Italy"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p21",
+     "abroad": true
+    },
+    "place": {
+     "name": "Galleria Borghese",
+     "asked": "Galleria Borghese",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p21",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Ornella Vanoni",
+     "asked": "Ornella Vanoni",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1956,
+     "country": "Milan, Milano, Lombardia, Italy",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p21",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Domenico Modugno",
+     "asked": "Domenico Modugno",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1950,
+     "country": "Polignano a Mare, Bari, Puglia,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p21",
+     "abroad": true
+    },
+    "film": {
+     "name": "La Dolce Vita",
+     "asked": "La Dolce Vita",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1960,
+     "country": [
+      "Italy",
+      "France"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p21",
+     "abroad": true
+    },
+    "star": {
+     "name": "Marcello Mastroianni",
+     "asked": "Marcello Mastroianni",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1924,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p21",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Carosello",
+     "asked": "Carosello",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1957,
+     "country": [
+      "Italy"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p21",
+     "abroad": true
+    },
+    "place": {
+     "name": "Fontana di Trevi",
+     "asked": "Fontana di Trevi",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p21",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Adriano Celentano",
+     "asked": "Adriano Celentano",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1958,
+     "country": "Milan, Milano, Lombardia, Italy",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p21",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p22",
+    "birthYear": 1948,
+    "hometown": "Paris",
+    "heritage": [
+     "France"
+    ],
+    "language": "French",
+    "favorites": [
+     [
+      "\u00c9dith Piaf",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "\u00c9dith Piaf",
+     "asked": "\u00c9dith Piaf",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1935,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p22",
+     "abroad": true
+    },
+    "film": {
+     "name": "Masculine Feminine",
+     "asked": "Masculine Feminine",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1966,
+     "country": [
+      "France",
+      "Sweden"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p22",
+     "abroad": true
+    },
+    "star": {
+     "name": "Michel Polnareff",
+     "asked": "Michel Polnareff",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1944,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p22",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Bewitched",
+     "asked": "Bewitched",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1964,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p22",
+     "abroad": true
+    },
+    "place": {
+     "name": "La M\u00e9nagerie, le zoo du Jardin des Plantes",
+     "asked": "La M\u00e9nagerie, le zoo du Jardin des Plantes",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p22",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Christophe",
+     "asked": "Christophe",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1963,
+     "country": "Juvisy-sur-Orge, Essonne, \u00cele-de",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p22",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "\u00c9dith Piaf",
+     "asked": "\u00c9dith Piaf",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1935,
+     "country": null,
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p22",
+     "abroad": true
+    },
+    "film": {
+     "name": "Les Demoiselles de Rochefort",
+     "asked": "Les Demoiselles de Rochefort",
+     "found": false,
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p22",
+     "abroad": true
+    },
+    "star": {
+     "name": "Catherine Deneuve",
+     "asked": "Catherine Deneuve",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p22",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Le Man\u00e8ge enchant\u00e9",
+     "asked": "Le Man\u00e8ge enchant\u00e9",
+     "found": false,
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p22",
+     "abroad": true
+    },
+    "place": {
+     "name": "Tour Eiffel",
+     "asked": "Tour Eiffel",
+     "found": false,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p22",
+     "abroad": true
+    },
+    "closer": {
+     "name": "Charles Aznavour",
+     "asked": "Charles Aznavour",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1946,
+     "country": "Paris, \u00cele-de-France, France",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p22",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p23",
+    "birthYear": 1933,
+    "hometown": "Kansas City",
+    "heritage": [],
+    "favorites": [
+     [
+      "Count Basie",
+      "artist"
+     ],
+     [
+      "Gunsmoke",
+      "tv_show"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Count Basie",
+     "asked": "Count Basie",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1924,
+     "country": "Red Bank, Monmouth County, New J",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p23",
+     "abroad": false
+    },
+    "film": {
+     "name": "Shane",
+     "asked": "Shane",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1953,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p23",
+     "abroad": false
+    },
+    "star": {
+     "name": "Tony Bennett",
+     "asked": "Tony Bennett",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": 1926,
+     "country": null,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p23",
+     "abroad": false
+    },
+    "tv": {
+     "name": "The Lone Ranger",
+     "asked": "The Lone Ranger",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1949,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p23",
+     "abroad": false
+    },
+    "place": {
+     "name": "Union Station Kansas City",
+     "asked": "Union Station Kansas City",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p23",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Sonny Rollins",
+     "asked": "Sonny Rollins",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1949,
+     "country": "Harlem, Manhattan, New York, New",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p23",
+     "abroad": false
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Count Basie",
+     "asked": "Count Basie",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1924,
+     "country": "Red Bank, Monmouth County, New J",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p23",
+     "abroad": false
+    },
+    "film": {
+     "name": "Singin' in the Rain",
+     "asked": "Singin' in the Rain",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1952,
+     "country": [
+      "United States"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p23",
+     "abroad": false
+    },
+    "star": {
+     "name": "James Arness",
+     "asked": "James Arness",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p23",
+     "abroad": false
+    },
+    "tv": {
+     "name": "Gunsmoke",
+     "asked": "Gunsmoke",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1955,
+     "country": [
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p23",
+     "abroad": false
+    },
+    "place": {
+     "name": "Union Station Kansas City",
+     "asked": "Union Station Kansas City",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p23",
+     "abroad": false
+    },
+    "closer": {
+     "name": "Duke Ellington",
+     "asked": "Duke Ellington",
+     "found": true,
+     "era": false,
+     "home": null,
+     "year": 1914,
+     "country": "Washington, D.C., United States",
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p23",
+     "abroad": false
+    }
+   },
+   "narration": "ai"
+  },
+  {
+   "persona": {
+    "id": "p24",
+    "birthYear": 1944,
+    "hometown": "Tokyo",
+    "heritage": [
+     "Japan"
+    ],
+    "language": "Japanese",
+    "favorites": [
+     [
+      "Kyu Sakamoto",
+      "artist"
+     ]
+    ]
+   },
+   "encore": {
+    "opener": {
+     "name": "Kyu Sakamoto",
+     "asked": "Kyu Sakamoto",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1958,
+     "country": "Kawasaki-ku, Kawasaki, Kanagawa,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p24",
+     "abroad": true
+    },
+    "film": {
+     "name": "Equinox Flower",
+     "asked": "Equinox Flower",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1958,
+     "country": [
+      "Japan"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p24",
+     "abroad": true
+    },
+    "star": {
+     "name": null,
+     "asked": null,
+     "found": null,
+     "dropped": true,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p24",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Astro Boy",
+     "asked": "Astro Boy",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1963,
+     "country": [
+      "Japan",
+      "United States"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p24",
+     "abroad": true
+    },
+    "place": {
+     "name": "The National Museum of Modern Art, Tokyo",
+     "asked": "The National Museum of Modern Art, Tokyo",
+     "found": true,
+     "era": null,
+     "home": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p24",
+     "abroad": true
+    },
+    "closer": {
+     "name": null,
+     "asked": null,
+     "found": null,
+     "dropped": true,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p24",
+     "abroad": true
+    }
+   },
+   "baseline": {
+    "opener": {
+     "name": "Kyu Sakamoto",
+     "asked": "Kyu Sakamoto",
+     "found": true,
+     "era": true,
+     "home": false,
+     "year": 1958,
+     "country": "Kawasaki-ku, Kawasaki, Kanagawa,",
+     "slot": "opener",
+     "kind": "artist",
+     "persona": "p24",
+     "abroad": true
+    },
+    "film": {
+     "name": "Izu no odoriko",
+     "asked": "Izu no Odoriko",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1963,
+     "country": [
+      "Japan"
+     ],
+     "slot": "film",
+     "kind": "movie",
+     "persona": "p24",
+     "abroad": true
+    },
+    "star": {
+     "name": "Hibari Misora",
+     "asked": "Hibari Misora",
+     "found": false,
+     "slot": "star",
+     "kind": "person",
+     "persona": "p24",
+     "abroad": true
+    },
+    "tv": {
+     "name": "Okaasan to Issho",
+     "asked": "Okaasan to Issho",
+     "found": true,
+     "era": true,
+     "home": true,
+     "year": 1959,
+     "country": [
+      "Japan"
+     ],
+     "slot": "tv",
+     "kind": "tv_show",
+     "persona": "p24",
+     "abroad": true
+    },
+    "place": {
+     "name": "Tokyo Tower",
+     "asked": "Tokyo Tower",
+     "found": true,
+     "era": null,
+     "home": null,
+     "year": null,
+     "country": null,
+     "slot": "place",
+     "kind": "place",
+     "persona": "p24",
+     "abroad": true
+    },
+    "closer": {
+     "name": "The Peanuts",
+     "asked": "The Peanuts",
+     "found": true,
+     "era": true,
+     "home": null,
+     "year": 1958,
+     "country": null,
+     "slot": "closer",
+     "kind": "artist",
+     "persona": "p24",
+     "abroad": true
+    }
+   },
+   "narration": "ai"
+  }
+ ]
+}

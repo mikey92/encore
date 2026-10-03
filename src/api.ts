@@ -1,4 +1,4 @@
-import type { Patch, Session, TasteRequest, TraceStep } from '../shared/types'
+import type { Patch, Session, Slot, TasteRequest, TraceStep } from '../shared/types'
 
 export interface SearchResult {
   id: string
@@ -22,6 +22,7 @@ export type SessionEvent =
   | { type: 'step'; step: TraceStep }
   | { type: 'plan'; session: Session }
   | { type: 'curated'; session: Session }
+  | { type: 'moment'; slot: Slot }
   | { type: 'note'; message: string }
   | { type: 'done'; stats: Record<string, unknown> }
   | { type: 'error'; message: string }

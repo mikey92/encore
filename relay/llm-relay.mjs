@@ -21,7 +21,7 @@ const ENDPOINT = 'https://chatgpt.com/backend-api/codex/responses'
 const CLIENT_ID = 'app_EMoamEEZ73f0CkXaXp7hrann' // Codex's OAuth client, which issued the tokens
 const REFRESH_BEFORE_MS = 2 * 24 * 60 * 60 * 1000
 const MAX_BODY = 4 * 1024 * 1024
-const MAX_PER_MINUTE = 30 // a ceiling on the plan's use even if the key leaked; the Worker limits each visitor too
+const MAX_PER_MINUTE = 60 // a ceiling on the plan's use even if the key leaked; the Worker limits each visitor too
 const END_AT = process.env.END_AT ? Date.parse(process.env.END_AT) : Infinity
 
 let refreshing

@@ -8,3 +8,4 @@ dist/
 eval/cache/
 .shots/
 eval/run.log
+eval/results.json

@@ -24,6 +24,8 @@ export interface WeightedSignal {
   weight: number
 }
 
+/** Bump when the stored shape of an answer changes, so old cached answers are not reused. */
+const CACHE_VERSION = 'v2'
 const memory = new Map<string, any>()
 let nextSlot = 0
 
@@ -50,17 +52,101 @@ export function encode(params: Params): string {
     .join('&')
 }
 
+/** Properties the app reads. Qloo returns much more (akas in dozens of languages, long texts); keeping only
+ *  these makes cached answers small and cheap to read back, which matters on a 10 ms CPU budget. */
+const KEEP = [
+  'image', 'images', 'release_year', 'finale_year', 'release_country', 'start_year', 'end_year', 'date_of_birth',
+  'notable_songs', 'notable_work', 'short_description', 'short_descriptions', 'description', 'address', 'place_of_birth',
+] as const
+
+function trimEntity(e: any): any {
+  const p = e.properties ?? {}
+  const props: Record<string, unknown> = {}
+  for (const k of KEEP) {
+    const v = p[k]
+    if (v === undefined || v === null) continue
+    if (k === 'images') props[k] = Array.isArray(v) ? v.slice(0, 1) : v
+    else if (k === 'description') props[k] = String(v).slice(0, 400)
+    else if (k === 'notable_songs' || k === 'notable_work') props[k] = Array.isArray(v) ? v.slice(0, 3) : v
+    else if (k === 'short_descriptions') props[k] = Array.isArray(v) ? v.filter((d: any) => /^en/.test(d?.language ?? 'en')).slice(0, 2) : v
+    else props[k] = v
+  }
+  return {
+    entity_id: e.entity_id ?? e.id,
+    name: e.name,
+    // /search answers carry `types` (a list) instead of `type`.
+    type: e.type ?? (Array.isArray(e.types) ? e.types[0] : undefined),
+    subtype: e.subtype,
+    popularity: e.popularity,
+    query: e.query ? { affinity: e.query.affinity, explainability: e.query.explainability } : undefined,
+    tags: Array.isArray(e.tags) ? e.tags.slice(0, 24).map((t: any) => ({ id: t.id ?? t.tag_id, name: t.name, type: t.type })) : undefined,
+    properties: props,
+  }
+}
+
+/** Keep only what the app reads from a Qloo answer. */
+export function trim(data: any): any {
+  const r = data?.results
+  if (Array.isArray(r)) return { results: r.map(trimEntity) }
+  if (r?.entities) return { results: { entities: r.entities.map(trimEntity) } }
+  if (r?.tags)
+    return {
+      results: {
+        tags: r.tags.map((t: any) => ({
+          tag_id: t.tag_id ?? t.id,
+          name: t.name,
+          type: t.type,
+          subtype: t.subtype,
+          query: t.query?.score !== undefined ? { score: t.query.score } : undefined,
+        })),
+      },
+    }
+  return data
+}
+
 async function digest(text: string): Promise<string> {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('')
 }
 
+/** Another Worker invocation that fetches and trims for us (see QlooProxy in index.ts). Each invocation has
+ *  its own CPU budget, so parsing Qloo's large answers there keeps every request under the free plan's limit. */
+export interface QlooProxyLike {
+  fetchTrimmed(method: 'GET' | 'POST', path: string, payload: unknown): Promise<{ data: any; fetched: boolean; left?: number }>
+}
+
 export class Qloo {
   calls = 0
   cached = 0
-  constructor(private key: string) {}
+  constructor(
+    private key: string,
+    private proxy?: QlooProxyLike,
+  ) {}
 
-  private async cachedFetch(cacheId: string, doFetch: () => Promise<Response>, label: string): Promise<any> {
+  /** Runs inside the proxy invocation: fetch (or read from cache) and trim. */
+  async fetchTrimmed(method: 'GET' | 'POST', path: string, payload: any): Promise<{ data: any; fetched: boolean; left?: number }> {
+    const before = this.calls
+    const data = method === 'GET' ? await this.direct('GET', path, payload) : await this.direct('POST', path, payload)
+    return { data, fetched: this.calls > before, left: quota.monthRemaining }
+  }
+
+  private async viaProxy(method: 'GET' | 'POST', path: string, payload: any, key: string): Promise<any> {
+    const id = `${CACHE_VERSION} proxy ${key}`
+    if (memory.has(id)) {
+      this.cached++
+      return memory.get(id)
+    }
+    const out = await this.proxy!.fetchTrimmed(method, path, payload)
+    if (out.fetched) this.calls++
+    else this.cached++
+    if (typeof out.left === 'number' && out.left >= 0) quota.monthRemaining = out.left
+    if (memory.size > 500) memory.delete(memory.keys().next().value!)
+    memory.set(id, out.data)
+    return out.data
+  }
+
+  private async cachedFetch(id: string, doFetch: () => Promise<Response>, label: string): Promise<any> {
+    const cacheId = `${CACHE_VERSION} ${id}`
     if (memory.has(cacheId)) {
       this.cached++
       return memory.get(cacheId)
@@ -91,7 +177,7 @@ export class Qloo {
       const body = res ? await res.text() : 'no response'
       throw new QlooError(res?.status ?? 0, body.slice(0, 300), label)
     }
-    const data = await res.json()
+    const data = trim(await res.json())
     if (memory.size > 500) memory.delete(memory.keys().next().value!)
     memory.set(cacheId, data)
     if (cache) {
@@ -104,6 +190,20 @@ export class Qloo {
   }
 
   get(path: string, params: Params): Promise<any> {
+    if (this.proxy) return this.viaProxy('GET', path, params, `GET ${path}?${encode(params)}`)
+    return this.direct('GET', path, params)
+  }
+
+  post(path: string, body: Record<string, unknown>): Promise<any> {
+    if (this.proxy) return this.viaProxy('POST', path, body, 'POST ' + path + ' ' + JSON.stringify(Object.fromEntries(Object.entries(body).sort(([a], [b]) => (a < b ? -1 : 1)))))
+    return this.direct('POST', path, body)
+  }
+
+  private direct(method: 'GET' | 'POST', path: string, payload: any): Promise<any> {
+    return method === 'GET' ? this.directGet(path, payload) : this.directPost(path, payload)
+  }
+
+  private directGet(path: string, params: Params): Promise<any> {
     const url = `${BASE}${path}?${encode(params)}`
     return this.cachedFetch(
       'GET ' + url,
@@ -112,7 +212,7 @@ export class Qloo {
     )
   }
 
-  post(path: string, body: Record<string, unknown>): Promise<any> {
+  private directPost(path: string, body: Record<string, unknown>): Promise<any> {
     const ordered = Object.fromEntries(Object.entries(body).sort(([a], [b]) => (a < b ? -1 : 1)))
     const full = JSON.stringify(ordered)
     return this.cachedFetch(
@@ -181,5 +281,5 @@ export class QlooError extends Error {
 }
 
 function normalize(e: any): QlooEntity {
-  return { ...e, entity_id: e.entity_id ?? e.id }
+  return { ...e, entity_id: e.entity_id ?? e.id, type: e.type ?? (Array.isArray(e.types) ? e.types[0] : undefined) }
 }

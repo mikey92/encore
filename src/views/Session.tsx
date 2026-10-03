@@ -45,6 +45,7 @@ function Moment({
   onSwap,
   people,
   servedBy,
+  checking,
 }: {
   slot: Slot
   index: number
@@ -53,6 +54,8 @@ function Moment({
   onSwap?: () => void
   people: Person[]
   servedBy?: number[]
+  /** While the curator works: still checking this moment, or done with it. */
+  checking?: 'pending' | 'done'
 }) {
   const it = slot.item
   const person = people[0]
@@ -69,6 +72,9 @@ function Moment({
         <span className="tag">
           {slot.title} · {slot.minutes} min
         </span>
+        {checking ? (
+          <span className={`checking ${checking}`}>{checking === 'done' ? '✓ Checked by the curator' : 'Curator checking…'}</span>
+        ) : null}
         <h3>{it.name}</h3>
         <div className="meta">
           {[it.when, it.feature && (it.domain === 'music' ? `“${it.feature}”` : it.feature)].filter(Boolean).join(' · ')}
@@ -154,7 +160,19 @@ function Steps({ steps }: { steps: TraceStep[] }) {
   )
 }
 
-function Body({ saved, people, curating, note }: { saved: SavedSession; people: Person[]; curating?: boolean; note?: string }) {
+function Body({
+  saved,
+  people,
+  curating,
+  reviewed,
+  note,
+}: {
+  saved: SavedSession
+  people: Person[]
+  curating?: boolean
+  reviewed?: string[]
+  note?: string
+}) {
   const s = saved.session
   const minutes = s.slots.reduce((n, x) => n + x.minutes, 0)
   const person = people[0]
@@ -172,6 +190,8 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
     delete reactions[s.slots[index].key]
     update({ session: { ...s, slots }, reactions })
   }
+  const [showTrace, setShowTrace] = useState(false)
+  const qlooSteps = s.trace.filter((t) => t.tool.startsWith('qloo.')).length
   const lit = s.slots.filter((x) => saved.reactions[x.key] === 'lit')
   const off = s.slots.filter((x) => saved.reactions[x.key] === 'unsettled')
   return (
@@ -194,6 +214,20 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
           </div>
         </div>
       </div>
+      <div className="small muted noprint" style={{ marginBottom: 14 }}>
+        Built from {qlooSteps} Qloo queries
+        {s.narration === 'ai' ? ` · reviewed by the curator${s.skipped?.length ? `, ${s.skipped.length} candidates left out` : ''}` : ''} ·{' '}
+        <a
+          href="#trace"
+          onClick={(e) => {
+            e.preventDefault()
+            setShowTrace(true)
+            setTimeout(() => document.getElementById('trace')?.scrollIntoView({ behavior: 'smooth' }), 50)
+          }}
+        >
+          see how
+        </a>
+      </div>
       {group && s.commonGround?.length ? (
         <div className="why">
           <b>What this group shares, according to Qloo: </b>
@@ -203,7 +237,8 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
       {curating ? (
         <div className="notice row">
           <div className="spinner" /> Encore’s curator is checking each moment for safety, era and culture, and writing prompts for{' '}
-          {person.name}. You can start reading now.
+          {group ? 'the group' : person.name}. You can start reading now.
+          {reviewed?.length ? ` ${reviewed.length} of ${s.slots.length} done.` : ''}
         </div>
       ) : null}
       {note ? <div className="notice warn">{note}</div> : null}
@@ -221,6 +256,7 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
             index={k}
             people={people}
             servedBy={s.servedBy?.[slot.key]}
+            checking={curating ? (reviewed?.includes(slot.key) ? 'done' : 'pending') : undefined}
             reaction={saved.reactions[slot.key]}
             onReact={(r) => react(slot.key, r)}
             onSwap={slot.alternates.length ? () => swap(k) : undefined}
@@ -265,7 +301,7 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
         )}
       </div>
       {!saved.finishedAt && !curating && !group ? <AskEncore person={person} moments={s.slots.map((x) => x.item.name)} /> : null}
-      <details className="trace">
+      <details className="trace" id="trace" open={showTrace} onToggle={(e) => setShowTrace((e.target as HTMLDetailsElement).open)}>
         <summary>How Encore built this session</summary>
         <p className="muted small" style={{ marginTop: 10 }}>
           Every moment comes from Qloo’s taste graph. {s.narration === 'ai' ? `The curator (${s.model}) chose among Qloo’s candidates and wrote the prompts.` : 'Standard prompts were used.'}
@@ -295,6 +331,7 @@ export function Plan({ ids }: { ids: string[] }) {
   const people = ids.map((id) => getPerson(id)).filter((p): p is Person => !!p)
   const [steps, setSteps] = useState<TraceStep[]>([])
   const [curating, setCurating] = useState(true)
+  const [reviewed, setReviewed] = useState<string[]>([])
   const [note, setNote] = useState<string>()
   const [error, setError] = useState<string>()
   const sid = useRef(uid())
@@ -315,6 +352,11 @@ export function Plan({ ids }: { ids: string[] }) {
       (e) => {
         if (e.type === 'step') setSteps((s) => [...s, e.step])
         if (e.type === 'plan') keep(e.session)
+        if (e.type === 'moment') {
+          const prev = getSession(sid.current)
+          if (prev) saveSession({ ...prev, session: { ...prev.session, slots: prev.session.slots.map((x) => (x.key === e.slot.key ? e.slot : x)) } })
+          setReviewed((r) => (r.includes(e.slot.key) ? r : [...r, e.slot.key]))
+        }
         if (e.type === 'curated') keep(e.session)
         if (e.type === 'note') setNote(e.message)
         if (e.type === 'error') setError(e.message)
@@ -351,7 +393,7 @@ export function Plan({ ids }: { ids: string[] }) {
         <Steps steps={steps} />
       </div>
     )
-  return <Body saved={saved} people={people} curating={curating} note={note} />
+  return <Body saved={saved} people={people} curating={curating} reviewed={reviewed} note={note} />
 }
 
 export function SessionView({ id }: { id: string }) {

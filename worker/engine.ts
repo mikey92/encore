@@ -44,8 +44,11 @@ const HERITAGE_CITY: Record<string, string> = {
 }
 
 export function heritageCity(country?: string): string | undefined {
-  if (!country) return undefined
-  return HERITAGE_CITY[country.trim().toLowerCase()] ?? country.trim()
+  const c = country?.trim()
+  if (!c) return undefined
+  const city = HERITAGE_CITY[c.toLowerCase()]
+  // Name the country too: to Qloo a bare "Kingston" is Kingston, Ontario.
+  return city && city.toLowerCase() !== c.toLowerCase() ? `${city}, ${c}` : (city ?? c)
 }
 
 /** Films or TV from home. Qloo's taste signals know little about some countries' older titles, so when the
@@ -68,6 +71,15 @@ async function fromHome(ctx: Ctx, params: Params, countries: string[], what: str
 
 function abroad(req: TasteRequest): string[] {
   return (req.heritage ?? []).filter((c) => c && !/^(united states|usa|us|america)$/i.test(c.trim()))
+}
+
+/** Qloo reads a bare "Kingston" as Kingston, Ontario and "Athens" as Athens, Georgia. When their hometown is
+ *  the main city of the country their family comes from, name the country too. */
+function placeName(req: TasteRequest): string | undefined {
+  const town = req.hometown?.trim()
+  if (!town || town.includes(',')) return town || undefined
+  const country = abroad(req).find((c) => HERITAGE_CITY[c.trim().toLowerCase()]?.toLowerCase() === town.toLowerCase())
+  return country ? heritageCity(country) : town
 }
 
 /** Merge "from home" and general lists: one from home first, then interleave, without repeats. */
@@ -129,7 +141,7 @@ export function buildCtx(q: Qloo, req: TasteRequest, onStep?: (step: TraceStep) 
     names,
     signals: signals.slice(0, 25),
     common,
-    region: req.hometown?.trim() || undefined,
+    region: placeName(req),
     onStep,
   }
 }
@@ -473,12 +485,35 @@ export interface PlanOptions {
   anchor?: boolean
 }
 
+export type Pools = Record<Domain, Item[]>
+
+/** Research items join each pool alternately with Qloo's own, so both reach the curator. */
+export function mergePools(pools: Pools, extra: Partial<Record<Domain, Item[]>>): Pools {
+  const out = { ...pools }
+  for (const d of Object.keys(extra) as Domain[]) {
+    const more = extra[d] ?? []
+    if (!more.length) continue
+    const merged: Item[] = []
+    const seen = new Set<string>()
+    for (let i = 0; i < Math.max(pools[d].length, more.length); i++) {
+      for (const it of [pools[d][i], more[i]]) {
+        if (!it || seen.has(it.id) || seen.has(it.name.toLowerCase())) continue
+        seen.add(it.id)
+        seen.add(it.name.toLowerCase())
+        merged.push(it)
+      }
+    }
+    out[d] = merged
+  }
+  return out
+}
+
 export async function planSession(
   q: Qloo,
   req: TasteRequest,
   onStep?: (step: TraceStep) => void,
   opts: PlanOptions = {},
-): Promise<{ session: Session; ctx: Ctx }> {
+): Promise<{ session: Session; ctx: Ctx; pools: Pools; anchor?: Item; defs: SlotDef[] }> {
   const ctx = buildCtx(q, req, onStep, opts.window)
   const defs = opts.slots ?? SLOTS
   const wants = (d: Domain) => defs.some((s) => s.domain === d)
@@ -491,13 +526,21 @@ export async function planSession(
     wants('place') ? places(ctx) : none(),
     opts.anchor === false ? Promise.resolve(undefined) : anchor(ctx),
   ])
-  const pools: Record<Domain, Item[]> = {
+  const pools: Pools = {
     music: rank(mus, ctx),
     film: fil, // already ordered, film from home first
     tv,
     star: sta, // already ordered, a star from home first
     place: rank(pla, ctx),
   }
+  const slots = assemble(ctx, pools, defs, anc)
+  record(ctx, { tool: 'plan', detail: `Built ${slots.length} moments for the ${ctx.window[0]}–${ctx.window[1]} years` })
+  return { session: { window: ctx.window, slots, trace: ctx.trace, narration: 'template' }, ctx, pools, anchor: anc, defs }
+}
+
+/** Fill each moment from its pool: no repeats, no favourites twice, the person's own favourite song first. */
+export function assemble(ctx: Ctx, pools: Pools, defs: SlotDef[], anc?: Item): Slot[] {
+  const req = ctx.req
   const taken = new Set<string>()
   const key = (it: Item) => it.name.toLowerCase()
   // "The Clancy Brothers and Tommy Makem" is the same act as "The Clancy Brothers".
@@ -508,6 +551,7 @@ export async function planSession(
     return !taken.has(key(it)) && !taken.has(it.id) && !takenCores.some((t) => t.length >= 6 && (c.includes(t) || t.includes(c)))
   }
   const slots: Slot[] = []
+  const rests: Item[][] = []
   for (const s of defs) {
     let candidates = pools[s.domain].filter(fresh)
     if (s.key === 'opener' && anc && !taken.has(key(anc))) candidates = [anc, ...candidates.filter((c) => c.id !== anc.id)]
@@ -516,8 +560,23 @@ export async function planSession(
     taken.add(key(item))
     taken.add(item.id)
     takenCores.push(core(item.name))
-    slots.push({ key: s.key, title: s.title, minutes: s.minutes, item, alternates: rest.slice(0, 5) })
+    slots.push({ key: s.key, title: s.title, minutes: s.minutes, item, alternates: [] })
+    rests.push(rest)
   }
-  record(ctx, { tool: 'plan', detail: `Built ${slots.length} moments for the ${ctx.window[0]}–${ctx.window[1]} years` })
-  return { session: { window: ctx.window, slots, trace: ctx.trace, narration: 'template' }, ctx }
+  // Alternates are dealt out in turns and each goes to one moment only, so moments that share a pool (the
+  // opening and closing songs) get different candidates of similar strength, and the curator, which sees each
+  // moment on its own, cannot pick the same one twice.
+  for (let round = 0; round < 5; round++) {
+    slots.forEach((slot, i) => {
+      while (rests[i].length) {
+        const it = rests[i].shift()!
+        if (!fresh(it)) continue
+        slot.alternates.push(it)
+        taken.add(key(it))
+        taken.add(it.id)
+        break
+      }
+    })
+  }
+  return slots
 }

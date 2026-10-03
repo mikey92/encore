@@ -32,6 +32,8 @@ RELAY_HOST = open(os.path.join(RELAY_DIR, 'relay-host')).read().strip()
 RELAY_KEY = open(os.path.join(RELAY_DIR, 'relay', 'relay-key')).read().strip()
 APP = os.environ.get('ENCORE_URL', 'http://localhost:5180')
 MODEL = 'gpt-5.5'
+# Which Encore build is being measured; answers are cached per variant.
+VARIANT = os.environ.get('ENCORE_VARIANT', 'v3')
 WAR = ['urn:tag:genre:media:war', 'urn:tag:theme:qloo:war', 'urn:tag:keyword:qloo:war', 'urn:tag:subgenre:qloo:war']
 TYPES = {'artist': 'urn:entity:artist', 'movie': 'urn:entity:movie', 'tv_show': 'urn:entity:tv_show',
          'person': 'urn:entity:person', 'place': 'urn:entity:place'}
@@ -91,7 +93,7 @@ def similar(a, b, strict=False):
     return difflib.SequenceMatcher(None, a, b).ratio()
 
 
-def resolve(name, kind, near=''):
+def resolve(name, kind, near='', want_year=None):
     """The Qloo entity a name refers to, or None if Qloo has nothing close."""
     query = f'{name} {near}'.strip() if kind == 'place' else name
     data = qloo('/search', {'query': query, 'types': TYPES[kind], 'take': 5})
@@ -99,6 +101,13 @@ def resolve(name, kind, near=''):
     for e in data.get('results', []):
         # Places need a near-exact name: "Beale Street" must not match a hotel called "... Beale Street".
         s = similar(name, e.get('name', ''), strict=kind == 'place')
+        if norm(name) == norm(e.get('name', '')):
+            s += 0.5  # an exact title beats "2026 Soul Train Awards" for "Soul Train"
+        y = year((e.get('properties') or {}).get('release_year'))
+        if want_year and y and abs(y - want_year) <= 2:
+            s += 0.3
+        elif want_year and y:
+            s -= 0.3
         if s > score:
             best, score = e, s
     return best if score >= (0.9 if kind == 'place' else 0.85) else None
@@ -191,6 +200,7 @@ def baseline(p):
     return {
         'opener': out['opener']['artist'], 'film': out['film']['title'], 'star': out['star']['name'],
         'tv': out['tv']['title'], 'place': out['place']['name'], 'closer': out['closer']['artist'],
+        'years': {'film': out['film'].get('year'), 'tv': out['tv'].get('year')},
         'raw': out,
     }
 
@@ -203,17 +213,17 @@ def encore(p, favorites):
         req = urllib.request.Request(APP + '/api/session', data=json.dumps(taste).encode(), headers={'content-type': 'application/json'})
         with urllib.request.urlopen(req, timeout=240) as r:
             return json.loads(r.read())
-    out = cached('encore v3 ' + json.dumps(taste, sort_keys=True), call)
+    out = cached(f'encore {VARIANT} ' + json.dumps(taste, sort_keys=True), call)
     s = out['session']
     picks = {slot['key']: slot['item'] for slot in s['slots']}
     return {k: picks.get(k) for k in SLOTS}, s.get('narration')
 
 
-def check(name, kind, p, entity_id=None):
+def check(name, kind, p, entity_id=None, want_year=None):
     """Look an item up in Qloo and score it."""
     ent = details(entity_id, kind) if entity_id else None
     if not ent and name:
-        found = resolve(name, kind, p['hometown'])
+        found = resolve(name, kind, p['hometown'], want_year)
         ent = details(found['entity_id'], kind) if found and kind != 'place' else found
     if not ent:
         return {'name': name, 'asked': name, 'found': False}
@@ -247,10 +257,10 @@ def main():
         for slot in SLOTS:
             kind = KIND[slot]
             it = enc.get(slot)
-            e = check(it['name'], kind, p, it['id'] if kind != 'place' else None) if it else {'name': None, 'found': False}
+            e = check(it['name'], kind, p, it['id'] if kind != 'place' else None) if it else {'name': None, 'asked': None, 'found': None, 'dropped': True}
             if it and kind == 'place':
                 e = {'name': it['name'], 'asked': it['name'], 'found': True, 'era': None, 'home': None}
-            b = check(base[slot], kind, p)
+            b = check(base[slot], kind, p, want_year=base['years'].get(slot))
             for system, r in (('encore', e), ('baseline', b)):
                 r.update({'slot': slot, 'kind': kind, 'persona': p['id'], 'abroad': bool(p['heritage'])})
                 rows[system].append(r)
@@ -263,7 +273,8 @@ def main():
     for system in rows:
         r = rows[system]
         media = [x for x in r if x['kind'] in ('movie', 'tv_show', 'artist')]
-        found = sum(1 for x in r if x['found']) / len(r)
+        present = [x for x in r if not x.get('dropped')]
+        found = sum(1 for x in present if x['found']) / max(1, len(present))
         era, n_era = share(media, 'era')
         home_media = [x for x in media if x['abroad']]
         home, n_home = share(home_media, 'home')
@@ -271,14 +282,16 @@ def main():
         names = Counter(norm(x['asked']) for x in r if x.get('asked'))
         repeated = sum(c for c in names.values() if c >= 3) / max(1, sum(names.values()))
         summary[system] = {
-            'items': len(r), 'found_in_qloo': round(found, 3),
+            'items': len(present), 'left_out': len(r) - len(present), 'found_in_qloo': round(found, 3),
             'era_fit': round(era, 3) if era is not None else None, 'era_checked': n_era,
             'home_culture': round(home, 3) if home is not None else None, 'home_checked': n_home,
             'home_culture_film_tv': round(film_tv_home, 3) if film_tv_home is not None else None, 'home_film_tv_checked': n_ft,
             'distinct_items': len(names), 'share_in_3plus_personas': round(repeated, 3),
             'most_repeated': [[n, c] for n, c in names.most_common(6) if c > 1],
         }
-    json.dump({'summary': summary, 'personas': per_persona}, open(os.path.join(ROOT, 'results.json'), 'w'), indent=1)
+    result = {'variant': VARIANT, 'model': MODEL, 'summary': summary, 'personas': per_persona}
+    json.dump(result, open(os.path.join(ROOT, f'results-{VARIANT}.json'), 'w'), indent=1)
+    json.dump(result, open(os.path.join(ROOT, 'results.json'), 'w'), indent=1)
     print(json.dumps(summary, indent=1))
 
 

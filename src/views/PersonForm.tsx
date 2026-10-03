@@ -120,7 +120,7 @@ export function PersonForm({ id }: { id?: string }) {
       <div className="two">
         <label className="field">
           Where they grew up
-          <small>A town or city, e.g. “Memphis” or “Guadalajara”</small>
+          <small>A town or city, with the country if outside the U.S., e.g. “Memphis” or “Kingston, Jamaica”</small>
           <input type="text" value={p.hometown ?? ''} onChange={(e) => set('hometown', e.target.value)} />
         </label>
         <label className="field">

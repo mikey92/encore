@@ -39,7 +39,7 @@ async function pace() {
 
 export function encode(params: Params): string {
   const keys = Object.keys(params)
-    .filter((k) => params[k] !== undefined && params[k] !== '')
+    .filter((k) => params[k] !== undefined && params[k] !== '' && !(Array.isArray(params[k]) && !(params[k] as unknown[]).length))
     .sort()
   return keys
     .map((k) => {
@@ -137,7 +137,10 @@ export class Qloo {
     let data: any
     if (signals && signals.length) {
       const body: Record<string, unknown> = {}
-      for (const [k, v] of Object.entries(params)) if (v !== undefined && v !== '') body[k] = Array.isArray(v) ? v.join(',') : v
+      for (const [k, v] of Object.entries(params)) {
+        if (v === undefined || v === '' || (Array.isArray(v) && !v.length)) continue
+        body[k] = Array.isArray(v) ? v.join(',') : v
+      }
       body['signal.interests.entities'] = signals.map((s) => ({ id: s.id, weight: s.weight }))
       data = await this.post('/v2/insights', body)
     } else {

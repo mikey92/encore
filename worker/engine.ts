@@ -111,12 +111,13 @@ export function buildCtx(q: Qloo, req: TasteRequest, onStep?: (step: TraceStep) 
     names.set(s.id, s.name)
     signals.push({ id: s.id, weight: s.weight ?? 14 })
   }
+  const exclude = [...(req.avoidEntities ?? []), ...(req.favorites ?? []).map((f) => f.id)].slice(0, 40)
   const common: Params = {
     // Age is only a fallback: with real favourites it drags results toward what today's older Qloo users
     // like (for a Mexican grandmother, Buñuel art films instead of Pedro Infante comedies).
     'signal.demographics.age': signals.length ? undefined : ageBracket(req.birthYear),
     'filter.exclude.tags': req.avoidTags?.length ? req.avoidTags : undefined,
-    'filter.exclude.entities': req.avoidEntities?.length ? req.avoidEntities : undefined,
+    'filter.exclude.entities': exclude.length ? exclude : undefined,
     'signal.interests.tags': req.interestTags?.length ? req.interestTags : undefined,
     'feature.explainability': signals.length ? true : undefined,
   }
@@ -499,14 +500,22 @@ export async function planSession(
   }
   const taken = new Set<string>()
   const key = (it: Item) => it.name.toLowerCase()
+  // "The Clancy Brothers and Tommy Makem" is the same act as "The Clancy Brothers".
+  const core = (name: string) => name.toLowerCase().replace(/^the /, '').replace(/[^a-z0-9 ]/g, '')
+  const takenCores: string[] = (req.favorites ?? []).map((f) => core(f.name))
+  const fresh = (it: Item) => {
+    const c = core(it.name)
+    return !taken.has(key(it)) && !taken.has(it.id) && !takenCores.some((t) => t.length >= 6 && (c.includes(t) || t.includes(c)))
+  }
   const slots: Slot[] = []
   for (const s of defs) {
-    let candidates = pools[s.domain].filter((it) => !taken.has(key(it)) && !taken.has(it.id))
+    let candidates = pools[s.domain].filter(fresh)
     if (s.key === 'opener' && anc && !taken.has(key(anc))) candidates = [anc, ...candidates.filter((c) => c.id !== anc.id)]
     if (!candidates.length) continue
     const [item, ...rest] = candidates
     taken.add(key(item))
     taken.add(item.id)
+    takenCores.push(core(item.name))
     slots.push({ key: s.key, title: s.title, minutes: s.minutes, item, alternates: rest.slice(0, 5) })
   }
   record(ctx, { tool: 'plan', detail: `Built ${slots.length} moments for the ${ctx.window[0]}–${ctx.window[1]} years` })

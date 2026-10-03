@@ -203,7 +203,7 @@ def encore(p, favorites):
         req = urllib.request.Request(APP + '/api/session', data=json.dumps(taste).encode(), headers={'content-type': 'application/json'})
         with urllib.request.urlopen(req, timeout=240) as r:
             return json.loads(r.read())
-    out = cached('encore v2 ' + json.dumps(taste, sort_keys=True), call)
+    out = cached('encore v3 ' + json.dumps(taste, sort_keys=True), call)
     s = out['session']
     picks = {slot['key']: slot['item'] for slot in s['slots']}
     return {k: picks.get(k) for k in SLOTS}, s.get('narration')

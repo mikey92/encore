@@ -1,12 +1,12 @@
 import { WorkerEntrypoint } from 'cloudflare:workers'
-import type { Session, Slot, TasteRequest, TraceStep } from '../shared/types'
+import type { Domain, Item, Session, Slot, TasteRequest, TraceStep } from '../shared/types'
 import { adjust } from './agent'
 import { curate } from './curate'
-import { assemble, buildCtx, mergePools, planSession, TYPE } from './engine'
-import { ground, research } from './scout'
+import { assemble, buildCtx, mergePools, planSession, pool, record, TYPE, type PoolKind, type PoolRunner } from './engine'
+import { ground, groundDomain, research, type GroundRunner, type Grounded } from './scout'
 import { planGroup, whoFor } from './group'
 import { filmPairs, musicPairs } from './interview'
-import { llmConnected } from './llm'
+import { llmConnected, structured, type Ask, type StructuredRequest } from './llm'
 import { handleMcp } from './mcp'
 import { Qloo, QlooError, quota, type QlooProxyLike } from './qloo'
 import { templatePrompts } from './templates'
@@ -18,7 +18,20 @@ export interface Env {
   LLM_LIMIT?: RateLimit
   API_LIMIT?: RateLimit
   QLOO_PROXY?: QlooProxyLike
+  PLANNER?: PlannerLike
   ASSETS: Fetcher
+}
+
+/** Qloo calls made (and answered from cache) in another invocation, for the session's stats. */
+interface Counted {
+  calls: number
+  cached: number
+}
+
+interface PlannerLike {
+  pool(kind: PoolKind, req: TasteRequest, window: [number, number], onStep: (step: TraceStep) => void): Promise<{ items: Item[] } & Counted>
+  ground(domain: Domain, wanted: { name: string; year?: number }[], req: TasteRequest, window: [number, number], poolNames: string[]): Promise<Grounded & Counted>
+  ask(opts: StructuredRequest): Promise<{ data: unknown; cached: boolean }>
 }
 
 const SEARCH_TYPES = [TYPE.music, TYPE.film, TYPE.tv, TYPE.star]
@@ -31,6 +44,59 @@ export class QlooProxy extends WorkerEntrypoint<Env> {
 }
 
 const qloo = (env: Env) => new Qloo(env.QLOO_API_KEY, env.QLOO_PROXY)
+
+/** Builds one pool, or checks one domain's research, in its own invocation: each has its own 10 ms CPU budget,
+ *  and the request that streams the session only puts the results together. */
+export class Planner extends WorkerEntrypoint<Env> {
+  async pool(kind: PoolKind, req: TasteRequest, window: [number, number], onStep: (step: TraceStep) => void) {
+    const sent: Promise<unknown>[] = []
+    const q = qloo(this.env)
+    const ctx = buildCtx(q, req, (step) => void sent.push(Promise.resolve(onStep(step)).catch(() => undefined)), window)
+    const items = await pool(kind, ctx)
+    await Promise.all(sent)
+    return { items, calls: q.calls, cached: q.cached }
+  }
+
+  async ground(domain: Domain, wanted: { name: string; year?: number }[], req: TasteRequest, window: [number, number], poolNames: string[]) {
+    const q = qloo(this.env)
+    const out = await groundDomain(buildCtx(q, req, undefined, window), domain, wanted, poolNames)
+    return { ...out, calls: q.calls, cached: q.cached }
+  }
+
+  /** One model call: reading and caching its answer here keeps that work off the request that streams. */
+  async ask(opts: StructuredRequest) {
+    return structured<unknown>(this.env, opts)
+  }
+}
+
+/** Pools built by the Planner when the binding is there (on Cloudflare and in local dev), else right here. */
+function poolRunner(env: Env): PoolRunner | undefined {
+  const planner = env.PLANNER
+  if (!planner) return undefined
+  return async (kind, ctx) => {
+    const out = await planner.pool(kind, ctx.req, ctx.window, (step) => record(ctx, step))
+    ctx.q.calls += out.calls
+    ctx.q.cached += out.cached
+    return out.items
+  }
+}
+
+function asker(env: Env): Ask | undefined {
+  const planner = env.PLANNER
+  if (!planner) return undefined
+  return async <T,>(opts: StructuredRequest) => (await planner.ask(opts)) as { data: T; cached: boolean }
+}
+
+function groundRunner(env: Env, ctx: { q: Qloo; req: TasteRequest; window: [number, number] }): GroundRunner | undefined {
+  const planner = env.PLANNER
+  if (!planner) return undefined
+  return async (domain, wanted, names) => {
+    const out = await planner.ground(domain, wanted, ctx.req, ctx.window, names)
+    ctx.q.calls += out.calls
+    ctx.q.cached += out.cached
+    return out
+  }
+}
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), {
@@ -110,20 +176,24 @@ async function runSession(env: Env, request: Request, taste: TasteRequest, send:
   const q = qloo(env)
   const t = Date.now()
   const onStep = (step: TraceStep) => send({ type: 'step', step })
-  const group = members && members.length > 1 ? await planGroup(q, members, onStep) : undefined
+  const run = poolRunner(env)
+  const ask = asker(env)
+  const group = members && members.length > 1 ? await planGroup(q, members, onStep, run) : undefined
   // The model's research runs alongside Qloo's own queries; it needs the model, so it is skipped when the model
   // is unavailable.
   const useModel = await mayUseModel(env, request)
   const researchCtx = buildCtx(q, taste, onStep)
-  const ideas = !group && useModel ? research(env, researchCtx).catch((e) => (console.error('research failed', e), undefined)) : Promise.resolve(undefined)
-  const single = group ? undefined : await planSession(q, taste, onStep)
+  const ideas = !group && useModel ? research(env, researchCtx, ask).catch((e) => (console.error('research failed', e), undefined)) : Promise.resolve(undefined)
+  const single = group ? undefined : await planSession(q, taste, onStep, { run })
   let session = group ? group.session : single!.session
   if (group) taste = group.combined
   send({ type: 'plan', session: withTemplates(session, taste) })
   if (single) {
     // Checked against Qloo only now, so these lookups never hold up the plan's own queries.
     const suggested = await ideas
-    const extra = suggested ? await ground(researchCtx, suggested, single.pools).catch((e) => (console.error('grounding failed', e), {})) : {}
+    const extra = suggested
+      ? await ground(researchCtx, suggested, single.pools, groundRunner(env, researchCtx)).catch((e) => (console.error('grounding failed', e), {}))
+      : {}
     if (Object.keys(extra).length) {
       const pools = mergePools(single.pools, extra)
       const slots = assemble(single.ctx, pools, single.defs, single.anchor)
@@ -136,7 +206,7 @@ async function runSession(env: Env, request: Request, taste: TasteRequest, send:
     try {
       send({ type: 'step', step: { tool: 'curator', detail: 'The curator is checking each pick for safety, era and culture' } })
       const tc = Date.now()
-      const out = await curate(env, session, taste, members, (slot) => send({ type: 'moment', slot }))
+      const out = await curate(env, session, taste, members, (slot) => send({ type: 'moment', slot }), ask)
       if (group) out.session.servedBy = Object.fromEntries(out.session.slots.map((s) => [s.key, whoFor(s.item, group.owners)]))
       cached = out.cached
       curated = true
@@ -164,7 +234,7 @@ export default {
         const { success } = await env.API_LIMIT.limit({ key: request.headers.get('cf-connecting-ip') ?? 'local' })
         if (!success) return json({ jsonrpc: '2.0', id: null, error: { code: -32000, message: 'Too many requests' } }, 429)
       }
-      return handleMcp(request, qloo(env), env, () => mayUseModel(env, request))
+      return handleMcp(request, qloo(env), env, () => mayUseModel(env, request), poolRunner(env), asker(env))
     }
     if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request)
     try {

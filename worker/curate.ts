@@ -5,7 +5,7 @@
 
 import type { Item, Session, Slot, TasteRequest } from '../shared/types'
 import { AVOID_PRESETS } from '../shared/presets'
-import { MODEL, structured, type LlmEnv } from './llm'
+import { MODEL, structured, type Ask, type LlmEnv } from './llm'
 
 const INSTRUCTIONS = `You are Encore's session curator. Encore helps activity staff and families in memory care run a short reminiscence session for one person living with dementia. You get the person's details and one moment of the session, with candidates that Qloo's taste graph found for them. Every candidate is real. Choose only among the moment's candidates, by id.
 
@@ -134,6 +134,7 @@ export async function curate(
   req: TasteRequest,
   members?: TasteRequest[],
   onMoment?: (slot: Slot) => void,
+  ask: Ask = (opts) => structured(env, opts),
 ): Promise<{ session: Session; cached: boolean; reviewed: number }> {
   const group = members && members.length > 1
   const who = group
@@ -165,7 +166,7 @@ export async function curate(
   const showing = new Map(session.slots.map((s) => [s.key, s.item.id]))
   const settled = await Promise.allSettled(
     session.slots.map(async (slot, i) => {
-      const answer = await structured<Moment>(env, {
+      const answer = await ask<Moment>({
         name: 'moment',
         instructions: group ? INSTRUCTIONS + GROUP : INSTRUCTIONS,
         input: JSON.stringify({

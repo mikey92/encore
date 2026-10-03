@@ -12,7 +12,8 @@ export interface QlooEntity {
   subtype?: string
   popularity?: number
   properties?: Record<string, any>
-  tags?: { id: string; name: string; type: string }[]
+  /** After trimming, only the names of the tags Encore shows (see trimEntity). */
+  tags?: { name: string }[]
   query?: { affinity?: number; explainability?: Record<string, { entity_id: string; score: number }[]> }
   location?: { lat: number; lon: number }
 }
@@ -25,7 +26,7 @@ export interface WeightedSignal {
 }
 
 /** Bump when the stored shape of an answer changes, so old cached answers are not reused. */
-const CACHE_VERSION = 'v2'
+const CACHE_VERSION = 'v4'
 const memory = new Map<string, any>()
 let nextSlot = 0
 
@@ -52,25 +53,26 @@ export function encode(params: Params): string {
     .join('&')
 }
 
-/** Properties the app reads. Qloo returns much more (akas in dozens of languages, long texts); keeping only
- *  these makes cached answers small and cheap to read back, which matters on a 10 ms CPU budget. */
-const KEEP = [
-  'image', 'images', 'release_year', 'finale_year', 'release_country', 'start_year', 'end_year', 'date_of_birth',
-  'notable_songs', 'notable_work', 'short_description', 'short_descriptions', 'description', 'address', 'place_of_birth',
-] as const
+/** What the app reads from an entity. Qloo returns much more (akas in dozens of languages, long texts, dozens of
+ *  tags); keeping only this makes answers small and cheap to pass between invocations and to read back, which
+ *  matters on a 10 ms CPU budget. */
+const KEEP = ['release_year', 'finale_year', 'start_year', 'end_year', 'date_of_birth', 'address'] as const
+/** The tags Encore shows or sends to the curator (see toItem). */
+const SHOWN_TAGS = /genre|theme|style|category:place/
 
 function trimEntity(e: any): any {
   const p = e.properties ?? {}
   const props: Record<string, unknown> = {}
-  for (const k of KEEP) {
-    const v = p[k]
-    if (v === undefined || v === null) continue
-    if (k === 'images') props[k] = Array.isArray(v) ? v.slice(0, 1) : v
-    else if (k === 'description') props[k] = String(v).slice(0, 400)
-    else if (k === 'notable_songs' || k === 'notable_work') props[k] = Array.isArray(v) ? v.slice(0, 3) : v
-    else if (k === 'short_descriptions') props[k] = Array.isArray(v) ? v.filter((d: any) => /^en/.test(d?.language ?? 'en')).slice(0, 2) : v
-    else props[k] = v
-  }
+  for (const k of KEEP) if (p[k] !== undefined && p[k] !== null) props[k] = p[k]
+  const image = p.image?.url ?? p.images?.[0]?.url
+  if (image) props.image = { url: image }
+  // The curator reads 140 characters of it; nothing on screen shows more.
+  if (p.short_description) props.short_description = String(p.short_description).slice(0, 140)
+  else if (p.description) props.description = String(p.description).slice(0, 140)
+  else if (Array.isArray(p.short_descriptions)) props.short_descriptions = p.short_descriptions.filter((d: any) => /^en/.test(d?.language ?? 'en')).slice(0, 2)
+  if (Array.isArray(p.notable_songs)) props.notable_songs = p.notable_songs.slice(0, 2)
+  if (Array.isArray(p.notable_work)) props.notable_work = p.notable_work.slice(0, 2)
+  const because = e.query?.explainability?.['signal.interests.entities']
   return {
     entity_id: e.entity_id ?? e.id,
     name: e.name,
@@ -78,8 +80,13 @@ function trimEntity(e: any): any {
     type: e.type ?? (Array.isArray(e.types) ? e.types[0] : undefined),
     subtype: e.subtype,
     popularity: e.popularity,
-    query: e.query ? { affinity: e.query.affinity, explainability: e.query.explainability } : undefined,
-    tags: Array.isArray(e.tags) ? e.tags.slice(0, 24).map((t: any) => ({ id: t.id ?? t.tag_id, name: t.name, type: t.type })) : undefined,
+    query: e.query ? { affinity: e.query.affinity, explainability: because ? { 'signal.interests.entities': because } : undefined } : undefined,
+    tags: Array.isArray(e.tags)
+      ? e.tags
+          .filter((t: any, i: number, all: any[]) => SHOWN_TAGS.test(t.type ?? '') && all.findIndex((x) => x.name === t.name) === i)
+          .slice(0, 3)
+          .map((t: any) => ({ name: t.name }))
+      : undefined,
     properties: props,
   }
 }

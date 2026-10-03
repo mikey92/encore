@@ -146,7 +146,7 @@ export function buildCtx(q: Qloo, req: TasteRequest, onStep?: (step: TraceStep) 
   }
 }
 
-function record(ctx: Ctx, s: TraceStep) {
+export function record(ctx: Ctx, s: TraceStep) {
   ctx.trace.push(s)
   ctx.onStep?.(s)
 }
@@ -213,10 +213,8 @@ export function toItem(domain: Domain, e: QlooEntity, ctx: Ctx): Item {
     .filter((b) => b.name)
     .sort((x, y) => y.share - x.share)
     .slice(0, 3)
-  const tags = (e.tags ?? [])
-    .filter((t) => /genre|theme|style|category:place/.test(t.type))
-    .slice(0, 6)
-    .map((t) => ({ id: t.id, name: t.name }))
+  // Already narrowed to the genre, theme and style tags Encore shows (see trimEntity in qloo.ts).
+  const tags = (e.tags ?? []).map((t) => ({ id: t.name, name: t.name }))
   const description = String(p.short_description ?? p.description ?? '').slice(0, 280)
   const base = {
     domain,
@@ -483,6 +481,34 @@ export interface PlanOptions {
   window?: [number, number]
   /** Open with the person's own favourite song (single sessions) */
   anchor?: boolean
+  /** Builds one pool; the Worker runs each in its own invocation (see Planner in index.ts). */
+  run?: PoolRunner
+}
+
+export type PoolKind = Domain | 'anchor'
+export type PoolRunner = (kind: PoolKind, ctx: Ctx) => Promise<Item[]>
+
+/** Enough candidates for every moment that draws on a pool, with room for the ones a moment skips. */
+const POOL_MAX = 24
+
+/** One domain's candidates, best first ('anchor': their favourite song, if they have a favourite singer). */
+export async function pool(kind: PoolKind, ctx: Ctx): Promise<Item[]> {
+  switch (kind) {
+    case 'music':
+      return rank(await music(ctx), ctx).slice(0, POOL_MAX)
+    case 'film':
+      return (await films(ctx)).slice(0, POOL_MAX) // already ordered, film from home first
+    case 'tv':
+      return (await shows(ctx)).slice(0, POOL_MAX)
+    case 'star':
+      return (await stars(ctx)).slice(0, POOL_MAX) // already ordered, a star from home first
+    case 'place':
+      return rank(await places(ctx), ctx).slice(0, POOL_MAX)
+    case 'anchor': {
+      const a = await anchor(ctx)
+      return a ? [a] : []
+    }
+  }
 }
 
 export type Pools = Record<Domain, Item[]>
@@ -517,25 +543,20 @@ export async function planSession(
   const ctx = buildCtx(q, req, onStep, opts.window)
   const defs = opts.slots ?? SLOTS
   const wants = (d: Domain) => defs.some((s) => s.domain === d)
+  const run = opts.run ?? pool
   const none = async () => [] as Item[]
   const [mus, fil, tv, sta, pla, anc] = await Promise.all([
-    wants('music') ? music(ctx) : none(),
-    wants('film') ? films(ctx) : none(),
-    wants('tv') ? shows(ctx) : none(),
-    wants('star') ? stars(ctx) : none(),
-    wants('place') ? places(ctx) : none(),
-    opts.anchor === false ? Promise.resolve(undefined) : anchor(ctx),
+    wants('music') ? run('music', ctx) : none(),
+    wants('film') ? run('film', ctx) : none(),
+    wants('tv') ? run('tv', ctx) : none(),
+    wants('star') ? run('star', ctx) : none(),
+    wants('place') ? run('place', ctx) : none(),
+    opts.anchor === false ? none() : run('anchor', ctx),
   ])
-  const pools: Pools = {
-    music: rank(mus, ctx),
-    film: fil, // already ordered, film from home first
-    tv,
-    star: sta, // already ordered, a star from home first
-    place: rank(pla, ctx),
-  }
-  const slots = assemble(ctx, pools, defs, anc)
+  const pools: Pools = { music: mus, film: fil, tv, star: sta, place: pla }
+  const slots = assemble(ctx, pools, defs, anc[0])
   record(ctx, { tool: 'plan', detail: `Built ${slots.length} moments for the ${ctx.window[0]}–${ctx.window[1]} years` })
-  return { session: { window: ctx.window, slots, trace: ctx.trace, narration: 'template' }, ctx, pools, anchor: anc, defs }
+  return { session: { window: ctx.window, slots, trace: ctx.trace, narration: 'template' }, ctx, pools, anchor: anc[0], defs }
 }
 
 /** Fill each moment from its pool: no repeats, no favourites twice, the person's own favourite song first. */
@@ -543,12 +564,20 @@ export function assemble(ctx: Ctx, pools: Pools, defs: SlotDef[], anc?: Item): S
   const req = ctx.req
   const taken = new Set<string>()
   const key = (it: Item) => it.name.toLowerCase()
-  // "The Clancy Brothers and Tommy Makem" is the same act as "The Clancy Brothers".
-  const core = (name: string) => name.toLowerCase().replace(/^the /, '').replace(/[^a-z0-9 ]/g, '')
+  // "The Clancy Brothers and Tommy Makem" is the same act as "The Clancy Brothers", and the singer "Kyu Sakamoto"
+  // is the star "Kyū Sakamoto".
+  const core = (name: string) =>
+    name
+      .normalize('NFKD')
+      .replace(/\p{M}/gu, '')
+      .toLowerCase()
+      .replace(/^the /, '')
+      .replace(/[^\p{L}\p{N} ]/gu, '')
+      .trim()
   const takenCores: string[] = (req.favorites ?? []).map((f) => core(f.name))
   const fresh = (it: Item) => {
     const c = core(it.name)
-    return !taken.has(key(it)) && !taken.has(it.id) && !takenCores.some((t) => t.length >= 6 && (c.includes(t) || t.includes(c)))
+    return !taken.has(key(it)) && !taken.has(it.id) && !takenCores.some((t) => t.length >= 6 && c.length >= 4 && (c.includes(t) || t.includes(c)))
   }
   const slots: Slot[] = []
   const rests: Item[][] = []
@@ -566,7 +595,7 @@ export function assemble(ctx: Ctx, pools: Pools, defs: SlotDef[], anc?: Item): S
   // Alternates are dealt out in turns and each goes to one moment only, so moments that share a pool (the
   // opening and closing songs) get different candidates of similar strength, and the curator, which sees each
   // moment on its own, cannot pick the same one twice.
-  for (let round = 0; round < 5; round++) {
+  for (let round = 0; round < 4; round++) {
     slots.forEach((slot, i) => {
       while (rests[i].length) {
         const it = rests[i].shift()!

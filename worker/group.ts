@@ -3,7 +3,7 @@
 // person must avoid is avoided for all, and Qloo's explainability shows whose taste each moment serves.
 
 import type { Item, Seed, Session, TasteRequest, TraceStep } from '../shared/types'
-import { currentYear, planSession, type Ctx, type SlotDef } from './engine'
+import { currentYear, planSession, type Ctx, type PoolRunner, type SlotDef } from './engine'
 import type { Qloo } from './qloo'
 
 const GROUP_SLOTS: SlotDef[] = [
@@ -34,6 +34,7 @@ export async function planGroup(
   q: Qloo,
   members: TasteRequest[],
   onStep?: (step: TraceStep) => void,
+  run?: PoolRunner,
 ): Promise<{ session: Session; ctx: Ctx; combined: TasteRequest; owners: Map<string, number[]> }> {
   const owners = new Map<string, number[]>()
   const favorites: Seed[] = []
@@ -58,7 +59,7 @@ export async function planGroup(
     used: unique(members.flatMap((m) => m.used ?? [])),
     interestTags: unique(members.flatMap((m) => m.interestTags ?? [])).slice(0, 8),
   }
-  const { session, ctx } = await planSession(q, combined, onStep, { slots: GROUP_SLOTS, window, anchor: false })
+  const { session, ctx } = await planSession(q, combined, onStep, { slots: GROUP_SLOTS, window, anchor: false, run })
 
   // Make sure everyone has a moment: swap in an alternate that serves anyone left out.
   for (let person = 0; person < members.length; person++) {

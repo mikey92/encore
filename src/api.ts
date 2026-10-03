@@ -47,6 +47,9 @@ export async function adjust(taste: TasteRequest, request: string, moments: stri
 }
 
 /** Streams a session: Qloo steps as they happen, a first plan, then the curated version. */
+const STALL_MS = 90_000
+
+/** Streams a session's events; resolves when the stream ends, whether or not a 'done' event came. */
 export async function streamSession(
   taste: TasteRequest | { members: TasteRequest[] },
   on: (e: SessionEvent) => void,
@@ -63,9 +66,16 @@ export async function streamSession(
     throw new Error((data as { error?: string }).error ?? `Request failed (${res.status})`)
   }
   const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()
+  // A stream that goes quiet for this long has stalled; end it and keep what arrived.
+  let idle: ReturnType<typeof setTimeout> | undefined
+  const wake = () => {
+    clearTimeout(idle)
+    idle = setTimeout(() => void reader.cancel('stalled').catch(() => undefined), STALL_MS)
+  }
   let buffer = ''
   for (;;) {
-    const { value, done } = await reader.read()
+    wake()
+    const { value, done } = await reader.read().finally(() => clearTimeout(idle))
     if (value) buffer += value
     let nl: number
     while ((nl = buffer.indexOf('\n')) >= 0) {

@@ -96,6 +96,37 @@ async function readBody(req) {
   return Buffer.concat(chunks)
 }
 
+// With x-relay-collect: 1 the caller gets the finished answer as one JSON object ({output, usage}) instead of the
+// token stream. Reading the stream event by event costs a Worker far more CPU than its plan allows; here it is free.
+async function collect(stream) {
+  const decoder = new TextDecoder()
+  const items = []
+  let buffer = ''
+  for await (const chunk of stream) {
+    buffer += decoder.decode(chunk, {stream: true})
+    let end
+    while ((end = buffer.indexOf('\n\n')) >= 0) {
+      const block = buffer.slice(0, end)
+      buffer = buffer.slice(end + 2)
+      const data = block
+        .split('\n')
+        .filter((line) => line.startsWith('data:'))
+        .map((line) => line.slice(5).trim())
+        .join('')
+      if (!data || data === '[DONE]') continue
+      const event = JSON.parse(data)
+      if (event.type === 'response.output_item.done' && event.item) items.push(event.item)
+      if (event.type === 'response.completed' && event.response) {
+        return {output: items.length ? items : (event.response.output ?? []), usage: event.response.usage}
+      }
+      if (event.type === 'response.failed' || event.type === 'error') {
+        throw new Error(`model: ${event.response?.error?.message ?? event.message ?? event.type}`)
+      }
+    }
+  }
+  throw new Error('the stream ended before the response completed')
+}
+
 function reply(res, status, text) {
   res.writeHead(status, {'content-type': 'text/plain'})
   res.end(text)
@@ -122,6 +153,13 @@ const server = createServer(async (req, res) => {
       },
       body,
     })
+    if (req.headers['x-relay-collect'] === '1' && upstream.ok && upstream.body) {
+      const answer = JSON.stringify(await collect(upstream.body))
+      res.writeHead(200, {'content-type': 'application/json', 'cache-control': 'no-cache'})
+      res.end(answer)
+      log(`POST /responses 200 ${Date.now() - started} ms (collected)`)
+      return
+    }
     res.writeHead(upstream.status, {'content-type': upstream.headers.get('content-type') ?? 'text/plain', 'cache-control': 'no-cache'})
     res.on('finish', () => log(`POST /responses ${upstream.status} ${Date.now() - started} ms`))
     if (upstream.body) Readable.fromWeb(upstream.body).pipe(res)

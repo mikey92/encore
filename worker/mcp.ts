@@ -4,8 +4,8 @@
 import { AVOID_PRESETS } from '../shared/presets'
 import type { Seed, Session, TasteRequest } from '../shared/types'
 import { curate } from './curate'
-import { planSession, TYPE, type SlotDef } from './engine'
-import type { LlmEnv } from './llm'
+import { planSession, TYPE, type PoolRunner, type SlotDef } from './engine'
+import type { Ask, LlmEnv } from './llm'
 import type { Qloo } from './qloo'
 import { templatePrompts } from './templates'
 
@@ -94,20 +94,20 @@ function asText(s: Session): string {
   return lines.filter(Boolean).join('\n')
 }
 
-async function callTool(name: string, args: any, q: Qloo, env: LlmEnv, mayCurate: () => Promise<boolean>) {
+async function callTool(name: string, args: any, q: Qloo, env: LlmEnv, mayCurate: () => Promise<boolean>, run?: PoolRunner, ask?: Ask) {
   if (name === 'plan_reminiscence_session') {
     const t = taste(args, await resolveFavorites(q, args.favorites))
-    let { session } = await planSession(q, t)
+    let { session } = await planSession(q, t, undefined, { run })
     for (const slot of session.slots)
       for (const it of [slot.item, ...slot.alternates]) Object.assign(it, templatePrompts(it, t))
-    if (session.slots.length && (await mayCurate())) session = (await curate(env, session, t).catch(() => ({ session }))).session
+    if (session.slots.length && (await mayCurate())) session = (await curate(env, session, t, undefined, undefined, ask).catch(() => ({ session }))).session
     const compact = { ...session, trace: undefined, slots: session.slots.map((s) => ({ ...s, alternates: s.alternates.map((a) => a.name) })) }
     return { content: [{ type: 'text', text: asText(session) }], structuredContent: compact }
   }
   if (name === 'find_youth_favorites') {
     const t = taste(args, await resolveFavorites(q, args.favorites))
     const domain = (['music', 'film', 'tv', 'star'].includes(args.kind) ? args.kind : 'music') as SlotDef['domain']
-    const { session } = await planSession(q, t, undefined, { slots: [{ key: 'pick', title: 'Picks', minutes: 0, domain }], anchor: false })
+    const { session } = await planSession(q, t, undefined, { slots: [{ key: 'pick', title: 'Picks', minutes: 0, domain }], anchor: false, run })
     const items = session.slots.flatMap((s) => [s.item, ...s.alternates])
     const rows = items.map((it) => ({
       name: it.name,
@@ -123,7 +123,14 @@ async function callTool(name: string, args: any, q: Qloo, env: LlmEnv, mayCurate
   throw new Error(`Unknown tool: ${name}`)
 }
 
-export async function handleMcp(request: Request, q: Qloo, env: LlmEnv, mayCurate: () => Promise<boolean>): Promise<Response> {
+export async function handleMcp(
+  request: Request,
+  q: Qloo,
+  env: LlmEnv,
+  mayCurate: () => Promise<boolean>,
+  run?: PoolRunner,
+  ask?: Ask,
+): Promise<Response> {
   if (request.method !== 'POST') return new Response('Encore MCP endpoint: POST JSON-RPC here.', { status: 405, headers: { Allow: 'POST' } })
   let payload: Rpc | Rpc[]
   try {
@@ -154,7 +161,7 @@ export async function handleMcp(request: Request, q: Qloo, env: LlmEnv, mayCurat
           break
         case 'tools/call':
           try {
-            result = await callTool(m.params?.name, m.params?.arguments ?? {}, q, env, mayCurate)
+            result = await callTool(m.params?.name, m.params?.arguments ?? {}, q, env, mayCurate, run, ask)
           } catch (e) {
             result = { content: [{ type: 'text', text: (e as Error).message }], isError: true }
           }

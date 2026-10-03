@@ -14,7 +14,10 @@
     { "name": "API_LIMIT", "namespace_id": "4102", "simple": { "limit": 40, "period": 60 } }
   ],
   // Qloo answers are parsed in their own invocation (QlooProxy), so each stays inside the CPU budget.
-  "services": [{ "binding": "QLOO_PROXY", "service": "encore", "entrypoint": "QlooProxy" }],
+  "services": [
+    { "binding": "QLOO_PROXY", "service": "encore", "entrypoint": "QlooProxy" },
+    { "binding": "PLANNER", "service": "encore", "entrypoint": "Planner" },
+  ],
   "observability": { "enabled": true }
   // Secrets: QLOO_API_KEY, LLM_RELAY_URL, LLM_RELAY_KEY
 }

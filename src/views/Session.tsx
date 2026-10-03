@@ -347,6 +347,14 @@ export function Plan({ ids }: { ids: string[] }) {
       const prev = getSession(sid.current)
       saveSession({ id: sid.current, personIds: people.map((p) => p.id), createdAt, session, reactions: prev?.reactions ?? {} })
     }
+    let finished = false
+    // The stream can end early (a dropped connection): keep the moments that arrived, with standard prompts.
+    const endEarly = () => {
+      setCurating(false)
+      if (!getSession(sid.current)) return setError('The connection closed before the plan arrived. Please try again.')
+      setNote('The connection closed before the curator finished, so some moments keep standard prompts.')
+      go(`/s/${sid.current}`, true)
+    }
     streamSession(
       people.length > 1 ? { members: people.map(tasteFor) } : tasteFor(people[0]),
       (e) => {
@@ -359,19 +367,29 @@ export function Plan({ ids }: { ids: string[] }) {
         }
         if (e.type === 'curated') keep(e.session)
         if (e.type === 'note') setNote(e.message)
-        if (e.type === 'error') setError(e.message)
+        if (e.type === 'error') {
+          finished = true
+          setError(e.message)
+          setCurating(false)
+        }
         if (e.type === 'done') {
+          finished = true
           setCurating(false)
           go(`/s/${sid.current}`, true)
         }
       },
       ctrl.signal,
-    ).catch((err) => {
-      // An aborted stream belongs to a view that is gone (or React's development double run); leave state alone.
-      if (ctrl.signal.aborted) return
-      setError(String(err.message ?? err))
-      setCurating(false)
-    })
+    )
+      .then(() => {
+        if (!finished && !ctrl.signal.aborted) endEarly()
+      })
+      .catch((err) => {
+        // An aborted stream belongs to a view that is gone (or React's development double run); leave state alone.
+        if (ctrl.signal.aborted) return
+        if (getSession(sid.current)) return endEarly()
+        setError(String(err.message ?? err))
+        setCurating(false)
+      })
     return () => ctrl.abort()
   }, [ids.join('+')])
 

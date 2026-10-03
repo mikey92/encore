@@ -7,3 +7,4 @@ dist/
 .DS_Store
 eval/cache/
 .shots/
+eval/run.log

@@ -10,9 +10,9 @@ Encore against the same model (gpt-5.5) planning the same session on its own, fo
 | --- | --- | --- | --- |
 | Picks that resolve to a Qloo entity | 100% | 100% | 86% |
 | Songs, films and TV from their teens and twenties | 99% of 96 | 99% of 93 | 94% of 85 |
-| Roots abroad: films and TV made in that country | 73% of 30 | 68% of 28 | 70% of 20 |
-| Roots abroad: films, TV and artists from that country | 65% of 52 | 57% of 47 | 54% of 39 |
-| Distinct picks across all 24 people | 142 | 127 | 134 |
+| Roots abroad: films and TV made in that country | 70% of 30 | 68% of 28 | 70% of 20 |
+| Roots abroad: films, TV and artists from that country | 64% of 50 | 57% of 47 | 54% of 39 |
+| Distinct picks across all 24 people | 141 | 127 | 134 |
 | Picks shared by three or more people | 0% | 2% | 2% |
 
 **Most repeated picks**
@@ -32,34 +32,34 @@ Encore against the same model (gpt-5.5) planning the same session on its own, fo
 
 | Person | | Song | Film | Star | TV | Landmark | Closing song |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1932, Chicago | Encore | Nat King Cole | Singin' in the Rain | Benny Goodman | I Love Lucy | The Chicago Theatre | Julie London |
+| 1932, Chicago | Encore | Nat King Cole | Singin' in the Rain | Benny Goodman | Kukla, Fran and Ollie | The Chicago Theatre | Ray Charles |
 | | Qloo only | Nat King Cole | Singin' in the Rain | Sarah Vaughan | I Love Lucy | The Chicago Theatre | Ray Charles |
 | | Model only | Nat King Cole | Singin' in the Rain | Doris Day | I Love Lucy | Navy Pier | Frank Sinatra |
-| 1936, Brooklyn (Italy) | Encore | Frank Sinatra | The Sign of Venus | Perry Como | The Perry Como Show | Coney Island | Tony Bennett |
+| 1936, Brooklyn (Italy) | Encore | Frank Sinatra | Come September | Perry Como | The Perry Como Show | Coney Island | The Rat Pack |
 | | Qloo only | Frank Sinatra | The Gold of Naples | Ray Charles | The Honeymooners | Statue of Liberty | The Rat Pack |
 | | Model only | Frank Sinatra | Roman Holiday | Sophia Loren | The Honeymooners | Coney Island Boardwalk ✗ | Dean Martin |
-| 1938, San Antonio (Mexico) | Encore | Pedro Infante | School for Tramps | Cantinflas | Los Beverly de Peralvillo | San Fernando Cathedral | Armando Manzanero |
+| 1938, San Antonio (Mexico) | Encore | Pedro Infante | School for Tramps | Cantinflas | Los Beverly de Peralvillo | San Fernando Cathedral | Lola Beltrán |
 | | Qloo only | Pedro Infante | School for Tramps | Chespirito | Zorro | San Fernando Cathedral | La Sonora Santanera |
 | | Model only | Pedro Infante | A.T.M. ¡A toda máquina! | María Félix | El Club del Hogar ✗ | San Antonio River Walk | Ritchie Valens |
-| 1941, Memphis | Encore | Elvis Presley | The Music Man | Julie Andrews | Shindig! | Sun Studio | Brenda Lee |
+| 1941, Memphis | Encore | Elvis Presley | The Music Man | Julie Andrews | Shindig! | Sun Studio | Rufus Thomas |
 | | Qloo only | Elvis Presley | Mary Poppins | Julie Andrews | Bewitched | Sun Studio | Aretha Franklin |
 | | Model only | Elvis Presley | Mary Poppins | Julie Andrews | The Andy Griffith Show | Beale Street ✗ | Julie Andrews |
-| 1943, Detroit | Encore | The Supremes | Funny Girl | Diana Ross | Soul Train | Motown Museum | Aretha Franklin |
+| 1943, Detroit | Encore | The Supremes | Funny Girl | Diana Ross | Soul Train | Motown Museum | The Temptations |
 | | Qloo only | The Supremes | Funny Girl | Bill Withers | The Carol Burnett Show | Motown Museum | Smokey Robinson and The Miracles |
 | | Model only | The Supremes | Bye Bye Birdie | Diana Ross | American Bandstand ⌛ | Belle Isle Park | Marvin Gaye |
-| 1945, San Juan (Puerto Rico) | Encore | Tito Puente | Romance en Puerto Rico | José Miguel Agrelot | The Man from U.N.C.L.E. | Plaza de Armas | Roberto Roena |
+| 1945, San Juan (Puerto Rico) | Encore | El Gran Combo de Puerto Rico | Romance en Puerto Rico | José Miguel Agrelot | The Man from U.N.C.L.E. | Parque de las Palomas | Cheo Feliciano |
 | | Qloo only | Tito Puente | La criada malcriada | Johnny Ventura | Daktari | La Plaza del Mercado de Santurce | Roberto Roena |
 | | Model only | Tito Puente | El Padrecito ✗ | Iris Chacón | El Show de Iris Chacón ✗ | Plaza de Armas, Viejo San Juan ✗ | Celia Cruz |
-| 1937, Dublin (Ireland) | Encore | The Clancy Brothers | Darby O'Gill and the Little People | Maureen Potter | The Riordans | Phoenix Park | Liam Clancy |
+| 1937, Dublin (Ireland) | Encore | The Clancy Brothers | Darby O'Gill and the Little People | Maureen Potter | The Late Late Show | Phoenix Park | Liam Clancy |
 | | Qloo only | The Clancy Brothers | The Rising of the Moon | Elvis Presley | The Late Late Show | Dublin Castle | Liam Clancy |
 | | Model only | The Clancy Brothers and Tommy Makem | The Quiet Man | Maureen O'Hara | The Late Late Show | Ha'penny Bridge | Ruby Murray |
 | 1935, Chicago (Poland) | Encore | Frankie Yankovic | White Christmas | Marion Lush | Garfield Goose and Friends | Copernicus Center | Ray Price |
 | | Qloo only | Frankie Yankovic | How to Marry a Millionaire | Tony Bennett | I Love Lucy | Union Park | Julie Andrews |
 | | Model only | Frankie Yankovic | Singin' in the Rain | Doris Day | I Love Lucy | Buckingham Fountain ✗ | The Andrews Sisters |
-| 1939, Havana (Cuba) | Encore | Celia Cruz | The Twelve Chairs | Bola de Nieve | Zorro | La Bodeguita Del Medio | Paquito D'Rivera |
+| 1939, Havana (Cuba) | Encore | Celia Cruz | The Twelve Chairs | Rosita Fornés | Zorro | La Bodeguita Del Medio | Benny Moré |
 | | Qloo only | Celia Cruz | – | Chespirito | Zorro | La Bodeguita Del Medio | Johnny Pacheco |
 | | Model only | Celia Cruz y La Sonora Matancera | Escuela de vagabundos ✗ | Rosita Fornés | Casino de la Alegría ✗ | El Malecón de La Habana | Benny Moré ✗ |
-| 1942, Mumbai (India) | Encore | Lata Mangeshkar | Shree 420 | Raj Kapoor | The Man from U.N.C.L.E. | Maratha Mandir Theatre | Mohd Rafi |
+| 1942, Mumbai (India) | Encore | Lata Mangeshkar | Shree 420 | Raj Kapoor | The Man from U.N.C.L.E. | Marine Drive | Asha Bhosle |
 | | Qloo only | Lata Mangeshkar | Guide | Asha Bhosle | – | Gateway Of India Mumbai | Mukesh |
 | | Model only | Lata Mangeshkar | Chalti Ka Naam Gaadi | Madhubala | Phool Khile Hain Gulshan Gulshan ✗ | Marine Drive | Kishore Kumar |
 | 1944, Kingston (Jamaica) | Encore | Desmond Dekker | The Harder They Come | Peter Tosh | Spider-Man | Coronation Market Jamaica | Ken Boothe |
@@ -68,40 +68,40 @@ Encore against the same model (gpt-5.5) planning the same session on its own, fo
 | 1938, Munich (Germany) | Encore | Freddy Quinn | Freddy, die Gitarre und das Meer | Heinz Erhardt | Musik aus Studio B | Gärtnerplatz | Peter Kraus |
 | | Qloo only | Freddy Quinn | Sissi - Die junge Kaiserin | Leonard Nimoy | Sportschau | Gärtnerplatz | Udo Jürgens |
 | | Model only | Freddy Quinn | Sissi | Romy Schneider | Der goldene Schuß | Marienplatz, Munich ✗ | Caterina Valente |
-| 1950, Nashville | Encore | Johnny Cash | Coal Miner's Daughter | Chet Atkins | The Porter Wagoner Show | Ryman Auditorium | Merle Haggard |
+| 1950, Nashville | Encore | Johnny Cash | Coal Miner's Daughter | Chet Atkins | Hee Haw | Ryman Auditorium | Dolly Parton |
 | | Qloo only | Johnny Cash | Easy Rider | Dolly Parton | The Brady Bunch | Ryman Auditorium | John Denver |
 | | Model only | Johnny Cash | Coal Miner's Daughter | Dolly Parton | Hee Haw | Ryman Auditorium | Patsy Cline |
-| 1952, Los Angeles | Encore | The Beach Boys | American Graffiti | Carol Burnett | CHiPs | Hollywood Bowl | The Monkees |
+| 1952, Los Angeles | Encore | The Beach Boys | American Graffiti | Carol Burnett | Happy Days | Hollywood Bowl | The Mamas & the Papas |
 | | Qloo only | The Beach Boys | American Graffiti | David Bowie | Happy Days | Hollywood Sign | The Mamas & the Papas |
 | | Model only | The Beach Boys | American Graffiti | Annette Funicello | Happy Days | Santa Monica Pier ✗ | The Mamas & the Papas |
-| 1934, New Orleans | Encore | Louis Armstrong ⌛ | New Orleans | Pete Fountain | American Bandstand | Jackson Square | Lloyd Price |
+| 1934, New Orleans | Encore | Louis Armstrong ⌛ | New Orleans | Pete Fountain | American Bandstand | Jackson Square | Irma Thomas |
 | | Qloo only | Louis Armstrong ⌛ | Guys and Dolls | Chuck Berry | The Danny Thomas Show | Jackson Square | Ray Charles |
 | | Model only | Louis Armstrong ⌛ | High Society | Fats Domino | The Ed Sullivan Show | Jackson Square | Fats Domino |
-| 1947, Boston | Encore | The Beatles | A Hard Day's Night | John Lennon | The French Chef | John Harvard Statue | The Zombies |
+| 1947, Boston | Encore | The Beatles | A Hard Day's Night | John Lennon | The French Chef | Fenway Park | The Zombies |
 | | Qloo only | The Beatles | A Hard Day's Night | Paul McCartney | The Mary Tyler Moore Show | Museum of Fine Arts, Boston | The Beach Boys |
 | | Model only | The Beatles | The Graduate | Dustin Hoffman | The Mary Tyler Moore Show | Fenway Park | Simon & Garfunkel |
-| 1940, Athens (Greece) | Encore | Nana Mouskouri | Maiden's Cheek | Aliki Vougiouklaki | Jeux sans frontières | Syntagma Square | Dalida |
+| 1940, Athens (Greece) | Encore | Nana Mouskouri | Never on Sunday | Aliki Vougiouklaki | Jeux sans frontières | Odeon of Herodes Atticus | Marinella |
 | | Qloo only | Nana Mouskouri | Maiden's Cheek | – | To theatro tis Defteras | – | Dalida |
 | | Model only | Nana Mouskouri | Never on Sunday | Aliki Vougiouklaki | To Theatro tis Defteras | The Acropolis of Athens | Melina Mercouri |
-| 1936, Lisbon (Portugal) | Encore | Amália Rodrigues | O Leão da Estrela | Raul Solnado | Jeux sans frontières | Praça do Comércio | Maria Teresa de Noronha |
+| 1936, Lisbon (Portugal) | Encore | Amália Rodrigues | O Leão da Estrela | Raul Solnado | Jeux sans frontières | Praça do Comércio | Celeste Rodrigues |
 | | Qloo only | Amália Rodrigues | O Leão da Estrela | Elza Soares | Telejornal | Praça do Comércio | Argentina Santos |
 | | Model only | Amália Rodrigues | O Leão da Estrela | Amália Rodrigues | Festival RTP da Canção ✗ | Torre de Belém ✗ | Tony de Matos ⌛ |
-| 1955, Atlanta | Encore | The Jackson 5 | Smokey and the Bandit | Stevie Wonder | Good Times | Fox Theatre | Commodores |
+| 1955, Atlanta | Encore | The Jackson 5 | A Star Is Born | Stevie Wonder | Good Times | Fox Theatre | Commodores |
 | | Qloo only | The Jackson 5 | Grease | Stevie Wonder | Good Times | Fox Theatre | Earth, Wind & Fire |
 | | Model only | The Jackson 5 | The Wiz | Michael Jackson | Soul Train | Fox Theatre | Earth, Wind & Fire |
-| 1946, Toronto (Canada) | Encore | Gordon Lightfoot | Nobody Waved Good-bye | Bob Dylan | The Friendly Giant | Honest Ed's | Ian & Sylvia |
+| 1946, Toronto (Canada) | Encore | Gordon Lightfoot | The Luck of Ginger Coffey | Johnny Bower | The Friendly Giant | Honest Ed's | Ian & Sylvia |
 | | Qloo only | Gordon Lightfoot | Goin' Down the Road | Neil Diamond | The Beachcombers | Canadian National Exhibition | Harry Chapin |
 | | Model only | Gordon Lightfoot | Mary Poppins | Anne Murray | The Friendly Giant | CN Tower | Anne Murray |
-| 1940, Rome (Italy) | Encore | Domenico Modugno | Big Deal on Madonna Street | Alberto Sordi | Studio Uno | Piazza Navona | Jimmy Fontana |
+| 1940, Rome (Italy) | Encore | Domenico Modugno | An American in Rome | Alberto Sordi | Carosello | Piazza Navona | Jimmy Fontana |
 | | Qloo only | Domenico Modugno | Big Deal on Madonna Street | Ennio Morricone | Le avventure di Pinocchio | Galleria Borghese | Ornella Vanoni |
 | | Model only | Domenico Modugno | La Dolce Vita | Marcello Mastroianni | Carosello | Fontana di Trevi | Adriano Celentano |
-| 1948, Paris (France) | Encore | Édith Piaf | The Young Girls of Rochefort | Mireille Mathieu | Les shadoks | Le Trianon | Georges Brassens |
+| 1948, Paris (France) | Encore | Édith Piaf | The Young Girls of Rochefort | Mireille Mathieu | Les shadoks | Le Trianon | Charles Aznavour |
 | | Qloo only | Édith Piaf | Masculine Feminine | Michel Polnareff | Bewitched | La Ménagerie, le zoo du Jardin des Plantes | Christophe |
 | | Model only | Édith Piaf | Les Demoiselles de Rochefort ✗ | Catherine Deneuve | Le Manège enchanté ✗ | Tour Eiffel ✗ | Charles Aznavour |
-| 1933, Kansas City | Encore | Count Basie | Shane | Miles Davis | The Lone Ranger | Union Station Kansas City | Charlie Parker Quartet |
+| 1933, Kansas City | Encore | Count Basie | State Fair | Miles Davis | Wagon Train | Union Station Kansas City | Big Joe Turner |
 | | Qloo only | Count Basie | Shane | Tony Bennett | The Lone Ranger | Union Station Kansas City | Sonny Rollins |
 | | Model only | Count Basie | Singin' in the Rain | James Arness | Gunsmoke | Union Station Kansas City | Duke Ellington ⌛ |
-| 1944, Tokyo (Japan) | Encore | Kyu Sakamoto | Late Autumn | Ken Takakura | Astro Boy | Tokyo Tower | 伊東ゆかり |
+| 1944, Tokyo (Japan) | Encore | Kyu Sakamoto | Late Autumn | – | Astro Boy | Tokyo Tower | 伊東ゆかり |
 | | Qloo only | Kyu Sakamoto | Equinox Flower | – | Astro Boy | The National Museum of Modern Art, Tokyo | – |
 | | Model only | Kyu Sakamoto | Izu no Odoriko | Hibari Misora | Okaasan to Issho | Tokyo Tower | The Peanuts |
 

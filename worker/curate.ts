@@ -181,6 +181,8 @@ export async function curate(
           },
         }),
         schema: SCHEMA,
+        // Without a reasoning pass each answer comes about a third sooner.
+        effort: 'none',
       })
       if (onMoment && answer.data.pick !== 'none') {
         const others = new Set([...showing].filter(([k]) => k !== slot.key).map(([, id]) => id))

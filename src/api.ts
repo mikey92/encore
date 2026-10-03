@@ -42,6 +42,16 @@ export async function interview(body: { birthYear: number; heritage?: string[]; 
   return (await post<{ pairs: [Card, Card][] }>('/api/interview', body)).pairs
 }
 
+const prefetched = new Set<string>()
+
+/** Starts the research for this person before a session is asked for (once per page load), so it is ready by then. */
+export function prefetch(taste: TasteRequest) {
+  const body = JSON.stringify(taste)
+  if (prefetched.has(body)) return
+  prefetched.add(body)
+  void fetch('/api/prefetch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }).catch(() => undefined)
+}
+
 export async function adjust(taste: TasteRequest, request: string, moments: string[]) {
   return post<{ patch: Patch; steps: TraceStep[]; model: string }>('/api/adjust', { taste, request, moments })
 }

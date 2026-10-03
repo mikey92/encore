@@ -92,9 +92,9 @@ pick was then looked up in Qloo ([eval/REPORT.md](eval/REPORT.md)).
 | --- | --- | --- | --- |
 | Picks that resolve to a Qloo entity | 100% | 100% | 86% |
 | Songs, films and TV from their teens and twenties | 99% | 99% | 94% |
-| Roots abroad: films and TV made in that country | 73% | 68% | 70% |
-| Roots abroad: films, TV and artists from that country | 65% | 57% | 54% |
-| Distinct picks across all 24 people | 142 | 127 | 134 |
+| Roots abroad: films and TV made in that country | 70% | 68% | 70% |
+| Roots abroad: films, TV and artists from that country | 64% | 57% | 54% |
+| Distinct picks across all 24 people | 141 | 127 | 134 |
 | Picks shared by three or more people | 0% | 2% | 2% |
 
 One in seven of the model's own picks could not be found in Qloo at all, so it could not be shown, dated or
@@ -129,9 +129,11 @@ requests that carry a shared key, caps calls per minute and stops on a set date.
 Cloudflare Workers (API, static assets, rate limiting), React and Vite, TypeScript. No database: people and
 sessions live in the browser; Qloo answers and model outputs are cached at the edge.
 
-The Workers free plan allows about 10 ms of CPU per invocation, so a session is split across invocations: each
-Qloo answer is fetched and trimmed in one (`QlooProxy`), each pool, each research check and each model call
-runs in another (`Planner`), and the request that streams the session only puts the results together.
+The Workers free plan allows about 10 ms of CPU per invocation, and much of that goes on waking up for each
+answer or event. So a session is spread across invocations: each Qloo answer is fetched and trimmed in one
+(`QlooProxy`), and each pool, each research check and each model call runs in another (`Planner`). The session
+itself runs in two more, one for Qloo's plan and one for the research check and the curator. Both write straight
+into the response stream, so the request that streams the session only passes the stream on.
 
 ## Notes
 

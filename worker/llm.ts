@@ -21,7 +21,7 @@ export function llmConnected(env: LlmEnv): boolean {
 
 /** One Responses call. The endpoint only streams; the relay reads the stream and sends back the finished answer
  *  (x-relay-collect), because reading it token by token here would cost far more CPU than the Worker may use. */
-export async function respond(env: LlmEnv, body: Record<string, unknown>, timeoutMs = 60_000): Promise<ResponseResult> {
+async function once(env: LlmEnv, body: string, signal: AbortSignal): Promise<ResponseResult> {
   const res = await fetch(`${env.LLM_RELAY_URL}/responses`, {
     method: 'POST',
     headers: {
@@ -31,11 +31,44 @@ export async function respond(env: LlmEnv, body: Record<string, unknown>, timeou
       // The zone's browser check rejects requests without a user agent.
       'user-agent': 'encore-worker/1.0',
     },
-    body: JSON.stringify({ ...body, store: false, stream: true }),
-    signal: AbortSignal.timeout(timeoutMs),
+    body,
+    signal,
   })
   if (!res.ok) throw new Error(`ChatGPT plan HTTP ${res.status}: ${(await res.text()).slice(0, 300)}`)
   return (await res.json()) as ResponseResult
+}
+
+/** Most answers come back within 10 seconds without a reasoning pass (25 with one), but now and then one takes two or
+ *  three times as long. When an answer is that late, the same call goes out again and whichever answer arrives first
+ *  is used. */
+function hedgeAfter(body: Record<string, unknown>): number {
+  return (body.reasoning as { effort?: string } | undefined)?.effort === 'none' ? 10_000 : 25_000
+}
+
+export async function respond(env: LlmEnv, body: Record<string, unknown>, timeoutMs = 60_000): Promise<ResponseResult> {
+  const payload = JSON.stringify({ ...body, store: false, stream: true })
+  const deadline = AbortSignal.timeout(timeoutMs)
+  const calls: AbortController[] = []
+  let timer: ReturnType<typeof setTimeout> | undefined
+  try {
+    return await new Promise<ResponseResult>((resolve, reject) => {
+      let running = 0
+      const start = () => {
+        const c = new AbortController()
+        calls.push(c)
+        running++
+        once(env, payload, AbortSignal.any([deadline, c.signal])).then(resolve, (e) => {
+          // A failure counts only when no other call is still on its way.
+          if (--running === 0) reject(e)
+        })
+      }
+      start()
+      timer = setTimeout(start, hedgeAfter(body))
+    })
+  } finally {
+    if (timer !== undefined) clearTimeout(timer)
+    for (const c of calls) c.abort()
+  }
 }
 
 export function outputText(output: ResponseItem[]): string {

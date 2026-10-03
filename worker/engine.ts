@@ -349,25 +349,24 @@ function eraGenres(window: [number, number]): string[] {
 async function music(ctx: Ctx): Promise<Item[]> {
   const [a, b] = ctx.window
   const params: Params = { 'filter.type': TYPE.music, take: 50, ...ctx.common }
-  const pool: QlooEntity[] = []
-  if (ctx.signals.length) {
-    pool.push(...(await step(ctx, 'qloo.insights', `Artists that fans of ${seedText(ctx)} love`, () => ctx.q.insights(params, ctx.signals))))
-  }
-  if (ctx.region) {
-    pool.push(
-      ...(await step(ctx, 'qloo.insights', `Artists with a following around ${ctx.region}`, () =>
-        ctx.q.insights({ ...params, 'signal.location.query': ctx.region }, ctx.signals),
-      )),
-    )
-  }
   const home = heritageCity(abroad(ctx.req)[0])
-  if (home) {
-    pool.push(
-      ...(await step(ctx, 'qloo.insights', `Artists loved by people from ${home}`, () =>
-        ctx.q.insights({ ...params, 'signal.location.query': home }, ctx.signals),
-      )),
-    )
-  }
+  const none = async () => [] as QlooEntity[]
+  // The three queries don't depend on each other, so they go out together. A hometown that is also the heritage
+  // city would ask the same question twice.
+  const lists = await Promise.all([
+    ctx.signals.length ? step(ctx, 'qloo.insights', `Artists that fans of ${seedText(ctx)} love`, () => ctx.q.insights(params, ctx.signals)) : none(),
+    ctx.region
+      ? step(ctx, 'qloo.insights', `Artists with a following around ${ctx.region}`, () =>
+          ctx.q.insights({ ...params, 'signal.location.query': ctx.region }, ctx.signals),
+        )
+      : none(),
+    home && home !== ctx.region
+      ? step(ctx, 'qloo.insights', `Artists loved by people from ${home}`, () =>
+          ctx.q.insights({ ...params, 'signal.location.query': home }, ctx.signals),
+        )
+      : none(),
+  ])
+  const pool = lists.flat()
   if (!pool.length) {
     const tags = eraGenres(ctx.window)
     pool.push(
@@ -390,8 +389,10 @@ async function films(ctx: Ctx): Promise<Item[]> {
     take: 20,
     ...ctx.common,
   }
-  const heritage = await fromHome(ctx, params, abroad(ctx.req), 'Films')
-  const general = await step(ctx, 'qloo.insights', `Films released ${a}–${b} that fit their taste`, () => ctx.q.insights(params, ctx.signals))
+  const [heritage, general] = await Promise.all([
+    fromHome(ctx, params, abroad(ctx.req), 'Films'),
+    step(ctx, 'qloo.insights', `Films released ${a}–${b} that fit their taste`, () => ctx.q.insights(params, ctx.signals)),
+  ])
   // A film from home comes first when we have one.
   return mergeHome(rank(heritage.map((e) => toItem('film', e, ctx)), ctx), rank(general.map((e) => toItem('film', e, ctx)), ctx))
 }
@@ -406,10 +407,10 @@ async function shows(ctx: Ctx): Promise<Item[]> {
     take: 20,
     ...ctx.common,
   }
-  const heritage = await fromHome(ctx, params, abroad(ctx.req), 'TV')
-  const general = await step(ctx, 'qloo.insights', `TV shows that started ${params['filter.release_year.min']}–${b}`, () =>
-    ctx.q.insights(params, ctx.signals),
-  )
+  const [heritage, general] = await Promise.all([
+    fromHome(ctx, params, abroad(ctx.req), 'TV'),
+    step(ctx, 'qloo.insights', `TV shows that started ${params['filter.release_year.min']}–${b}`, () => ctx.q.insights(params, ctx.signals)),
+  ])
   return mergeHome(rank(heritage.map((e) => toItem('tv', e, ctx)), ctx), rank(general.map((e) => toItem('tv', e, ctx)), ctx))
 }
 
@@ -422,15 +423,15 @@ async function stars(ctx: Ctx): Promise<Item[]> {
     take: 40,
     ...ctx.common,
   }
-  const out = await step(ctx, 'qloo.insights', `Stars born ${by - 30}–${by + 5} that fans of ${seedText(ctx)} follow`, () =>
-    ctx.q.insights(params, ctx.signals),
-  )
   const home = heritageCity(abroad(ctx.req)[0])
-  const fromHome = home
-    ? await step(ctx, 'qloo.insights', `Stars of that generation loved in ${home}`, () =>
-        ctx.q.insights({ ...params, 'signal.location.query': home }, ctx.signals),
-      )
-    : []
+  const [out, fromHome] = await Promise.all([
+    step(ctx, 'qloo.insights', `Stars born ${by - 30}–${by + 5} that fans of ${seedText(ctx)} follow`, () => ctx.q.insights(params, ctx.signals)),
+    home
+      ? step(ctx, 'qloo.insights', `Stars of that generation loved in ${home}`, () =>
+          ctx.q.insights({ ...params, 'signal.location.query': home }, ctx.signals),
+        )
+      : ([] as QlooEntity[]),
+  ])
   return mergeHome(rank(fromHome.map((e) => toItem('star', e, ctx)), ctx), rank(out.map((e) => toItem('star', e, ctx)), ctx))
 }
 
@@ -604,18 +605,21 @@ export function assemble(ctx: Ctx, pools: Pools, defs: SlotDef[], anc?: Item): S
   }
   // Alternates are dealt out in turns and each goes to one moment only, so moments that share a pool (the
   // opening and closing songs) get different candidates of similar strength, and the curator, which sees each
-  // moment on its own, cannot pick the same one twice.
+  // moment on its own, cannot pick the same one twice. The turns run back and forth: a pool that alternates
+  // Qloo's picks with research ones would otherwise give all of one kind to the opening song.
   for (let round = 0; round < 4; round++) {
-    slots.forEach((slot, i) => {
+    const order = slots.map((_, i) => i)
+    if (round % 2) order.reverse()
+    for (const i of order) {
       while (rests[i].length) {
         const it = rests[i].shift()!
         if (!fresh(it)) continue
-        slot.alternates.push(it)
+        slots[i].alternates.push(it)
         taken.add(key(it))
         taken.add(it.id)
         break
       }
-    })
+    }
   }
   return slots
 }

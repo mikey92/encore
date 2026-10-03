@@ -137,27 +137,37 @@ export class Qloo {
     return { data, fetched: this.calls > before, left: quota.monthRemaining }
   }
 
-  private async viaProxy(method: 'GET' | 'POST', path: string, payload: any, key: string): Promise<any> {
-    const id = `${CACHE_VERSION} proxy ${key}`
-    if (memory.has(id)) {
+  /** The answer for this key: remembered, already on its way (queries now go out side by side, and two of them
+   *  can be the same), or fetched now. */
+  private shared(id: string, load: () => Promise<any>): Promise<any> {
+    const known = memory.get(id)
+    if (known) {
       this.cached++
-      return memory.get(id)
+      return known
     }
-    const out = await this.proxy!.fetchTrimmed(method, path, payload)
-    if (out.fetched) this.calls++
-    else this.cached++
-    if (typeof out.left === 'number' && out.left >= 0) quota.monthRemaining = out.left
+    const pending = load()
+    pending.catch(() => memory.delete(id))
     if (memory.size > 500) memory.delete(memory.keys().next().value!)
-    memory.set(id, out.data)
-    return out.data
+    memory.set(id, pending)
+    return pending
   }
 
-  private async cachedFetch(id: string, doFetch: () => Promise<Response>, label: string): Promise<any> {
+  private viaProxy(method: 'GET' | 'POST', path: string, payload: any, key: string): Promise<any> {
+    return this.shared(`${CACHE_VERSION} proxy ${key}`, async () => {
+      const out = await this.proxy!.fetchTrimmed(method, path, payload)
+      if (out.fetched) this.calls++
+      else this.cached++
+      if (typeof out.left === 'number' && out.left >= 0) quota.monthRemaining = out.left
+      return out.data
+    })
+  }
+
+  private cachedFetch(id: string, doFetch: () => Promise<Response>, label: string): Promise<any> {
     const cacheId = `${CACHE_VERSION} ${id}`
-    if (memory.has(cacheId)) {
-      this.cached++
-      return memory.get(cacheId)
-    }
+    return this.shared(cacheId, () => this.load(cacheId, doFetch, label))
+  }
+
+  private async load(cacheId: string, doFetch: () => Promise<Response>, label: string): Promise<any> {
     const cacheKey = new Request(`https://qloo-cache.encore.internal/${await digest(cacheId)}`)
     const cache = typeof caches !== 'undefined' ? (caches as any).default : undefined
     const hit = cache ? await cache.match(cacheKey).catch(() => undefined) : undefined
@@ -185,7 +195,6 @@ export class Qloo {
       throw new QlooError(res?.status ?? 0, body.slice(0, 300), label)
     }
     const data = trim(await res.json())
-    if (memory.size > 500) memory.delete(memory.keys().next().value!)
     memory.set(cacheId, data)
     if (cache) {
       const stored = new Response(JSON.stringify(data), {

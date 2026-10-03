@@ -1,11 +1,16 @@
+import { useEffect } from 'react'
 import { AVOID_PRESETS } from '../../shared/presets'
-import { getPerson, learned, removePerson, useStore } from '../store'
+import { prefetch } from '../api'
+import { getPerson, learned, removePerson, tasteFor, useStore } from '../store'
 import { Avatar, go, when } from '../ui'
 import { AskEncore } from './Ask'
 
 export function PersonPage({ id }: { id: string }) {
   const { sessions } = useStore()
   const p = getPerson(id)
+  useEffect(() => {
+    if (p) prefetch(tasteFor(p))
+  }, [id])
   if (!p)
     return (
       <div className="card">

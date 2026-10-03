@@ -48,8 +48,8 @@ export function Home() {
             <a className="btn" href="#/new">
               Add someone
             </a>
-            <a className="btn ghost" href={`#/p/${people[0]?.id ?? ''}`}>
-              Try an example
+            <a className="btn ghost" href={sessions.some((s) => s.id === 'ex-rosa-sample') ? '#/s/ex-rosa-sample' : `#/p/${people[0]?.id ?? ''}`}>
+              See an example session
             </a>
           </div>
         </div>

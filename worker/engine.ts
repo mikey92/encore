@@ -48,6 +48,24 @@ export function heritageCity(country?: string): string | undefined {
   return HERITAGE_CITY[country.trim().toLowerCase()] ?? country.trim()
 }
 
+/** Films or TV from home. Qloo's taste signals know little about some countries' older titles, so when the
+ *  personal query finds few, ask again for that country's best-known titles of those years. */
+async function fromHome(ctx: Ctx, params: Params, countries: string[], what: string): Promise<QlooEntity[]> {
+  if (!countries.length) return []
+  const filter = { 'filter.release_country': countries, 'operator.filter.release_country': 'union' }
+  const [a, b] = ctx.window
+  const mine = await step(ctx, 'qloo.insights', `${what} made in ${countries.join(', ')} between ${a} and ${b}`, () =>
+    ctx.q.insights({ ...params, ...filter }, ctx.signals),
+  )
+  if (mine.length >= 4 || !ctx.signals.length) return mine
+  const plain: Params = { ...params, ...filter, 'feature.explainability': undefined, 'signal.demographics.age': undefined }
+  const known = await step(ctx, 'qloo.insights', `Best-known ${what.toLowerCase()} from ${countries.join(', ')} in those years`, () =>
+    ctx.q.insights(plain),
+  )
+  const seen = new Set(mine.map((e) => e.entity_id))
+  return [...mine, ...known.filter((e) => !seen.has(e.entity_id))]
+}
+
 function abroad(req: TasteRequest): string[] {
   return (req.heritage ?? []).filter((c) => c && !/^(united states|usa|us|america)$/i.test(c.trim()))
 }
@@ -355,12 +373,7 @@ async function films(ctx: Ctx): Promise<Item[]> {
     take: 20,
     ...ctx.common,
   }
-  const countries = abroad(ctx.req)
-  const heritage = countries.length
-    ? await step(ctx, 'qloo.insights', `Films made in ${countries.join(', ')} between ${a} and ${b}`, () =>
-        ctx.q.insights({ ...params, 'filter.release_country': countries, 'operator.filter.release_country': 'union' }, ctx.signals),
-      )
-    : []
+  const heritage = await fromHome(ctx, params, abroad(ctx.req), 'Films')
   const general = await step(ctx, 'qloo.insights', `Films released ${a}–${b} that fit their taste`, () => ctx.q.insights(params, ctx.signals))
   // A film from home comes first when we have one.
   return mergeHome(rank(heritage.map((e) => toItem('film', e, ctx)), ctx), rank(general.map((e) => toItem('film', e, ctx)), ctx))
@@ -376,12 +389,7 @@ async function shows(ctx: Ctx): Promise<Item[]> {
     take: 20,
     ...ctx.common,
   }
-  const countries = abroad(ctx.req)
-  const heritage = countries.length
-    ? await step(ctx, 'qloo.insights', `TV made in ${countries.join(', ')} in those years`, () =>
-        ctx.q.insights({ ...params, 'filter.release_country': countries, 'operator.filter.release_country': 'union' }, ctx.signals),
-      )
-    : []
+  const heritage = await fromHome(ctx, params, abroad(ctx.req), 'TV')
   const general = await step(ctx, 'qloo.insights', `TV shows that started ${params['filter.release_year.min']}–${b}`, () =>
     ctx.q.insights(params, ctx.signals),
   )

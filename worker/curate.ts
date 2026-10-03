@@ -13,6 +13,7 @@ For each moment pick one candidate and up to two alternates (never reuse an id a
 3. Their culture and language. If they grew up elsewhere, things from home usually mean the most.
 4. Recognisability. Something familiar beats something obscure.
 List the candidates you rejected for safety or era, each with a short reason.
+If no candidate in a moment really suits this person (wrong culture, wrong years, too obscure), set its pick to "none" and the moment is left out: a shorter session beats a poor fit. Leave out at most two moments.
 
 For each pick write:
 - why: one sentence for staff on why it suits this person, naming the favourite it connects to.
@@ -138,6 +139,8 @@ export async function curate(
   const used = new Set<string>()
   const skipped: { id: string; name: string; reason: string }[] = []
   const slots: Slot[] = []
+  const drops = new Set(data.moments.filter((m) => m.pick === 'none').map((m) => m.key))
+  if (session.slots.length - drops.size < 4) drops.clear()
   for (const slot of session.slots) {
     const pool = [slot.item, ...slot.alternates]
     const byId = new Map(pool.map((it) => [it.id, it]))
@@ -147,6 +150,7 @@ export async function curate(
       if (it) skipped.push({ id: it.id, name: it.name, reason: r.reason })
     }
     const rejected = new Set((m?.rejected ?? []).map((r) => r.id))
+    if (drops.has(slot.key)) continue
     // Trust the pick only if it is one of this moment's candidates and not used elsewhere.
     let pick = m && byId.get(m.pick) && !used.has(m.pick) ? byId.get(m.pick)! : undefined
     if (!pick) pick = pool.find((it) => !used.has(it.id) && !rejected.has(it.id))

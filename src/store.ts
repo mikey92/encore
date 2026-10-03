@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from 'react'
 import { AVOID_PRESETS } from '../shared/presets'
 import type { Seed, Session, TasteRequest } from '../shared/types'
+import samples from './examples.json'
 
 export type Reaction = 'lit' | 'calm' | 'none' | 'unsettled'
 
@@ -88,6 +89,18 @@ const EXAMPLES: Person[] = [
   },
 ]
 
+/** A ready-made session for each example person, so the first visit has something to open right away. */
+function sampleSessions(): SavedSession[] {
+  const baked = samples as Record<string, Session>
+  return EXAMPLES.filter((p) => baked[p.id]).map((p, i) => ({
+    id: `${p.id}-sample`,
+    personIds: [p.id],
+    createdAt: Date.now() - (i + 1) * 60_000,
+    session: baked[p.id],
+    reactions: {},
+  }))
+}
+
 function read(): State {
   try {
     const raw = localStorage.getItem(KEY)
@@ -95,7 +108,7 @@ function read(): State {
   } catch {
     // Private mode or blocked storage: start fresh in memory.
   }
-  return { people: EXAMPLES, sessions: [] }
+  return { people: EXAMPLES, sessions: sampleSessions() }
 }
 
 let state: State = read()
@@ -185,5 +198,8 @@ export function tasteFor(p: Person): TasteRequest {
 
 export function resetExamples() {
   const mine = state.people.filter((p) => !p.example)
-  write({ people: [...EXAMPLES, ...mine], sessions: state.sessions.filter((s) => s.personIds.some((id) => mine.some((m) => m.id === id))) })
+  write({
+    people: [...EXAMPLES, ...mine],
+    sessions: [...sampleSessions(), ...state.sessions.filter((s) => s.personIds.some((id) => mine.some((m) => m.id === id)))],
+  })
 }

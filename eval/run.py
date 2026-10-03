@@ -82,11 +82,11 @@ def norm(s):
     return re.sub(r'\s+', ' ', s).strip()
 
 
-def similar(a, b):
+def similar(a, b, strict=False):
     a, b = norm(a), norm(b)
     if not a or not b:
         return 0.0
-    if a == b or (len(a) > 5 and (a in b or b in a)):
+    if a == b or (not strict and len(a) > 5 and (a in b or b in a)):
         return 1.0
     return difflib.SequenceMatcher(None, a, b).ratio()
 
@@ -97,10 +97,11 @@ def resolve(name, kind, near=''):
     data = qloo('/search', {'query': query, 'types': TYPES[kind], 'take': 5})
     best, score = None, 0.0
     for e in data.get('results', []):
-        s = similar(name, e.get('name', ''))
+        # Places need a near-exact name: "Beale Street" must not match a hotel called "... Beale Street".
+        s = similar(name, e.get('name', ''), strict=kind == 'place')
         if s > score:
             best, score = e, s
-    return best if score >= 0.85 else None
+    return best if score >= (0.9 if kind == 'place' else 0.85) else None
 
 
 def details(entity_id, kind):
@@ -202,7 +203,7 @@ def encore(p, favorites):
         req = urllib.request.Request(APP + '/api/session', data=json.dumps(taste).encode(), headers={'content-type': 'application/json'})
         with urllib.request.urlopen(req, timeout=240) as r:
             return json.loads(r.read())
-    out = cached('encore v1 ' + json.dumps(taste, sort_keys=True), call)
+    out = cached('encore v2 ' + json.dumps(taste, sort_keys=True), call)
     s = out['session']
     picks = {slot['key']: slot['item'] for slot in s['slots']}
     return {k: picks.get(k) for k in SLOTS}, s.get('narration')
@@ -215,10 +216,12 @@ def check(name, kind, p, entity_id=None):
         found = resolve(name, kind, p['hometown'])
         ent = details(found['entity_id'], kind) if found and kind != 'place' else found
     if not ent:
-        return {'name': name, 'found': False}
+        return {'name': name, 'asked': name, 'found': False}
     props = ent.get('properties') or {}
-    return {'name': ent.get('name', name), 'found': True, 'era': era_fit(kind, props, p['birthYear']),
-            'home': from_home(kind, props, p['heritage'])}
+    return {'name': ent.get('name', name), 'asked': name, 'found': True, 'era': era_fit(kind, props, p['birthYear']),
+            'home': from_home(kind, props, p['heritage']),
+            'year': year(props.get('release_year') or props.get('start_year') or props.get('date_of_birth')),
+            'country': props.get('release_country') or props.get('place_of_birth')}
 
 
 def share(rows, key):
@@ -246,7 +249,7 @@ def main():
             it = enc.get(slot)
             e = check(it['name'], kind, p, it['id'] if kind != 'place' else None) if it else {'name': None, 'found': False}
             if it and kind == 'place':
-                e = {'name': it['name'], 'found': True, 'era': None, 'home': None}
+                e = {'name': it['name'], 'asked': it['name'], 'found': True, 'era': None, 'home': None}
             b = check(base[slot], kind, p)
             for system, r in (('encore', e), ('baseline', b)):
                 r.update({'slot': slot, 'kind': kind, 'persona': p['id'], 'abroad': bool(p['heritage'])})
@@ -265,7 +268,7 @@ def main():
         home_media = [x for x in media if x['abroad']]
         home, n_home = share(home_media, 'home')
         film_tv_home, n_ft = share([x for x in home_media if x['kind'] in ('movie', 'tv_show')], 'home')
-        names = Counter(norm(x['name']) for x in r if x['name'])
+        names = Counter(norm(x['asked']) for x in r if x.get('asked'))
         repeated = sum(c for c in names.values() if c >= 3) / max(1, sum(names.values()))
         summary[system] = {
             'items': len(r), 'found_in_qloo': round(found, 3),

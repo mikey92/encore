@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { Session, Slot, TraceStep } from '../../shared/types'
 import { streamSession } from '../api'
 import { getPerson, getSession, saveSession, tasteFor, uid, useStore, type Person, type Reaction, type SavedSession } from '../store'
-import { Avatar, DOMAIN_ICON, go, Img, when } from '../ui'
+import { Avatar, DOMAIN_ICON, go, Img, speak, when } from '../ui'
 import { AskEncore } from './Ask'
 
 const REACTIONS: { key: Reaction; icon: string; label: string }[] = [
@@ -111,6 +111,13 @@ function Moment({
               {linkLabel(slot)} ↗
             </a>
           ) : null}
+          <button
+            className="btn quiet small"
+            onClick={() => speak((native ?? it.prompts).map((q) => named(q, people)), native ? person.language : 'English')}
+            title={native ? `Read the prompts aloud in ${person.language}` : 'Read the prompts aloud'}
+          >
+            🔊 Read aloud{native ? ` in ${person.language}` : ''}
+          </button>
           {onSwap ? (
             <button className="btn quiet small" onClick={onSwap}>
               Try another

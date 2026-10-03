@@ -4,6 +4,18 @@ import { adjust } from '../api'
 import { savePerson, tasteFor, type Person } from '../store'
 import { go } from '../ui'
 
+/** "urn:tag:genre:music:christmas" → "music": which part of the taste graph a tag steers. */
+function tagKind(id: string): string {
+  if (id.includes(':music:')) return 'music'
+  if (id.includes(':media:')) return 'films & TV'
+  if (id.includes(':place')) return 'places'
+  if (id.includes(':theme:')) return 'theme'
+  if (id.includes(':keyword:')) return 'topic'
+  return ''
+}
+
+const label = (t: { id: string; name: string }) => (tagKind(t.id) ? `${t.name} (${tagKind(t.id)})` : t.name)
+
 const EXAMPLES = ['It’s December: make it festive', 'She was a nurse for forty years', 'He was a big Brooklyn Dodgers fan', 'Leave out anything about the sea']
 
 /** Merge Ask Encore's change into the person, without duplicates. */
@@ -42,8 +54,8 @@ export function AskEncore({ person, moments }: { person: Person; moments: string
   const changes = result
     ? [
         ...result.patch.addFavorites.map((x) => ({ k: 'plum', t: `+ ${x.name}` })),
-        ...result.patch.interestTags.map((x) => ({ k: 'gold', t: `More: ${x.name}` })),
-        ...result.patch.avoidTags.map((x) => ({ k: 'red', t: `Leave out: ${x.name}` })),
+        ...result.patch.interestTags.map((x) => ({ k: 'gold', t: `More: ${label(x)}` })),
+        ...result.patch.avoidTags.map((x) => ({ k: 'red', t: `Leave out: ${label(x)}` })),
         ...result.patch.avoidEntities.map((x) => ({ k: 'red', t: `Leave out: ${x.name}` })),
       ]
     : []

@@ -54,6 +54,28 @@ export function typeLabel(type?: string): string {
   }
 }
 
+const VOICES: Record<string, string> = {
+  english: 'en-US', spanish: 'es-US', portuguese: 'pt-PT', italian: 'it-IT', french: 'fr-FR', german: 'de-DE',
+  greek: 'el-GR', polish: 'pl-PL', hindi: 'hi-IN', japanese: 'ja-JP', korean: 'ko-KR', chinese: 'zh-CN',
+  mandarin: 'zh-CN', cantonese: 'zh-HK', vietnamese: 'vi-VN', tagalog: 'fil-PH', filipino: 'fil-PH', russian: 'ru-RU',
+}
+
+/** Reads text aloud in the person's language, for staff who don't speak it. Returns false if the browser can't. */
+export function speak(lines: string[], language?: string): boolean {
+  if (typeof speechSynthesis === 'undefined') return false
+  speechSynthesis.cancel()
+  const lang = VOICES[(language ?? 'english').trim().toLowerCase()] ?? 'en-US'
+  const voice = speechSynthesis.getVoices().find((v) => v.lang.replace('_', '-').startsWith(lang.split('-')[0]))
+  for (const line of lines) {
+    const u = new SpeechSynthesisUtterance(line)
+    u.lang = lang
+    u.rate = 0.88
+    if (voice) u.voice = voice
+    speechSynthesis.speak(u)
+  }
+  return true
+}
+
 export function when(ts: number): string {
   return new Date(ts).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
 }

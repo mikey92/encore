@@ -9,6 +9,28 @@ export function About() {
         the years they remember best, from the culture they grew up in.
       </p>
 
+      <h2>Why it matters</h2>
+      <ul>
+        <li>
+          More than 55 million people live with dementia worldwide, with nearly 10 million new cases a year (
+          <a href="https://www.who.int/news-room/fact-sheets/detail/dementia" target="_blank" rel="noreferrer">
+            WHO
+          </a>
+          ).
+        </li>
+        <li>
+          Reminiscence work shows small but real benefits for communication, mood and, in care homes, quality of life (
+          <a href="https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD001120.pub3/full" target="_blank" rel="noreferrer">
+            Cochrane review, 2018
+          </a>
+          ).
+        </li>
+        <li>
+          U.S. nursing homes must offer activities that meet each resident’s own interests and preferences (CMS F679, 42 CFR
+          §483.24(c)(1)). Encore turns that requirement into twenty prepared minutes.
+        </li>
+      </ul>
+
       <h2>The years that matter</h2>
       <p>
         People recall the events and music of roughly ages 10 to 30 more vividly than any other period, an effect

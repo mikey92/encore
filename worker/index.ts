@@ -218,6 +218,8 @@ async function runSession(env: Env, request: Request, taste: TasteRequest, send:
       send({ type: 'curated', session: out.session })
     } catch (e) {
       console.error('curate failed', (e as Error).message)
+      // The plan as it stands after research, with standard prompts.
+      send({ type: 'plan', session })
       send({ type: 'note', message: 'The writing assistant is unavailable right now, so these are standard prompts.' })
     }
   } else if (session.slots.length) {

@@ -224,7 +224,9 @@ def check(name, kind, p, entity_id=None, want_year=None):
     ent = details(entity_id, kind) if entity_id else None
     if not ent and name:
         found = resolve(name, kind, p['hometown'], want_year)
-        ent = details(found['entity_id'], kind) if found and kind != 'place' else found
+        # Qloo knows some entities (many older stars from abroad) without having taste data on them yet, so insights
+        # returns nothing for them; the search hit itself then stands.
+        ent = (details(found['entity_id'], kind) or found) if found and kind != 'place' else found
     if not ent:
         return {'name': name, 'asked': name, 'found': False}
     props = ent.get('properties') or {}

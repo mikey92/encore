@@ -26,7 +26,7 @@ export interface WeightedSignal {
 }
 
 /** Bump when the stored shape of an answer changes, so old cached answers are not reused. */
-const CACHE_VERSION = 'v4'
+const CACHE_VERSION = 'v5'
 const memory = new Map<string, any>()
 let nextSlot = 0
 
@@ -56,7 +56,7 @@ export function encode(params: Params): string {
 /** What the app reads from an entity. Qloo returns much more (akas in dozens of languages, long texts, dozens of
  *  tags); keeping only this makes answers small and cheap to pass between invocations and to read back, which
  *  matters on a 10 ms CPU budget. */
-const KEEP = ['release_year', 'finale_year', 'start_year', 'end_year', 'date_of_birth', 'address'] as const
+const KEEP = ['release_year', 'finale_year', 'release_country', 'start_year', 'end_year', 'date_of_birth', 'place_of_birth', 'address'] as const
 /** The tags Encore shows or sends to the curator (see toItem). */
 const SHOWN_TAGS = /genre|theme|style|category:place/
 

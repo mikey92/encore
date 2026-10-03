@@ -64,6 +64,8 @@ export interface Item {
   tags: { id: string; name: string }[]
   /** Found by Qloo insights, or suggested by research and then grounded in Qloo */
   source?: 'research'
+  /** From the country of their family roots: made there (films, TV), born there, or loved there (Qloo's location signal) */
+  home?: boolean
 }
 
 export interface TraceStep {

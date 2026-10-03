@@ -84,6 +84,7 @@ function placeName(req: TasteRequest): string | undefined {
 
 /** Merge "from home" and general lists: one from home first, then interleave, without repeats. */
 function mergeHome(home: Item[], general: Item[]): Item[] {
+  for (const it of home) it.home = true
   const out: Item[] = []
   const seen = new Set<string>()
   const order = home.length ? [home[0], general[0], general[1], ...home.slice(1), ...general.slice(2)] : general
@@ -216,6 +217,10 @@ export function toItem(domain: Domain, e: QlooEntity, ctx: Ctx): Item {
   // Already narrowed to the genre, theme and style tags Encore shows (see trimEntity in qloo.ts).
   const tags = (e.tags ?? []).map((t) => ({ id: t.name, name: t.name }))
   const description = String(p.short_description ?? p.description ?? '').slice(0, 280)
+  // Made in, or born in, the country of their family roots.
+  const roots = abroad(ctx.req).map((c) => c.trim().toLowerCase())
+  const origin = [...list(p.release_country), String(p.place_of_birth ?? '')].join(' | ').toLowerCase()
+  const home = roots.some((c) => c && origin.includes(c)) || undefined
   const base = {
     domain,
     id: e.entity_id,
@@ -228,6 +233,7 @@ export function toItem(domain: Domain, e: QlooEntity, ctx: Ctx): Item {
     because,
     prompts: [] as string[],
     tags,
+    home,
   }
   switch (domain) {
     case 'music': {
@@ -513,16 +519,20 @@ export async function pool(kind: PoolKind, ctx: Ctx): Promise<Item[]> {
 
 export type Pools = Record<Domain, Item[]>
 
-/** Research items join each pool alternately with Qloo's own, so both reach the curator. */
+/** Research items join each pool in turns with Qloo's own, so both reach the curator. When the pool has things
+ *  from the country of their family roots, those take turns too and come first, so research titles from
+ *  elsewhere never push them out of the candidates the curator sees. */
 export function mergePools(pools: Pools, extra: Partial<Record<Domain, Item[]>>): Pools {
   const out = { ...pools }
   for (const d of Object.keys(extra) as Domain[]) {
     const more = extra[d] ?? []
     if (!more.length) continue
+    const home = pools[d].filter((it) => it.home)
+    const queues = home.length ? [home, more, pools[d].filter((it) => !it.home)] : [pools[d], more]
     const merged: Item[] = []
     const seen = new Set<string>()
-    for (let i = 0; i < Math.max(pools[d].length, more.length); i++) {
-      for (const it of [pools[d][i], more[i]]) {
+    for (let i = 0; i < Math.max(...queues.map((q) => q.length)); i++) {
+      for (const it of queues.map((q) => q[i])) {
         if (!it || seen.has(it.id) || seen.has(it.name.toLowerCase())) continue
         seen.add(it.id)
         seen.add(it.name.toLowerCase())

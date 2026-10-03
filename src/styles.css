@@ -853,14 +853,24 @@ footer.foot {
 }
 
 @media print {
+  /* A two-page session sheet a caregiver can hold. */
   body {
     background: #fff;
-    font-size: 12pt;
+    font-size: 10pt;
+    line-height: 1.35;
+  }
+  .shell {
+    padding: 0;
+  }
+  .top {
+    padding: 0 0 6px;
   }
   .top nav,
   .noprint,
   .reactions,
+  .because,
   details.trace,
+  footer.foot,
   .btn {
     display: none !important;
   }
@@ -868,11 +878,50 @@ footer.foot {
     box-shadow: none;
     break-inside: avoid;
   }
+  .session-head {
+    margin-bottom: 6px;
+  }
+  .say {
+    font-size: 12pt;
+    padding: 8px 12px;
+    margin: 8px 0;
+  }
+  .moments {
+    gap: 8px;
+  }
   .moment {
-    grid-template-columns: 120px 1fr;
-    padding: 12px;
+    grid-template-columns: 72px 1fr;
+    gap: 12px;
+    padding: 10px 12px;
+  }
+  .moment .art img,
+  .moment .art .blank {
+    aspect-ratio: 1;
+  }
+  .moment .num {
+    display: none;
+  }
+  .moment h3 {
+    font-size: 14pt;
+  }
+  .moment .meta,
+  .why,
+  .sense {
+    font-size: 9.5pt;
+    margin-bottom: 4px;
+  }
+  .why {
+    padding: 4px 8px;
+  }
+  .prompts {
+    gap: 3px;
+    margin-bottom: 4px;
   }
   .prompts li {
-    font-size: 13pt;
+    font-size: 10.5pt;
+    padding-left: 8px;
+  }
+  .prompts li .native {
+    font-size: 9pt;
   }
 }

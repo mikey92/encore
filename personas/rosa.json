@@ -1,0 +1,22 @@
+{
+ "birthYear": 1938,
+ "hometown": "San Antonio",
+ "heritage": [
+  "Mexico"
+ ],
+ "favorites": [
+  {
+   "id": "BEC81FD4-2934-41D7-9602-80D229CF3434",
+   "name": "Pedro Infante",
+   "type": "urn:entity:artist"
+  }
+ ],
+ "avoidTags": [
+  "urn:tag:genre:media:war",
+  "urn:tag:theme:qloo:war",
+  "urn:tag:keyword:qloo:war",
+  "urn:tag:subgenre:qloo:war"
+ ],
+ "language": "Spanish",
+ "notes": "Sang in the church choir. Ran a small bakery with her husband."
+}

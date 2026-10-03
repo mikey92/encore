@@ -1,0 +1,4 @@
+{"birthYear": 1941, "hometown": "Memphis", "heritage": [],
+ "favorites": [{"id": "95593E4D-2CBE-44E5-BF82-F1E542B63A96", "name": "Elvis Presley", "type": "urn:entity:artist"},
+               {"id": "5D54CE58-DC3E-4294-A359-581A9C072952", "name": "The Sound of Music", "type": "urn:entity:movie"}],
+ "avoidTags": ["urn:tag:genre:media:war", "urn:tag:theme:qloo:war", "urn:tag:keyword:qloo:war", "urn:tag:subgenre:qloo:war"]}

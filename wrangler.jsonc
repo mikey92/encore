@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "encore",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/mcp"]
+  },
+  // Each visitor may ask the writing assistant (the owner's ChatGPT plan, through the relay) this often.
+  "ratelimits": [{ "name": "LLM_LIMIT", "namespace_id": "4101", "simple": { "limit": 8, "period": 60 } }],
+  "observability": { "enabled": true }
+  // Secrets: QLOO_API_KEY, LLM_RELAY_URL, LLM_RELAY_KEY
+}

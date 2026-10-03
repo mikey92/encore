@@ -99,6 +99,7 @@ export function buildCtx(q: Qloo, req: TasteRequest, onStep?: (step: TraceStep) 
     'signal.demographics.age': signals.length ? undefined : ageBracket(req.birthYear),
     'filter.exclude.tags': req.avoidTags?.length ? req.avoidTags : undefined,
     'filter.exclude.entities': req.avoidEntities?.length ? req.avoidEntities : undefined,
+    'signal.interests.tags': req.interestTags?.length ? req.interestTags : undefined,
     'feature.explainability': signals.length ? true : undefined,
   }
   return {

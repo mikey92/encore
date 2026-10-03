@@ -1,4 +1,5 @@
 import type { Session, TasteRequest, TraceStep } from '../shared/types'
+import { adjust } from './agent'
 import { curate } from './curate'
 import { planSession, TYPE } from './engine'
 import { filmPairs, musicPairs } from './interview'
@@ -11,6 +12,7 @@ export interface Env {
   LLM_RELAY_URL?: string
   LLM_RELAY_KEY?: string
   LLM_LIMIT?: RateLimit
+  API_LIMIT?: RateLimit
   ASSETS: Fetcher
 }
 
@@ -56,6 +58,7 @@ function validTaste(r: TasteRequest): TasteRequest {
     used: ids(r.used),
     language: text(r.language, 40),
     notes: text(r.notes, 600),
+    interestTags: ids(r.interestTags).slice(0, 8),
   }
 }
 
@@ -122,6 +125,10 @@ export default {
       if (url.pathname === '/api/health') {
         return json({ ok: true, qloo: quota, model: llmConnected(env) })
       }
+      if (env.API_LIMIT) {
+        const { success } = await env.API_LIMIT.limit({ key: request.headers.get('cf-connecting-ip') ?? 'local' })
+        if (!success) return json({ error: 'Too many requests. Please wait a minute and try again.' }, 429)
+      }
       if (url.pathname === '/api/search' && request.method === 'POST') {
         const { q: text, types } = await body<{ q: string; types?: string[] }>(request)
         if (!text || typeof text !== 'string' || text.length > 100) throw new BadRequest('q is required')
@@ -146,6 +153,15 @@ export default {
         const q = new Qloo(env.QLOO_API_KEY)
         const pairs = round === 'film' ? await filmPairs(q, year, strings(heritage, 2), strings(seeds, 6)) : await musicPairs(q, year, strings(heritage, 2))
         return json({ pairs })
+      }
+      if (url.pathname === '/api/adjust' && request.method === 'POST') {
+        const b = await body<{ taste: TasteRequest; request: string; moments?: string[] }>(request)
+        const taste = validTaste(b.taste)
+        const ask = typeof b.request === 'string' ? b.request.trim().slice(0, 400) : ''
+        if (!ask) throw new BadRequest('Say what to change')
+        if (!(await mayUseModel(env, request))) return json({ error: 'The assistant is busy. Try again in a minute.' }, 429)
+        const moments = Array.isArray(b.moments) ? b.moments.filter((m) => typeof m === 'string').map((m) => m.slice(0, 100)).slice(0, 8) : []
+        return json(await adjust(env, new Qloo(env.QLOO_API_KEY), taste, ask, { moments }))
       }
       if (url.pathname === '/api/session' && request.method === 'POST') {
         const taste = validTaste(await body<TasteRequest>(request))

@@ -27,6 +27,8 @@ export interface TasteRequest {
   language?: string
   /** Free-text notes from family or staff, without names. */
   notes?: string
+  /** Qloo tags that should steer suggestions, e.g. a holiday or a hobby */
+  interestTags?: string[]
 }
 
 export interface Because {
@@ -90,4 +92,14 @@ export interface Session {
   /** Group sessions: tastes the members share, and whose taste each slot serves. */
   commonGround?: { id: string; name: string }[]
   servedBy?: Record<string, number[]>
+}
+
+/** A change to a person's taste profile, proposed by Ask Encore from a caregiver's request. */
+export interface Patch {
+  addFavorites: Seed[]
+  interestTags: { id: string; name: string }[]
+  avoidTags: { id: string; name: string }[]
+  avoidEntities: Seed[]
+  note: string
+  reply: string
 }

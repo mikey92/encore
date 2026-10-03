@@ -15,6 +15,10 @@ export interface Person {
   language?: string
   favorites: Seed[]
   avoid: string[] // keys of AVOID_PRESETS
+  /** Set through Ask Encore: tags that steer suggestions, and extra tags and items to leave out */
+  interestTags?: { id: string; name: string }[]
+  avoidTags?: { id: string; name: string }[]
+  avoidItems?: Seed[]
   notes?: string
   createdAt: number
   example?: boolean
@@ -171,8 +175,9 @@ export function tasteFor(p: Person): TasteRequest {
     language: p.language || undefined,
     favorites: p.favorites,
     liked,
-    avoidTags: p.avoid.flatMap((k) => AVOID_PRESETS[k]?.tags ?? []),
-    avoidEntities: avoid.map((s) => s.id),
+    avoidTags: [...p.avoid.flatMap((k) => AVOID_PRESETS[k]?.tags ?? []), ...(p.avoidTags ?? []).map((t) => t.id)],
+    avoidEntities: [...avoid, ...(p.avoidItems ?? [])].map((s) => s.id),
+    interestTags: (p.interestTags ?? []).map((t) => t.id),
     used,
     notes: p.notes || undefined,
   }

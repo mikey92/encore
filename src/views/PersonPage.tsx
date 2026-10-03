@@ -1,6 +1,7 @@
 import { AVOID_PRESETS } from '../../shared/presets'
 import { getPerson, learned, removePerson, useStore } from '../store'
 import { Avatar, go, when } from '../ui'
+import { AskEncore } from './Ask'
 
 export function PersonPage({ id }: { id: string }) {
   const { sessions } = useStore()
@@ -59,6 +60,18 @@ export function PersonPage({ id }: { id: string }) {
               <span className="muted">Nothing yet. This or That is a gentle way to find out.</span>
             )}
           </div>
+          {p.interestTags?.length ? (
+            <>
+              <h3 style={{ marginTop: 18 }}>Steer toward</h3>
+              <div className="chips">
+                {p.interestTags.map((t) => (
+                  <span key={t.id} className="chip gold">
+                    {t.name}
+                  </span>
+                ))}
+              </div>
+            </>
+          ) : null}
           {liked.length ? (
             <>
               <h3 style={{ marginTop: 18 }}>Lit up in sessions</h3>
@@ -80,7 +93,7 @@ export function PersonPage({ id }: { id: string }) {
                 {AVOID_PRESETS[k]?.label ?? k}
               </span>
             ))}
-            {avoid.map((s) => (
+            {[...avoid, ...(p.avoidItems ?? []), ...(p.avoidTags ?? [])].map((s) => (
               <span key={s.id} className="chip red">
                 {s.name}
               </span>
@@ -97,6 +110,7 @@ export function PersonPage({ id }: { id: string }) {
           ) : null}
         </div>
       </div>
+      <AskEncore person={p} moments={[]} />
       <h2 style={{ marginTop: 34 }}>Sessions</h2>
       {mine.length ? (
         <div className="history">

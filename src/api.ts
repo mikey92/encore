@@ -1,4 +1,4 @@
-import type { Session, TasteRequest, TraceStep } from '../shared/types'
+import type { Patch, Session, TasteRequest, TraceStep } from '../shared/types'
 
 export interface SearchResult {
   id: string
@@ -39,6 +39,10 @@ export async function search(q: string, signal?: AbortSignal): Promise<SearchRes
 
 export async function interview(body: { birthYear: number; heritage?: string[]; round: 'music' | 'film'; seeds?: string[] }) {
   return (await post<{ pairs: [Card, Card][] }>('/api/interview', body)).pairs
+}
+
+export async function adjust(taste: TasteRequest, request: string, moments: string[]) {
+  return post<{ patch: Patch; steps: TraceStep[]; model: string }>('/api/adjust', { taste, request, moments })
 }
 
 /** Streams a session: Qloo steps as they happen, a first plan, then the curated version. */

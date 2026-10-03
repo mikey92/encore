@@ -3,6 +3,7 @@ import type { Session, Slot, TraceStep } from '../../shared/types'
 import { streamSession } from '../api'
 import { getPerson, getSession, saveSession, tasteFor, uid, useStore, type Person, type Reaction, type SavedSession } from '../store'
 import { Avatar, DOMAIN_ICON, go, Img, when } from '../ui'
+import { AskEncore } from './Ask'
 
 const REACTIONS: { key: Reaction; icon: string; label: string }[] = [
   { key: 'lit', icon: '😊', label: 'Lit up' },
@@ -216,6 +217,7 @@ function Body({ saved, people, curating, note }: { saved: SavedSession; people: 
           </div>
         )}
       </div>
+      {!saved.finishedAt && !curating ? <AskEncore person={person} moments={s.slots.map((x) => x.item.name)} /> : null}
       <details className="trace">
         <summary>How Encore built this session</summary>
         <p className="muted small" style={{ marginTop: 10 }}>

@@ -1,0 +1,5 @@
+{"birthYear": 1934, "hometown": "Brooklyn", "heritage": ["Italy"], "language": "English",
+ "favorites": [{"id": "FC0F8D26-BA80-4D83-8BBF-FC011DC8D241", "name": "Frank Sinatra", "type": "urn:entity:artist"},
+               {"id": "65E28499-5D62-4D74-A0B8-0C60DD6C2358", "name": "I Love Lucy", "type": "urn:entity:tv_show"}],
+ "avoidTags": ["urn:tag:genre:media:war", "urn:tag:theme:qloo:war", "urn:tag:keyword:qloo:war", "urn:tag:subgenre:qloo:war", "urn:tag:keyword:qloo:violence", "urn:tag:theme:qloo:violence"],
+ "notes": "Served in Korea and does not talk about it. Loves baseball and his mother's Sunday sauce."}

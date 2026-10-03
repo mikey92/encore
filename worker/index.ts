@@ -1,6 +1,7 @@
 import type { Session, TasteRequest, TraceStep } from '../shared/types'
 import { curate } from './curate'
 import { planSession, TYPE } from './engine'
+import { filmPairs, musicPairs } from './interview'
 import { llmConnected } from './llm'
 import { Qloo, QlooError, quota } from './qloo'
 import { templatePrompts } from './templates'
@@ -136,6 +137,15 @@ export default {
             popularity: e.popularity,
           })),
         })
+      }
+      if (url.pathname === '/api/interview' && request.method === 'POST') {
+        const { birthYear, heritage, round, seeds } = await body<{ birthYear: number; heritage?: string[]; round?: string; seeds?: string[] }>(request)
+        const year = Number(birthYear)
+        if (!Number.isInteger(year) || year < 1900 || year > 2010) throw new BadRequest('birthYear must be between 1900 and 2010')
+        const strings = (xs: unknown, n: number) => (Array.isArray(xs) ? xs.filter((h) => typeof h === 'string').map((h) => h.slice(0, 60)).slice(0, n) : [])
+        const q = new Qloo(env.QLOO_API_KEY)
+        const pairs = round === 'film' ? await filmPairs(q, year, strings(heritage, 2), strings(seeds, 6)) : await musicPairs(q, year, strings(heritage, 2))
+        return json({ pairs })
       }
       if (url.pathname === '/api/session' && request.method === 'POST') {
         const taste = validTaste(await body<TasteRequest>(request))

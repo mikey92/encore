@@ -22,6 +22,16 @@ export const AVOID_PRESETS: Record<string, { label: string; tags: string[] }> = 
 
 export const LANDMARK_TAGS = ['urn:tag:category:place:landmark', 'urn:tag:category:place:tourist_attraction']
 
+/** Film genres for the this-or-that interview, in the order they are paired. */
+export const FILM_PROBES: { tag: string; label: string }[] = [
+  { tag: 'urn:tag:genre:media:musical', label: 'Musicals' },
+  { tag: 'urn:tag:genre:media:western', label: 'Westerns' },
+  { tag: 'urn:tag:genre:media:romance', label: 'Romance' },
+  { tag: 'urn:tag:genre:media:comedy', label: 'Comedy' },
+  { tag: 'urn:tag:genre:media:adventure', label: 'Adventure' },
+  { tag: 'urn:tag:genre:media:family', label: 'Family films' },
+]
+
 /** Music styles for the this-or-that interview, paired so each question splits tastes. */
 export const MUSIC_PROBES: { tag: string; label: string; from: number; to: number }[] = [
   { tag: 'urn:tag:genre:music:big_band', label: 'Big band', from: 1930, to: 1955 },
